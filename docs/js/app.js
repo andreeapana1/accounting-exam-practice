@@ -425,6 +425,33 @@
   // Chrome copes badly with stopping and restarting recognition quickly, so the recogniser runs for the whole
   // exam: while the examiner speaks its results are simply ignored, and a watchdog restarts it if Chrome ends it.
   const CAPTURE_GRACE_MS = 800; // words finalised just after the student's turn ends still count
+  const ECHO_TAIL_MS = 3000; // after the examiner stops, its words can still arrive as transcript for a while
+  const tokens = (s) => s.toLowerCase().replace(/(\d),(?=\d{3})/g, "$1").match(/[a-z0-9.']+/g) || [];
+  const pairs = (ws) => ws.slice(1).map((w, k) => `${ws[k]} ${w}`);
+
+  // The microphone also hears the examiner's voice from the speakers. The site knows exactly what the
+  // examiner said, so a transcript segment that repeats it is treated as an echo and dropped. Word *pairs*
+  // are compared rather than single words: an echo repeats the examiner's word order, while a student who
+  // reuses a few words from the question ("compared with manual matching") does not.
+  function makeEchoFilter() {
+    let recent = [], lastSpokeEnd = 0;
+    return {
+      spoke(text) {
+        const ws = tokens(text);
+        recent = [...recent.slice(-3), { words: new Set(ws), pairs: new Set(pairs(ws)) }];
+      },
+      finished() { lastSpokeEnd = Date.now(); },
+      isEcho(segment) {
+        const ws = tokens(segment);
+        const soon = Date.now() - lastSpokeEnd < ECHO_TAIL_MS;
+        if (ws.length < 3) return soon && ws.length > 0 && ws.every((w) => recent.some((r) => r.words.has(w)));
+        const ps = pairs(ws);
+        const share = ps.filter((p) => recent.some((r) => r.pairs.has(p))).length / ps.length;
+        return share >= (soon ? 0.5 : 0.7);
+      },
+    };
+  }
+
   function makeListener(onText, onStatus) {
     if (!SpeechRec) return null;
     const rec = new SpeechRec();
@@ -432,6 +459,7 @@
     rec.interimResults = true;
     rec.lang = "en-US";
     let target = null, capturing = false, pausedAt = 0, keepAlive = true, running = false, starting = false;
+    const echo = makeEchoFilter();
     const start = () => {
       if (!keepAlive || running || starting) return;
       starting = true;
@@ -441,6 +469,7 @@
     const listener = {
       failed: false,
       interim: "",
+      echo,
       listen(res, part) { target = { res, part }; capturing = true; start(); },
       pause() { if (capturing) { capturing = false; pausedAt = Date.now(); } },
       stop() { keepAlive = false; capturing = false; target = null; clearInterval(watchdog); try { rec.abort(); } catch { /* ignore */ } },
@@ -455,8 +484,10 @@
       let interim = "";
       for (let k = e.resultIndex; k < e.results.length; k++) {
         const r = e.results[k];
-        if (r.isFinal) { if (accept && target) target.res.text[target.part] += r[0].transcript.trim() + " "; }
-        else if (capturing) interim += r[0].transcript;
+        if (r.isFinal) {
+          const seg = r[0].transcript.trim();
+          if (accept && target && !echo.isEcho(seg)) target.res.text[target.part] += seg + " ";
+        } else if (capturing && !echo.isEcho(r[0].transcript)) interim += r[0].transcript;
       }
       listener.interim = capturing ? interim : "";
       if (capturing) onText(target, interim);
@@ -693,7 +724,7 @@
     let listener = null, micOn = false;
     // Speak text; resolve when finished (with a time-based fallback because onend is unreliable in some browsers).
     const say = (text) => new Promise((resolve) => {
-      if (listener) listener.pause(); // don't transcribe the examiner's own voice
+      if (listener) { listener.pause(); listener.echo.spoke(text); } // don't transcribe the examiner's own voice
       const live = stage.querySelector("[data-live]");
       if (live) live.textContent = text;
       if (!opts.speak) return resolve();
@@ -703,7 +734,12 @@
       if (v) u.voice = v;
       u.rate = prefs.rate;
       let done = false;
-      const finish = () => { if (!done) { done = true; clearTimeout(t); resolve(); } };
+      const finish = () => {
+        if (done) return;
+        done = true; clearTimeout(t);
+        // Wait a moment after the examiner stops so its last words are not taken as the student's.
+        if (listener) { listener.echo.finished(); setTimeout(resolve, 600); } else resolve();
+      };
       const t = setTimeout(finish, 1500 + text.length * 75);
       u.onend = finish;
       u.onerror = finish;
@@ -733,6 +769,7 @@
             <input type="range" id="o-rate" min="0.7" max="1.4" step="0.1" value="${prefs.rate}" aria-label="Speaking speed"></label>
           <button class="btn" id="o-test" type="button">▶ Test voice</button>
         </div>` : ""}
+        ${SpeechRec ? `<p class="small"><strong>🎧 Tip: use headphones.</strong> Otherwise the microphone also hears the examiner's voice. The site filters most of it out, but headphones work best.</p>` : ""}
         ${SpeechRec ? `<p class="small muted">Writing down your answers uses your browser's speech recognition. In Chrome, the audio is sent to Google to be converted to text; this site itself stores nothing on a server.</p>` : ""}
         <p class="small muted">${items.length} questions · ${mmss(items.reduce((s, it) => s + it.seconds, 0))} answer time plus ${FOLLOWUP_SECONDS} seconds per follow-up.</p>
         <div class="row"><button class="btn primary" id="go">Start examiner mode</button></div>
