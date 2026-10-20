@@ -172,6 +172,9 @@ input[type="search"] { flex: 1 1 220px; }
 .followup p:last-child { margin-bottom: 0; }
 .examiner .question-text { font-size: 1.3rem; }
 .tag.rec { color: #c62828; border-color: currentColor; }
+.voice-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
+.voice-row select { max-width: 100%; min-width: 220px; }
+.voice-row input[type="range"] { width: 160px; accent-color: var(--accent); }
 .heard { border: 1px dashed var(--border); border-radius: 8px; padding: 0.6rem 0.9rem; color: var(--muted); }
 .heard p { margin: 0; font-size: 0.95rem; }
 textarea {

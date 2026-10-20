@@ -560,9 +560,20 @@
     let cleanup = [];
     stopTimer = () => { cleanup.forEach((f) => f()); cleanup = []; if (canSpeak) speechSynthesis.cancel(); };
 
+    // Voice choice: the student's saved pick, else the most natural-sounding English voice available.
+    const PREFERRED = [/Google UK English/i, /^Daniel/i, /Serena/i, /^Kate/i, /Samantha/i, /Google US English/i, /Natural/i];
+    // macOS ships novelty voices (Bahh, Bells, Zarvox…) that make no sense for an examiner.
+    const NOVELTY = /^(Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox)\b/i;
+    const rank = (v) => { const i = PREFERRED.findIndex((re) => re.test(v.name)); return i < 0 ? PREFERRED.length : i; };
+    const englishVoices = () => (canSpeak ? speechSynthesis.getVoices() : [])
+      .filter((v) => /^en/i.test(v.lang) && !NOVELTY.test(v.name))
+      .sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
+    const prefs = { voice: localGet("examiner-voice"), rate: Number(localGet("examiner-rate")) || 1 };
     const voice = () => {
-      const vs = canSpeak ? speechSynthesis.getVoices() : [];
-      return vs.find((v) => /en-GB/i.test(v.lang)) || vs.find((v) => /^en/i.test(v.lang)) || null;
+      const vs = englishVoices();
+      return vs.find((v) => v.name === prefs.voice)
+        || PREFERRED.map((re) => vs.find((v) => re.test(v.name))).find(Boolean)
+        || vs.find((v) => /en-GB/i.test(v.lang)) || vs[0] || null;
     };
     const opts = { speak: canSpeak, record: false, interrupt: true, transcribe: !!SpeechRec };
     let listener = null, micOn = false;
@@ -576,7 +587,7 @@
       const u = new SpeechSynthesisUtterance(text);
       const v = voice();
       if (v) u.voice = v;
-      u.rate = 0.98;
+      u.rate = prefs.rate;
       let done = false;
       const finish = () => { if (!done) { done = true; clearTimeout(t); resolve(); } };
       const t = setTimeout(finish, 1500 + text.length * 75);
@@ -601,10 +612,41 @@
           <label><input type="checkbox" id="o-txt" ${SpeechRec ? "checked" : "disabled"}> Write down what I say ${SpeechRec ? "" : "(not supported in this browser — use Chrome or Edge, or type your answers on the review page)"}</label>
           <label><input type="checkbox" id="o-rec" ${canRecord ? "" : "disabled"}> Record my answers so I can listen back (stays on this device) ${canRecord ? "" : "(not supported)"}</label>
         </fieldset>
+        ${canSpeak ? `
+        <div class="voice-row">
+          <label class="small">Examiner voice<br><select id="o-voice" aria-label="Examiner voice"></select></label>
+          <label class="small">Speed <span id="o-rate-val">${prefs.rate.toFixed(1)}×</span><br>
+            <input type="range" id="o-rate" min="0.7" max="1.4" step="0.1" value="${prefs.rate}" aria-label="Speaking speed"></label>
+          <button class="btn" id="o-test" type="button">▶ Test voice</button>
+        </div>` : ""}
         ${SpeechRec ? `<p class="small muted">Writing down your answers uses your browser's speech recognition. In Chrome, the audio is sent to Google to be converted to text; this site itself stores nothing on a server.</p>` : ""}
         <p class="small muted">${items.length} questions · ${mmss(items.reduce((s, it) => s + it.seconds, 0))} answer time plus ${FOLLOWUP_SECONDS} seconds per follow-up.</p>
         <div class="row"><button class="btn primary" id="go">Start examiner mode</button></div>
       </div>`;
+    if (canSpeak) {
+      const sel = stage.querySelector("#o-voice");
+      const fill = () => {
+        const vs = englishVoices();
+        const current = voice();
+        sel.innerHTML = vs.map((v) => `<option value="${esc(v.name)}"${current && v.name === current.name ? " selected" : ""}>${esc(v.name)}${v.name.includes("(") ? "" : ` (${esc(v.lang)})`}</option>`).join("")
+          || `<option value="">Browser default</option>`;
+      };
+      fill();
+      // Chrome loads its voice list asynchronously.
+      speechSynthesis.addEventListener("voiceschanged", fill);
+      cleanup.push(() => speechSynthesis.removeEventListener("voiceschanged", fill));
+      sel.onchange = () => { prefs.voice = sel.value; localSet("examiner-voice", sel.value); };
+      const rate = stage.querySelector("#o-rate");
+      rate.oninput = () => {
+        prefs.rate = Number(rate.value);
+        stage.querySelector("#o-rate-val").textContent = `${prefs.rate.toFixed(1)}×`;
+        localSet("examiner-rate", String(prefs.rate));
+      };
+      stage.querySelector("#o-test").onclick = () => {
+        const keep = opts.speak; opts.speak = true;
+        say("Good morning. Let's start with the first question. Please explain your answer out loud.").then(() => { opts.speak = keep; });
+      };
+    }
     stage.querySelector("#go").onclick = async () => {
       opts.speak = stage.querySelector("#o-speak").checked;
       opts.interrupt = stage.querySelector("#o-int").checked;
@@ -835,9 +877,11 @@
     render(`<h1>Page not found</h1><p><a href="#/">Go to the start page</a></p>`, "", "Not found");
   }
 
-  // sessionStorage can be unavailable (private mode); fall back silently
+  // Browser storage can be unavailable (private mode); fall back silently
   function sessionStorageGet(k) { try { return sessionStorage.getItem(k); } catch { return null; } }
   function sessionStorageSet(k, v) { try { sessionStorage.setItem(k, v); } catch { /* ignore */ } }
+  function localGet(k) { try { return localStorage.getItem(k); } catch { return null; } }
+  function localSet(k, v) { try { localStorage.setItem(k, v); } catch { /* ignore */ } }
 
   // ------------------------------------------------------------ router
   function route() {
