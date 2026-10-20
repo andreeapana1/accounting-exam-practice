@@ -1,4 +1,8 @@
-"""SQL questions. Answers come from running the reference query on the downloadable database."""
+"""SQL questions. Answers come from running the reference query on the downloadable database.
+
+The questions are new: they use the course databases but do not repeat the case assignments or the
+questions on the reference practice site.
+"""
 import shutil
 import sqlite3
 
@@ -93,215 +97,193 @@ def joined(rows):
 # ------------------------------------------------------------------- Chinook
 def chinook():
     b = SqlBank("chinook", "Chinook_Sqlite.sqlite")
-    b.add("How many columns does the Customer table have?", len(b.rows("PRAGMA table_info(Customer)")),
-          "PRAGMA table_info(Customer);\n-- or: SELECT * FROM Customer LIMIT 1; and count the columns", 1, ["schema"])
-    b.ask("If you select only the first 5 rows of Customer, what is the Country in the last row?",
-          "SELECT Country FROM Customer LIMIT 1 OFFSET 4;", minutes=1, skills=["LIMIT"], expect="Czech Republic")
-    b.ask("If you sort Customer by LastName, what is the last name in the third row?",
-          "SELECT LastName FROM Customer ORDER BY LastName LIMIT 1 OFFSET 2;", minutes=1,
-          skills=["ORDER BY", "LIMIT"], expect="Bernard")
-    b.ask("How many rows are in the Invoice table?", "SELECT COUNT(*) FROM Invoice;", minutes=0.5,
-          skills=["COUNT"], expect=412)
-    b.ask("How many invoices have totals greater than $20?", "SELECT COUNT(*) FROM Invoice WHERE Total > 20;",
-          minutes=1, skills=["WHERE"], expect=4)
-    b.ask("How many invoices have totals greater than $10 and less than $20?",
-          "SELECT COUNT(*) FROM Invoice WHERE Total > 10 AND Total < 20;", minutes=1, skills=["WHERE", "AND"],
-          expect=60)
-    b.ask("How many invoices are from customers in Brazil, Argentina or Chile?",
-          "SELECT COUNT(*)\nFROM Invoice i JOIN Customer c ON c.CustomerId = i.CustomerId\n"
-          "WHERE c.Country IN ('Brazil', 'Argentina', 'Chile');", minutes=1.5, skills=["JOIN", "IN"], expect=49)
-    b.ask("How many invoices have a billing country that starts with “C”?",
-          "SELECT COUNT(*) FROM Invoice WHERE BillingCountry LIKE 'C%';", minutes=1, skills=["LIKE"], expect=77)
-    b.ask("How many customers list their company?", "SELECT COUNT(Company) FROM Customer;", minutes=1,
-          skills=["COUNT", "NULL"], expect=10)
-    b.ask("How many employees does Chinook have?", "SELECT COUNT(*) FROM Employee;", minutes=0.5,
-          skills=["COUNT"], expect=8)
-    b.ask("How long is the longest employee last name?", "SELECT MAX(LENGTH(LastName)) FROM Employee;",
-          minutes=1, skills=["LENGTH", "MAX"], expect=8)
-    b.ask("How many employees were born on a Sunday?",
-          "SELECT COUNT(*) FROM Employee WHERE strftime('%w', BirthDate) = '0';", minutes=2,
-          skills=["dates", "strftime"], expect=2)
-    b.ask("How old was the oldest employee when they were hired? (years, 1 decimal)",
-          "SELECT ROUND(MAX((julianday(HireDate) - julianday(BirthDate)) / 365.25), 1) FROM Employee;",
-          fmt=lambda r: f"{r[0][0]} years (about 55.5, depending on how you count a year)", minutes=2.5, skills=["dates", "julianday"])
-    b.ask("Which billing country has the highest total invoice value, and how much is it?",
-          "SELECT BillingCountry, ROUND(SUM(Total), 2) AS TotalValue\nFROM Invoice\nGROUP BY BillingCountry\n"
-          "ORDER BY TotalValue DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({money(r[0][1])})", minutes=2,
-          skills=["GROUP BY", "SUM", "ORDER BY"])
-    b.ask("How many invoice line items are there?", "SELECT COUNT(*) FROM InvoiceLine;", minutes=0.5,
-          skills=["COUNT"], expect="2,240")
-    b.ask("How many distinct unit prices are there in InvoiceLine?",
-          "SELECT COUNT(DISTINCT UnitPrice) FROM InvoiceLine;", minutes=1, skills=["DISTINCT"], expect=2)
-    b.ask("How many downloads (invoice lines) happened at each price? Give the count for $0.99.",
-          "SELECT UnitPrice, COUNT(*) AS Downloads\nFROM InvoiceLine\nGROUP BY UnitPrice;",
-          fmt=lambda r: "; ".join(f"${p}: {num(n)}" for p, n in r), minutes=1.5, skills=["GROUP BY"])
-    b.ask("What is the range of invoice dates in the database (first and last date)?",
-          "SELECT MIN(InvoiceDate), MAX(InvoiceDate) FROM Invoice;",
-          fmt=lambda r: f"{r[0][0][:10]} to {r[0][1][:10]} (about 5 years)", minutes=1, skills=["MIN", "MAX"])
-    b.ask("What is the maximum number of times any single track has been downloaded, and how many tracks share it?",
-          "SELECT Downloads, COUNT(*) AS Tracks FROM (\n  SELECT TrackId, COUNT(*) AS Downloads\n"
-          "  FROM InvoiceLine GROUP BY TrackId\n)\nGROUP BY Downloads\nORDER BY Downloads DESC\nLIMIT 1;",
-          fmt=lambda r: f"{r[0][0]} downloads, shared by {r[0][1]} tracks", minutes=3,
-          skills=["subqueries", "GROUP BY"])
-    b.ask("What is the most popular genre by number of tracks sold?",
-          "SELECT g.Name, COUNT(*) AS Sold\nFROM InvoiceLine il\nJOIN Track t ON t.TrackId = il.TrackId\n"
-          "JOIN Genre g ON g.GenreId = t.GenreId\nGROUP BY g.Name\nORDER BY Sold DESC\nLIMIT 1;",
-          fmt=lambda r: f"{r[0][0]} ({num(r[0][1])} tracks sold)", minutes=2.5, skills=["JOIN", "GROUP BY"])
-    b.ask("How many distinct albums have at least one track that was downloaded?",
-          "SELECT COUNT(DISTINCT t.AlbumId)\nFROM InvoiceLine il JOIN Track t ON t.TrackId = il.TrackId;",
-          minutes=2, skills=["JOIN", "DISTINCT"])
-    b.ask("Which customer has spent the most in total? Give the full name and amount.",
-          "SELECT c.FirstName || ' ' || c.LastName AS Customer, ROUND(SUM(i.Total), 2) AS Spent\n"
-          "FROM Invoice i JOIN Customer c ON c.CustomerId = i.CustomerId\nGROUP BY c.CustomerId\n"
-          "ORDER BY Spent DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({money(r[0][1])})", minutes=2.5,
-          skills=["JOIN", "GROUP BY", "concatenation"])
+    b.ask("Who does Jane Peacock report to? Give the manager's full name and title.",
+          "SELECT m.FirstName || ' ' || m.LastName, m.Title\nFROM Employee e\nJOIN Employee m ON m.EmployeeId = e.ReportsTo\n"
+          "WHERE e.FirstName = 'Jane' AND e.LastName = 'Peacock';", fmt=lambda r: f"{r[0][0]} ({r[0][1]})", minutes=2,
+          skills=["JOIN", "self join"])
+    b.ask("Which sales support agent looks after the customers with the highest total invoice value?",
+          "SELECT e.FirstName || ' ' || e.LastName AS Agent, ROUND(SUM(i.Total), 2) AS Sales\nFROM Employee e\n"
+          "JOIN Customer c ON c.SupportRepId = e.EmployeeId\nJOIN Invoice i ON i.CustomerId = c.CustomerId\n"
+          "GROUP BY e.EmployeeId\nORDER BY Sales DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({money(r[0][1])})",
+          minutes=3, skills=["JOIN", "GROUP BY"])
+    b.ask("Control check: for how many invoices does Total differ from the sum of UnitPrice × Quantity on its lines?",
+          "SELECT COUNT(*) FROM (\n  SELECT i.InvoiceId\n  FROM Invoice i JOIN InvoiceLine l ON l.InvoiceId = i.InvoiceId\n"
+          "  GROUP BY i.InvoiceId\n  HAVING ABS(i.Total - SUM(l.UnitPrice * l.Quantity)) > 0.005\n);",
+          fmt=lambda r: f"{r[0][0]} — every invoice total reconciles to its lines" if r[0][0] == 0 else num(r[0][0]),
+          minutes=3, skills=["control totals", "JOIN", "HAVING"])
+    b.ask("How many tracks have never been sold?",
+          "SELECT COUNT(*)\nFROM Track t\nLEFT JOIN InvoiceLine l ON l.TrackId = t.TrackId\nWHERE l.InvoiceLineId IS NULL;",
+          minutes=2, skills=["JOIN", "NULL"])
+    b.ask("Which media type has the most tracks?",
+          "SELECT m.Name, COUNT(*) AS Tracks\nFROM Track t JOIN MediaType m ON m.MediaTypeId = t.MediaTypeId\n"
+          "GROUP BY m.Name\nORDER BY Tracks DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({num(r[0][1])} tracks)",
+          minutes=1.5, skills=["JOIN", "GROUP BY"])
+    b.ask("Which playlist contains the most tracks?",
+          "SELECT p.Name, COUNT(*) AS Tracks\nFROM PlaylistTrack pt JOIN Playlist p ON p.PlaylistId = pt.PlaylistId\n"
+          "GROUP BY p.PlaylistId\nORDER BY Tracks DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({num(r[0][1])} tracks)",
+          minutes=1.5, skills=["JOIN", "GROUP BY"])
+    b.ask("Which artist has the most albums in the store?",
+          "SELECT ar.Name, COUNT(*) AS Albums\nFROM Album al JOIN Artist ar ON ar.ArtistId = al.ArtistId\n"
+          "GROUP BY ar.ArtistId\nORDER BY Albums DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({r[0][1]} albums)",
+          minutes=1.5, skills=["JOIN", "GROUP BY"])
+    b.ask("Which calendar year had the highest total invoice value?",
+          "SELECT strftime('%Y', InvoiceDate) AS Year, ROUND(SUM(Total), 2) AS Revenue\nFROM Invoice\nGROUP BY Year\n"
+          "ORDER BY Revenue DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({money(r[0][1])})", minutes=2,
+          skills=["strftime", "dates", "GROUP BY"])
+    b.ask("How many tracks are longer than 10 minutes?", "SELECT COUNT(*) FROM Track WHERE Milliseconds > 10 * 60 * 1000;",
+          minutes=1.5, skills=["WHERE", "units of measurement"])
+    b.ask("Ignoring tracks without a composer, which composer has the most tracks?",
+          "SELECT Composer, COUNT(*) AS Tracks\nFROM Track\nWHERE Composer IS NOT NULL\nGROUP BY Composer\n"
+          "ORDER BY Tracks DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({r[0][1]} tracks)", minutes=1.5,
+          skills=["NULL", "GROUP BY"])
+    b.ask("How many tracks have no composer recorded?", "SELECT COUNT(*) FROM Track WHERE Composer IS NULL;",
+          minutes=1, skills=["NULL", "missing data"])
+    b.ask("How many cities have more than one customer?",
+          "SELECT COUNT(*) FROM (\n  SELECT City FROM Customer\n  GROUP BY City\n  HAVING COUNT(*) > 1\n);",
+          minutes=1.5, skills=["GROUP BY", "HAVING"])
+    b.ask("How many customers have no support representative assigned?",
+          "SELECT COUNT(*) FROM Customer WHERE SupportRepId IS NULL;",
+          fmt=lambda r: f"{r[0][0]} — every customer has a representative" if r[0][0] == 0 else num(r[0][0]),
+          minutes=1, skills=["NULL", "WHERE"])
+    b.ask("What is the average number of lines per invoice? (2 decimals)",
+          "SELECT ROUND(1.0 * COUNT(*) / COUNT(DISTINCT InvoiceId), 2) FROM InvoiceLine;", minutes=1.5,
+          skills=["COUNT", "DISTINCT"])
+    b.ask("Which employee was hired first, and on what date?",
+          "SELECT FirstName || ' ' || LastName, HireDate FROM Employee ORDER BY HireDate LIMIT 1;",
+          fmt=lambda r: f"{r[0][0]} ({r[0][1][:10]})", minutes=1, skills=["ORDER BY", "dates"])
     return b.items
 
 
 # --------------------------------------------------------------------- songs
 def songs():
     b = SqlBank("songs", "songs.db")
-    b.ask("List the names of all songs in decreasing order of tempo. Which song is first?",
-          "SELECT name FROM songs ORDER BY tempo DESC;", fmt=count_and_first, minutes=1, skills=["ORDER BY"])
-    b.ask("List the names of the top 3 longest songs, longest first.",
-          "SELECT name FROM songs ORDER BY duration_ms DESC LIMIT 3;", fmt=joined, minutes=1,
+    b.ask("Which song is the loudest (loudness closest to 0 dB)?",
+          "SELECT name, loudness FROM songs ORDER BY loudness DESC LIMIT 1;",
+          fmt=lambda r: f"{r[0][0]} ({r[0][1]} dB)", minutes=1, skills=["ORDER BY", "LIMIT"])
+    b.ask("Which musical key (0–11) is used by the most songs?",
+          "SELECT key, COUNT(*) AS n FROM songs GROUP BY key ORDER BY n DESC LIMIT 1;",
+          fmt=lambda r: f"Key {r[0][0]} ({r[0][1]} songs)", minutes=1.5, skills=["GROUP BY"])
+    b.ask("duration_ms is in milliseconds. How many songs are longer than four minutes?",
+          "SELECT COUNT(*) FROM songs WHERE duration_ms > 4 * 60 * 1000;", minutes=1.5,
+          skills=["WHERE", "units of measurement"])
+    b.ask("What is the total running time of all songs, in minutes? (1 decimal)",
+          "SELECT ROUND(SUM(duration_ms) / 60000.0, 1) FROM songs;", minutes=1.5, skills=["SUM", "units of measurement"])
+    b.ask("How many artists in the artists table have no songs in the songs table?",
+          "SELECT COUNT(*)\nFROM artists a\nLEFT JOIN songs s ON s.artist_id = a.id\nWHERE s.id IS NULL;",
+          fmt=lambda r: f"{r[0][0]} — every artist has at least one song" if r[0][0] == 0 else num(r[0][0]),
+          minutes=2, skills=["JOIN", "NULL"])
+    b.ask("Which song has the biggest gap between its energy and its valence?",
+          "SELECT name, ROUND(ABS(energy - valence), 3) AS gap\nFROM songs\nORDER BY gap DESC\nLIMIT 1;",
+          fmt=lambda r: f"{r[0][0]} (gap {r[0][1]})", minutes=2, skills=["calculated fields", "ORDER BY"])
+    b.ask("What is the energy of the 10th most danceable song?",
+          "SELECT energy FROM songs ORDER BY danceability DESC LIMIT 1 OFFSET 9;", minutes=1.5,
           skills=["ORDER BY", "LIMIT"])
-    b.ask("How many songs have danceability, energy and valence all greater than 0.6?",
-          "SELECT COUNT(*) FROM songs\nWHERE danceability > 0.6 AND energy > 0.6 AND valence > 0.6;",
-          minutes=1, skills=["WHERE", "AND"])
-    b.ask("What is the average tempo of all songs? (2 decimals)", "SELECT ROUND(AVG(tempo), 2) FROM songs;",
-          minutes=1, skills=["AVG"])
-    b.ask("How many songs are by Drake? (Do not assume Drake's artist_id.)",
-          "SELECT COUNT(*) FROM songs\nWHERE artist_id = (SELECT id FROM artists WHERE name = 'Drake');",
-          minutes=1.5, skills=["subqueries"])
-    b.ask("What is the average energy of songs by Post Malone? (3 decimals)",
-          "SELECT ROUND(AVG(energy), 3)\nFROM songs s JOIN artists a ON a.id = s.artist_id\nWHERE a.name = 'Post Malone';",
-          minutes=1.5, skills=["JOIN", "AVG"])
-    b.ask("How many songs feature other artists (the name contains “feat.”)?",
-          "SELECT COUNT(*) FROM songs WHERE name LIKE '%feat.%';", minutes=1, skills=["LIKE"])
     b.ask("Which artist has the most songs in the database?",
           "SELECT a.name, COUNT(*) AS n\nFROM songs s JOIN artists a ON a.id = s.artist_id\n"
           "GROUP BY a.name ORDER BY n DESC LIMIT 1;", fmt=lambda r: f"{r[0][0]} ({r[0][1]} songs)", minutes=2,
           skills=["JOIN", "GROUP BY"])
+    b.ask("How many songs have speechiness above 0.3 (lots of spoken words)?",
+          "SELECT COUNT(*) FROM songs WHERE speechiness > 0.3;", minutes=1, skills=["WHERE"])
+    b.ask("Which artist's single shortest song is the shortest of all, and how long is it in seconds?",
+          "SELECT a.name, s.name, s.duration_ms / 1000.0\nFROM songs s JOIN artists a ON a.id = s.artist_id\n"
+          "ORDER BY s.duration_ms\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} — {r[0][1]} ({r[0][2]:.0f} seconds)", minutes=2,
+          skills=["JOIN", "ORDER BY", "units of measurement"])
     return b.items
 
 
 # -------------------------------------------------------------------- movies
 def movies():
     b = SqlBank("movies", "movies_subset.db")
-    b.ask("How many movies in the database were released in 2007?",
-          "SELECT COUNT(*) FROM movies WHERE year = 2007;", minutes=0.5, skills=["WHERE"])
-    b.ask("What is Johnny Depp's birth year?", "SELECT birth FROM people WHERE name = 'Johnny Depp';",
-          fmt=lambda r: str(r[0][0]), minutes=0.5, skills=["WHERE"])
-    b.ask("List the titles of all movies released in 2017 or later, alphabetically. How many are there, and which is first?",
-          "SELECT title FROM movies WHERE year >= 2017 ORDER BY title;", fmt=count_and_first, minutes=1.5,
-          skills=["WHERE", "ORDER BY"])
-    b.ask("How many movies have an IMDb rating greater than 9.0?",
-          "SELECT COUNT(*) FROM ratings WHERE rating > 9.0;", minutes=0.5, skills=["WHERE"])
-    b.ask("List all Toy Story movies in chronological order with their release year.",
-          "SELECT title, year FROM movies WHERE title LIKE 'Toy Story%' ORDER BY year;",
-          fmt=lambda r: "; ".join(f"{t} ({y})" for t, y in r), minutes=1.5, skills=["LIKE", "ORDER BY"])
-    b.ask("What is the average rating of all movies released in 2013? (2 decimals)",
-          "SELECT ROUND(AVG(rating), 2)\nFROM ratings r JOIN movies m ON m.id = r.movie_id\nWHERE m.year = 2013;",
-          minutes=1.5, skills=["JOIN", "AVG"])
-    b.ask("List all 2011 movies with their ratings, highest rating first (ties alphabetically). Which movie is first?",
-          "SELECT m.title, r.rating\nFROM movies m JOIN ratings r ON r.movie_id = m.id\nWHERE m.year = 2011\n"
-          "ORDER BY r.rating DESC, m.title;", fmt=lambda r: f"{len(r)} rows; first: {r[0][0]} ({r[0][1]})",
-          minutes=2, skills=["JOIN", "ORDER BY"])
-    b.ask("How many people starred in Harry Potter and the Sorcerer's Stone?",
-          "SELECT COUNT(*) FROM stars\nWHERE movie_id = (SELECT id FROM movies\n"
-          "                  WHERE title = 'Harry Potter and the Sorcerer''s Stone');", minutes=1.5,
-          skills=["subqueries", "escaping quotes"])
-    b.ask("How many different people starred in a movie released in 2003? (Count each person once.)",
-          "SELECT COUNT(DISTINCT s.person_id)\nFROM stars s JOIN movies m ON m.id = s.movie_id\nWHERE m.year = 2003;",
-          minutes=2, skills=["JOIN", "DISTINCT"])
-    b.ask("How many different people have directed a movie with a rating of at least 8.0?",
-          "SELECT COUNT(DISTINCT d.person_id)\nFROM directors d JOIN ratings r ON r.movie_id = d.movie_id\n"
-          "WHERE r.rating >= 8.0;", minutes=2, skills=["JOIN", "DISTINCT"])
-    b.ask("List the five highest-rated movies starring Helena Bonham Carter, highest first.",
-          "SELECT m.title\nFROM movies m\nJOIN stars s ON s.movie_id = m.id\nJOIN people p ON p.id = s.person_id\n"
-          "JOIN ratings r ON r.movie_id = m.id\nWHERE p.name = 'Helena Bonham Carter'\nORDER BY r.rating DESC\nLIMIT 5;",
-          fmt=joined, minutes=2.5, skills=["JOIN", "ORDER BY", "LIMIT"])
-    b.ask("List the titles of all movies in which both Johnny Depp and Helena Bonham Carter starred.",
-          "SELECT title FROM movies WHERE id IN (\n  SELECT movie_id FROM stars JOIN people ON people.id = person_id\n"
-          "  WHERE name = 'Johnny Depp'\n  INTERSECT\n  SELECT movie_id FROM stars JOIN people ON people.id = person_id\n"
-          "  WHERE name = 'Helena Bonham Carter'\n) ORDER BY title;", fmt=joined, minutes=3,
-          skills=["subqueries", "INTERSECT"])
-    b.ask("How many different people starred in a movie with Kevin Bacon (born 1958), excluding Kevin Bacon himself?",
-          "SELECT COUNT(DISTINCT person_id) FROM stars\nWHERE movie_id IN (\n  SELECT movie_id FROM stars\n"
-          "  WHERE person_id = (SELECT id FROM people WHERE name = 'Kevin Bacon' AND birth = 1958)\n)\n"
-          "AND person_id <> (SELECT id FROM people WHERE name = 'Kevin Bacon' AND birth = 1958);",
-          minutes=3, skills=["subqueries"])
+    b.ask("Which movie has the most IMDb votes?",
+          "SELECT m.title, r.votes\nFROM movies m JOIN ratings r ON r.movie_id = m.id\nORDER BY r.votes DESC\nLIMIT 1;",
+          fmt=lambda r: f"{r[0][0]} ({num(r[0][1])} votes)", minutes=1.5, skills=["JOIN", "ORDER BY"])
+    b.ask("How many people in the people table have no birth year recorded?",
+          "SELECT COUNT(*) FROM people WHERE birth IS NULL;", minutes=1, skills=["NULL", "missing data"])
+    b.ask("Which person has directed the most movies in this database?",
+          "SELECT p.name, COUNT(*) AS n\nFROM directors d JOIN people p ON p.id = d.person_id\nGROUP BY p.id\n"
+          "ORDER BY n DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({r[0][1]} movies)", minutes=2,
+          skills=["JOIN", "GROUP BY"])
+    b.ask("How many movies list exactly one star in the stars table?",
+          "SELECT COUNT(*) FROM (\n  SELECT movie_id FROM stars\n  GROUP BY movie_id\n  HAVING COUNT(*) = 1\n);",
+          minutes=2, skills=["GROUP BY", "HAVING"])
+    b.ask("How many movie titles are used by more than one movie (same title, different movie)?",
+          "SELECT COUNT(*) FROM (\n  SELECT title FROM movies\n  GROUP BY title\n  HAVING COUNT(*) > 1\n);",
+          minutes=2, skills=["GROUP BY", "HAVING", "unique identifiers"])
+    b.ask("How many movies have more than one director?",
+          "SELECT COUNT(*) FROM (\n  SELECT movie_id FROM directors\n  GROUP BY movie_id\n  HAVING COUNT(*) > 1\n);",
+          minutes=2, skills=["GROUP BY", "HAVING"])
+    b.ask("Among people born in 1990 or later, who has starred in the most movies?",
+          "SELECT p.name, COUNT(*) AS n\nFROM stars s JOIN people p ON p.id = s.person_id\nWHERE p.birth >= 1990\n"
+          "GROUP BY p.id\nORDER BY n DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({r[0][1]} movies)", minutes=2.5,
+          skills=["JOIN", "WHERE", "GROUP BY"])
+    b.ask("What is the average number of votes for movies rated 8.0 or higher? (whole number)",
+          "SELECT ROUND(AVG(votes)) FROM ratings WHERE rating >= 8.0;", fmt=lambda r: num(int(r[0][0])), minutes=1.5,
+          skills=["AVG", "WHERE"])
+    b.ask("What is the earliest release year in the database, and how many movies are from that year?",
+          "SELECT year, COUNT(*) FROM movies\nWHERE year = (SELECT MIN(year) FROM movies);",
+          fmt=lambda r: f"{r[0][0]} ({r[0][1]} movies)", minutes=1.5, skills=["subqueries", "MIN"])
+    b.ask("Which movie released in 2020 or later has the highest rating (ties broken by votes)?",
+          "SELECT m.title, r.rating\nFROM movies m JOIN ratings r ON r.movie_id = m.id\nWHERE m.year >= 2020\n"
+          "ORDER BY r.rating DESC, r.votes DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({r[0][1]})", minutes=2,
+          skills=["JOIN", "ORDER BY"])
+    b.ask("How many movies have no director listed?",
+          "SELECT COUNT(*)\nFROM movies m\nLEFT JOIN directors d ON d.movie_id = m.id\nWHERE d.person_id IS NULL;",
+          minutes=2, skills=["JOIN", "NULL"])
     return b.items
 
 
 # ---------------------------------------------------------------- Fiftyville
 def fiftyville():
     b = SqlBank("fiftyville", "fiftyville.db")
-    thief_sql = """SELECT p.name
-FROM people p
-WHERE p.license_plate IN (
-    SELECT license_plate FROM courthouse_security_logs
-    WHERE year = 2020 AND month = 7 AND day = 28 AND hour = 10
-      AND minute BETWEEN 15 AND 25 AND activity = 'exit')
-  AND p.id IN (
-    SELECT person_id FROM bank_accounts WHERE account_number IN (
-        SELECT account_number FROM atm_transactions
-        WHERE year = 2020 AND month = 7 AND day = 28
-          AND atm_location = 'Fifer Street' AND transaction_type = 'withdraw'))
-  AND p.phone_number IN (
-    SELECT caller FROM phone_calls
-    WHERE year = 2020 AND month = 7 AND day = 28 AND duration < 60)
-  AND p.passport_number IN (
-    SELECT passport_number FROM passengers WHERE flight_id = (
-        SELECT id FROM flights
-        WHERE year = 2020 AND month = 7 AND day = 29
-          AND origin_airport_id = (SELECT id FROM airports WHERE city = 'Fiftyville')
-        ORDER BY hour, minute LIMIT 1));"""
-    b.ask("Start with the crime scene report for July 28, 2020 on Chamberlin Street. At what time and where did the theft happen?",
-          "SELECT description FROM crime_scene_reports\nWHERE year = 2020 AND month = 7 AND day = 28\n"
-          "  AND street = 'Chamberlin Street';", fmt=lambda r: "10:15am at the Chamberlin Street courthouse",
-          minutes=1.5, skills=["WHERE"])
-    rows = b.ask("Use the witness interviews, courthouse logs, ATM withdrawals, phone calls and the first flight out the "
-                 "next morning. Who is the thief?", thief_sql, minutes=6, skills=["subqueries", "IN", "investigation"])
-    thief = rows[0][0]
-    b.ask("Which city did the thief escape to?",
-          "SELECT a.city FROM flights f JOIN airports a ON a.id = f.destination_airport_id\n"
+    day = "year = 2020 AND month = 7 AND day = 28"
+    b.ask("How many crime scene reports were filed on July 28, 2020?",
+          f"SELECT COUNT(*) FROM crime_scene_reports WHERE {day};", minutes=1, skills=["WHERE"])
+    b.ask("How many vehicles left the courthouse parking lot between 10:15 and 10:25 on July 28, 2020?",
+          f"SELECT COUNT(*) FROM courthouse_security_logs\nWHERE {day} AND hour = 10\n"
+          "  AND minute BETWEEN 15 AND 25 AND activity = 'exit';", minutes=1.5, skills=["WHERE", "BETWEEN"])
+    b.ask("How many withdrawals were made at the Fifer Street ATM on July 28, 2020, and what was their total?",
+          f"SELECT COUNT(*), SUM(amount) FROM atm_transactions\nWHERE {day}\n"
+          "  AND atm_location = 'Fifer Street' AND transaction_type = 'withdraw';",
+          fmt=lambda r: f"{r[0][0]} withdrawals, {num(r[0][1])} in total", minutes=1.5, skills=["WHERE", "SUM"])
+    b.ask("How many phone calls on July 28, 2020 lasted less than a minute?",
+          f"SELECT COUNT(*) FROM phone_calls WHERE {day} AND duration < 60;", minutes=1, skills=["WHERE"])
+    b.ask("At what time does the earliest flight out of Fiftyville leave on July 29, 2020, and where does it go?",
+          "SELECT f.hour, f.minute, a.city\nFROM flights f JOIN airports a ON a.id = f.destination_airport_id\n"
           "WHERE f.year = 2020 AND f.month = 7 AND f.day = 29\n"
           "  AND f.origin_airport_id = (SELECT id FROM airports WHERE city = 'Fiftyville')\n"
-          "ORDER BY f.hour, f.minute LIMIT 1;", minutes=2, skills=["JOIN", "ORDER BY"])
-    b.ask("Who is the accomplice (the person the thief called for less than a minute)?",
-          f"SELECT name FROM people WHERE phone_number = (\n  SELECT receiver FROM phone_calls\n"
-          f"  WHERE year = 2020 AND month = 7 AND day = 28 AND duration < 60\n"
-          f"    AND caller = (SELECT phone_number FROM people WHERE name = '{thief}'));", minutes=2,
-          skills=["subqueries"])
+          "ORDER BY f.hour, f.minute LIMIT 1;", fmt=lambda r: f"{r[0][0]}:{r[0][1]:02d} to {r[0][2]}", minutes=2,
+          skills=["JOIN", "subqueries", "ORDER BY"])
+    b.ask("Combine the courthouse exits (10:15–10:25), the Fifer Street withdrawals and the short calls on July 28. "
+          "How many people match all three clues?",
+          f"SELECT COUNT(*) FROM people p\nWHERE p.license_plate IN (\n    SELECT license_plate FROM courthouse_security_logs\n"
+          f"    WHERE {day} AND hour = 10 AND minute BETWEEN 15 AND 25 AND activity = 'exit')\n"
+          "  AND p.id IN (\n    SELECT person_id FROM bank_accounts WHERE account_number IN (\n"
+          f"      SELECT account_number FROM atm_transactions\n      WHERE {day} AND atm_location = 'Fifer Street'\n"
+          "        AND transaction_type = 'withdraw'))\n"
+          f"  AND p.phone_number IN (\n    SELECT caller FROM phone_calls WHERE {day} AND duration < 60);",
+          minutes=5, skills=["subqueries", "IN", "investigation"])
     return b.items
 
 
 # -------------------------------------------------------------------- P-cards
 def pcards():
     b = SqlBank("pcards", "pcards_2014.db")
-    b.ask("What is the total number of P-card transactions in the database? Label the column TotalTrans.",
-          "SELECT COUNT(*) AS TotalTrans FROM pcards;", minutes=0.5, skills=["COUNT", "aliases"])
-    b.ask("How many transactions are for $5,000 or more? Label the column TotalTransGT5k.",
-          "SELECT COUNT(*) AS TotalTransGT5k FROM pcards WHERE Amount >= 5000;", minutes=1, skills=["WHERE"])
-    b.ask("What is the total dollar amount of returns (negative amounts) from January to March 2014?",
-          "SELECT ROUND(SUM(Amount), 2) AS TotalReturns2014Q1\nFROM pcards\nWHERE Amount < 0 AND Month BETWEEN 1 AND 3;",
-          fmt=lambda r: money(r[0][0]), minutes=1.5, skills=["SUM", "BETWEEN", "returns"])
     b.ask("Which cardholder had the most transactions in 2014, and how many?",
           "SELECT FullName, COUNT(*) AS NumTrans\nFROM pcards\nGROUP BY FullName\nORDER BY NumTrans DESC\nLIMIT 1;",
           fmt=lambda r: f"{r[0][0]} ({num(r[0][1])})", minutes=1.5, skills=["GROUP BY", "ORDER BY"])
     b.ask("How many cardholders had more than 10 transactions in 2014?",
           "SELECT COUNT(*) FROM (\n  SELECT FullName FROM pcards\n  GROUP BY FullName\n  HAVING COUNT(*) > 10\n);",
           minutes=2, skills=["GROUP BY", "HAVING"])
-    b.ask("Who returned the greatest dollar amount of goods in 2014? Give the name and the returned value.",
-          "SELECT FullName, ROUND(SUM(Amount), 2) AS ReturnedGoodsValue, COUNT(*) AS ReturnedGoodsCount\n"
-          "FROM pcards\nWHERE Amount < 0\nGROUP BY FullName\nORDER BY ReturnedGoodsValue\nLIMIT 1;",
-          fmt=lambda r: f"{r[0][0]} ({money(r[0][1])}, {r[0][2]} returns)", minutes=2.5,
-          skills=["GROUP BY", "returns", "ORDER BY"])
-    b.ask("How many 2014 transactions over $3,000 came from a vendor with Amazon somewhere in the name?",
-          "SELECT COUNT(*) FROM pcards\nWHERE Vendor LIKE '%amazon%' AND Amount > 3000;", minutes=1.5,
-          skills=["LIKE", "WHERE"])
+    b.ask("How many cardholders bought from more than 100 different vendors in 2014?",
+          "SELECT COUNT(*) FROM (\n  SELECT FullName FROM pcards\n  GROUP BY FullName\n"
+          "  HAVING COUNT(DISTINCT Vendor) > 100\n);", minutes=2, skills=["GROUP BY", "HAVING", "DISTINCT"])
+    b.ask("Which vendor was used by the largest number of different cardholders?",
+          "SELECT Vendor, COUNT(DISTINCT FullName) AS Cardholders\nFROM pcards\nGROUP BY Vendor\n"
+          "ORDER BY Cardholders DESC\nLIMIT 1;", fmt=lambda r: f"{r[0][0]} ({r[0][1]} cardholders)", minutes=2,
+          skills=["GROUP BY", "DISTINCT"])
+    b.ask("What percentage of 2014 transactions are returns (negative amounts)? (2 decimals)",
+          "SELECT ROUND(100.0 * SUM(CASE WHEN Amount < 0 THEN 1 ELSE 0 END) / COUNT(*), 2) FROM pcards;",
+          fmt=lambda r: f"{r[0][0]}%", minutes=2, skills=["CASE WHEN", "returns", "percentages"])
     b.ask("If OSU had to pay 4.5% state sales tax on all 2014 P-card purchases, how much sales tax did it save?",
           "SELECT ROUND(SUM(Amount) * 0.045, 2) AS SalesTaxSaved FROM pcards;", fmt=lambda r: money(r[0][0]),
           minutes=1.5, skills=["calculated fields"])
@@ -313,21 +295,24 @@ def pcards():
           skills=["CASE WHEN", "UPPER"])
     b.ask("What is the average transaction amount in 2014? (2 decimals)", "SELECT ROUND(AVG(Amount), 2) FROM pcards;",
           fmt=lambda r: money(r[0][0]), minutes=0.5, skills=["AVG"])
-    b.ask("Control test: which employees spent more than $50,000 in 2014? How many are there, and who spent the most?",
-          "SELECT FullName, ROUND(SUM(Amount), 2) AS TotalSpent\nFROM pcards\nGROUP BY FullName\n"
-          "HAVING SUM(Amount) > 50000\nORDER BY TotalSpent DESC;",
-          fmt=lambda r: f"{len(r)} employees; highest: {r[0][0]} ({money(r[0][1])})", minutes=2,
-          skills=["GROUP BY", "HAVING", "internal controls"])
     b.ask("Control test: how many employee-months in 2014 exceeded $10,000 of spending?",
           "SELECT COUNT(*) FROM (\n  SELECT FullName, Month FROM pcards\n  GROUP BY FullName, Month\n"
           "  HAVING SUM(Amount) > 10000\n);", minutes=2.5, skills=["GROUP BY", "HAVING", "internal controls"])
-    b.ask("Control test: how many single transactions in 2014 were for more than $5,000?",
-          "SELECT COUNT(*) FROM pcards WHERE Amount > 5000;", minutes=1, skills=["WHERE", "internal controls"])
+    b.ask("Just under the limit: how many transactions are between $4,900.00 and $4,999.99, compared with between "
+          "$4,800.00 and $4,899.99?",
+          "SELECT SUM(Amount BETWEEN 4900 AND 4999.99) AS Just_below,\n       SUM(Amount BETWEEN 4800 AND 4899.99) AS Band_below\n"
+          "FROM pcards;", fmt=lambda r: f"{r[0][0]} versus {r[0][1]}", minutes=2,
+          skills=["BETWEEN", "fraud tests", "internal controls"])
     b.ask("Split purchases: how many cases are there where the same cardholder made more than one purchase from the "
           "same vendor on the same day and the combined total was more than $5,000?",
           "SELECT COUNT(*) FROM (\n  SELECT FullName, Vendor, TransactionDate\n  FROM pcards\n"
           "  GROUP BY FullName, Vendor, TransactionDate\n  HAVING COUNT(*) > 1 AND SUM(Amount) > 5000\n);",
           minutes=3, skills=["GROUP BY", "HAVING", "internal controls"])
+    b.ask("Split across people: on how many vendor-days did exactly two different cardholders buy from the same vendor "
+          "with a combined total above $5,000?",
+          "SELECT COUNT(*) FROM (\n  SELECT Vendor, TransactionDate\n  FROM pcards\n  WHERE Amount > 0\n"
+          "  GROUP BY Vendor, TransactionDate\n  HAVING COUNT(DISTINCT FullName) = 2 AND SUM(Amount) > 5000\n);",
+          minutes=3, skills=["GROUP BY", "HAVING", "DISTINCT", "internal controls"])
     b.ask("Benford's law: what percentage of 2014 transactions of $1.00 or more start with the digit 1? (3 decimals)",
           "SELECT ROUND(100.0 * SUM(CASE WHEN SUBSTR(CAST(Amount AS TEXT), 1, 1) = '1' THEN 1 ELSE 0 END)\n"
           "             / COUNT(*), 3) AS PctDigit1\nFROM pcards\nWHERE Amount >= 1;",
@@ -347,10 +332,16 @@ def pcards():
           "which value comes first, and why is this misleading?",
           "SELECT TransactionDate FROM pcards ORDER BY TransactionDate DESC LIMIT 1;",
           fmt=lambda r: f"{r[0][0]} — text sorts character by character, so '9/…' comes after '12/…'; "
-                        "the real last date is in December. Sort by Year, Month and the day instead", minutes=2, skills=["dates", "data types"])
-    b.ask("Which month of 2014 had the highest total spending?",
-          "SELECT Month, ROUND(SUM(Amount), 2) AS Spent\nFROM pcards\nGROUP BY Month\nORDER BY Spent DESC\nLIMIT 1;",
-          fmt=lambda r: f"Month {r[0][0]} ({money(r[0][1])})", minutes=1.5, skills=["GROUP BY"])
+                        "the real last date is in December. Sort by Year, Month and the day instead",
+          minutes=2, skills=["dates", "data types"])
+    b.ask("How many transactions have no Description?",
+          "SELECT COUNT(*) FROM pcards WHERE Description IS NULL OR TRIM(Description) = '';", minutes=1,
+          skills=["NULL", "missing data"])
+    b.ask("Travel control: on how many cardholder-days was there both a hotel/motel purchase and a restaurant or "
+          "fast-food purchase? (MCC contains HOTEL or MOTEL, and RESTAURANT.)",
+          "SELECT COUNT(*) FROM (\n  SELECT FullName, TransactionDate\n  FROM pcards\n  GROUP BY FullName, TransactionDate\n"
+          "  HAVING SUM(MCC LIKE '%HOTEL%' OR MCC LIKE '%MOTEL%') > 0\n     AND SUM(MCC LIKE '%RESTAURANT%') > 0\n);",
+          minutes=3.5, skills=["GROUP BY", "HAVING", "LIKE", "internal controls"])
     return b.items
 
 

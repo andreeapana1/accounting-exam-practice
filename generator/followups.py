@@ -3,6 +3,7 @@
 Each data manipulation question gets the follow-up for its most "examinable" skill; each regression
 question gets one by question kind. Every follow-up has the point an examiner listens for.
 """
+import keypoints
 
 # Ordered by priority: the first skill a question has that appears here decides its follow-up.
 SKILL_FOLLOWUPS = [
@@ -102,12 +103,20 @@ FALLBACK = ("How would you check that your answer is right before you hand it in
 REGRESSION_FOLLOWUPS = {
     "P": ("Talk me through the calculation. Which terms matter for this group, and which drop out?",
           "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."),
-    "I": ("Now explain the {d} effect to {stakeholder} in one sentence — without the words 'coefficient' or 'dummy'.",
+    "G": ("Now explain that difference to {stakeholder} in one sentence — without the words 'coefficient' or 'dummy'.",
           "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."),
     "S": ("Does 'statistically significant' mean the effect is important for the business?",
           "No — significance says the effect is unlikely to be zero; importance depends on its size in context."),
     "R": ("So what would you tell {stakeholder} instead of just giving that number?",
           "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."),
+}
+
+
+REGRESSION_FOLLOWUP_TERMS = {
+    "P": ["drop out", "drops out", "zero", "times 0", "times zero", "disappear", "plug"],
+    "G": ["compared", "than", "more", "less", "same", "all else", "other things"],
+    "S": ["size", "large", "small", "practical", "economic", "not necessarily", "doesn't mean", "does not mean"],
+    "R": ["outside", "range", "more data", "collect", "within", "warn", "careful", "caution"],
 }
 
 
@@ -118,10 +127,13 @@ def add_followups(questions, regression_exams):
             if skill in skills:
                 break
         else:
-            ask, listen = FALLBACK
+            skill, (ask, listen) = None, FALLBACK
         q["followup"] = {"ask": ask, "listen": listen}
+        q["keypoints"] = keypoints.manipulation_points(q, skill)
     for ex in regression_exams:
         stakeholder = ex["stakeholder"]
         for q in ex["questions"]:
             ask, listen = REGRESSION_FOLLOWUPS[q["kind"]]
             q["followup"] = {"ask": ask.format(d=ex["d"]["name"].lower(), stakeholder=stakeholder), "listen": listen}
+            q["keypoints"].append({"label": "Answered the follow-up (see what the examiner listens for)",
+                                   "terms": REGRESSION_FOLLOWUP_TERMS[q["kind"]]})

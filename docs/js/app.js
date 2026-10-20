@@ -167,7 +167,7 @@
         <div class="card stack">
           <div class="eyebrow">Data interpretation</div>
           <h2>${nR} regression exams</h2>
-          <p class="muted">Read a regression output, make a prediction, interpret every coefficient and judge significance — four questions in five minutes.</p>
+          <p class="muted">Use one regression output to make four business decisions — plan, compare groups, simplify the model, and judge whether a prediction can be trusted — in five minutes.</p>
           <div class="row"><a class="btn primary" href="#/interpretation">Regression exams</a></div>
         </div>
         <div class="card stack">
@@ -315,8 +315,9 @@
     render(`
       <div class="eyebrow">Data interpretation</div>
       <h1>Data interpretation exams</h1>
-      <p class="muted">Each exam gives a regression output and four questions: predict, interpret all coefficients,
-      judge statistical significance and assess a prediction. You have five minutes.</p>
+      <p class="muted">Each exam gives one regression output and four decisions to make with it: a planning prediction,
+      the size of a group difference, which variable (if any) to drop, and whether a prediction can be trusted.
+      You have five minutes.</p>
       <div class="row" style="margin:1.25rem 0 2rem"><button class="btn primary" id="random">Choose one for me</button></div>
       <h2 class="section-title">All ${C.regression.length} exams</h2>
       <div class="list">${C.regression.map((r) => `
@@ -350,7 +351,7 @@
     const r = C.regression.find((x) => x.id === id);
     if (!r) return notFound();
     sessionStorageSet("lastReg", id);
-    const kinds = { P: "Predict", I: "Interpret", S: "Significance", R: "Reliability" };
+    const kinds = { P: "Plan", G: "Group gap", S: "Simplify", R: "Trust" };
     render(`
       <a href="#/interpretation" class="small">← Back to data interpretation exams</a>
       <div class="eyebrow" style="margin-top:1rem">Data interpretation exam · ${esc(r.id)}</div>
@@ -414,8 +415,128 @@
 
   // ------------------------------------------------------------ examiner mode
   // The browser reads each question aloud, the student answers out loud against a countdown, and the
-  // examiner interrupts once per question with a follow-up. Optional recordings never leave the device.
+  // examiner interrupts once per question with a follow-up. Optional recordings never leave the device;
+  // optional transcripts use the browser's speech recognition and are kept in this browser only.
   const FOLLOWUP_SECONDS = 45;
+  const ATTEMPTS_KEY = "examiner-attempts";
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  // Continuous speech-to-text that writes into whichever answer is currently being given.
+  function makeListener(onText) {
+    if (!SpeechRec) return null;
+    const rec = new SpeechRec();
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.lang = "en-US";
+    let target = null, want = false, running = false;
+    const listener = {
+      failed: false,
+      listen(res, part) {
+        target = { res, part }; want = true;
+        if (!running) { try { rec.start(); } catch { /* still stopping; onend restarts */ } }
+      },
+      pause() { want = false; if (running) rec.stop(); },
+      stop() { want = false; target = null; try { rec.abort(); } catch { /* ignore */ } },
+    };
+    rec.onstart = () => { running = true; };
+    rec.onend = () => { running = false; if (want) { try { rec.start(); } catch { /* ignore */ } } };
+    rec.onerror = (e) => { if (/not-allowed/.test(e.error)) { want = false; listener.failed = true; } };
+    rec.onresult = (e) => {
+      let interim = "";
+      for (let k = e.resultIndex; k < e.results.length; k++) {
+        const r = e.results[k];
+        if (r.isFinal) { if (target) target.res.text[target.part] += r[0].transcript.trim() + " "; }
+        else interim += r[0].transcript;
+      }
+      onText(target, interim);
+    };
+    return listener;
+  }
+
+  // ---- checklist: does the answer mention each key point?
+  const WORDNUM = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
+    eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18,
+    nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90, hundred: 100 };
+  function numbersIn(text) {
+    let t = text.toLowerCase();
+    while (/\d,\d{3}/.test(t)) t = t.replace(/(\d),(\d{3})/g, "$1$2");
+    const out = [];
+    const re = /(\d+(?:\.\d+)?)(\s*(million|thousand|k)\b)?/g;
+    let m;
+    while ((m = re.exec(t))) out.push(parseFloat(m[1]) * (m[3] === "million" ? 1e6 : m[3] ? 1e3 : 1));
+    t.split(/[^a-z]+/).forEach((w) => { if (w in WORDNUM) out.push(WORDNUM[w]); });
+    return out;
+  }
+  function pointMet(kp, text) {
+    if (kp.number != null) {
+      const target = Math.abs(kp.number);
+      return numbersIn(text).some((n) => {
+        const d = Math.abs(n - target);
+        return kp.tol ? d <= kp.tol * target + 0.005 : d < 1e-6;
+      });
+    }
+    const t = ` ${text.toLowerCase().replace(/\s+/g, " ")} `;
+    return kp.terms.some((term) => t.includes(term.toLowerCase()));
+  }
+  const checklistHtml = (points, text) => points.map((kp) => {
+    const ok = text.trim() && pointMet(kp, text);
+    return `<li class="${ok ? "ok" : "miss"}"><span aria-hidden="true">${ok ? "✅" : "❌"}</span> ${esc(kp.label)}<span class="sr-only">${ok ? " — mentioned" : " — missing"}</span></li>`;
+  }).join("");
+  const score = (items) => items.reduce((s, it) => s + it.keypoints.filter((kp) => it.text.trim() && pointMet(kp, it.text)).length, 0);
+  const maxScore = (items) => items.reduce((s, it) => s + it.keypoints.length, 0);
+
+  function loadAttempts() { try { return JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || "[]"); } catch { return []; } }
+  function saveAttempts(list) { try { localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(list.slice(0, 20))); } catch { /* ignore */ } }
+
+  // Review page: transcript (editable), key-point checklist, follow-up, model answer, recording.
+  function renderReview(el, review, attemptIndex) {
+    const total = () => `${score(review.items)} of ${maxScore(review.items)} key points mentioned`;
+    el.innerHTML = `
+      <div class="card stack">
+        <h2>Your examiner review</h2>
+        <p class="muted">Below each question you can see what you said, which key points you mentioned, what the examiner
+        listened for in the follow-up, and the model answer. The checklist matches words, not meaning — if the speech
+        recognition misheard you or you said it differently, correct the text and the checklist updates.</p>
+        <p><strong data-total>${total()}</strong> · ${esc(new Date(review.when).toLocaleString())}</p>
+      </div>
+      ${review.items.map((it, i) => `
+        <div class="card stack" data-item="${i}">
+          <div class="split">
+            <div class="eyebrow">Question ${i + 1}${it.label ? " · " + esc(it.label) : ""}${it.mainUsed != null ? ` · answered in ${mmss(it.mainUsed)} of ${mmss(it.seconds)}` : ""}</div>
+            <span class="tag" data-score>${it.keypoints.filter((kp) => it.text.trim() && pointMet(kp, it.text)).length} / ${it.keypoints.length}</span>
+          </div>
+          <p><strong>${esc(it.prompt)}</strong></p>
+          ${it.asked ? `<div class="followup"><div class="eyebrow">Follow-up${it.askedAt != null ? ` · after ${mmss(it.askedAt)}` : ""}</div><p>${esc(it.followupAsk)}</p>
+            <div class="eyebrow">The examiner listens for</div><p>${esc(it.listen)}</p></div>` : ""}
+          ${it.audio ? `<audio controls src="${it.audio}" style="width:100%"></audio>` : ""}
+          <label class="small muted" for="said-${i}">What you said</label>
+          <textarea id="said-${i}" rows="4" placeholder="No transcript. Type what you said (or would say) and the checklist will check it.">${esc(it.text)}</textarea>
+          <ul class="checklist" data-check>${checklistHtml(it.keypoints, it.text)}</ul>
+          <div class="row"><button class="btn" data-toggle="answer" aria-expanded="false">Show model answer</button></div>
+          <div class="answer" data-answer hidden><div class="eyebrow">Model answer</div>${it.answerHtml}</div>
+        </div>`).join("")}
+      <div class="row"><button class="btn primary" data-again>Try again</button><a class="btn" href="${review.back}">Back to the exam</a><a class="btn" href="#/attempts">All my attempts</a></div>`;
+    wireToggles(el);
+    el.querySelector("[data-again]").onclick = () => { location.hash = review.again; route(); };
+    let saveTimer = null;
+    el.querySelectorAll("[data-item]").forEach((card) => {
+      const it = review.items[Number(card.dataset.item)];
+      card.querySelector("textarea").oninput = (e) => {
+        it.text = e.target.value;
+        card.querySelector("[data-check]").innerHTML = checklistHtml(it.keypoints, it.text);
+        card.querySelector("[data-score]").textContent = `${it.keypoints.filter((kp) => it.text.trim() && pointMet(kp, it.text)).length} / ${it.keypoints.length}`;
+        el.querySelector("[data-total]").textContent = total();
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+          const list = loadAttempts();
+          if (list[attemptIndex] && list[attemptIndex].when === review.when) {
+            list[attemptIndex].items.forEach((saved, k) => { saved.text = review.items[k].text; });
+            saveAttempts(list);
+          }
+        }, 400);
+      };
+    });
+  }
 
   function examinerMode(meta, items) {
     const canSpeak = "speechSynthesis" in window;
@@ -433,9 +554,11 @@
       const vs = canSpeak ? speechSynthesis.getVoices() : [];
       return vs.find((v) => /en-GB/i.test(v.lang)) || vs.find((v) => /^en/i.test(v.lang)) || null;
     };
-    const opts = { speak: canSpeak, record: false, interrupt: true };
+    const opts = { speak: canSpeak, record: false, interrupt: true, transcribe: !!SpeechRec };
+    let listener = null;
     // Speak text; resolve when finished (with a time-based fallback because onend is unreliable in some browsers).
     const say = (text) => new Promise((resolve) => {
+      if (listener) listener.pause(); // don't transcribe the examiner's own voice
       const live = stage.querySelector("[data-live]");
       if (live) live.textContent = text;
       if (!opts.speak) return resolve();
@@ -459,13 +582,16 @@
         <ol class="small">
           <li>The examiner reads each question aloud. Answer <strong>out loud</strong>, as you would in the oral exam.</li>
           <li>Somewhere during your answer the examiner <strong>interrupts with a follow-up question</strong>. Answer it, then finish your main answer.</li>
-          <li>At the end you see what the examiner was listening for, the model answers and (if you choose) your own recordings.</li>
+          <li>At the end you see <strong>what you said, written down</strong>, a checklist of the key points you mentioned or
+          missed, what the examiner was listening for and the model answers. Your attempts are saved in this browser.</li>
         </ol>
         <fieldset class="options">
           <label><input type="checkbox" id="o-speak" ${canSpeak ? "checked" : "disabled"}> Read questions aloud ${canSpeak ? "" : "(not supported in this browser)"}</label>
           <label><input type="checkbox" id="o-int" checked> Interrupt me with follow-up questions</label>
+          <label><input type="checkbox" id="o-txt" ${SpeechRec ? "checked" : "disabled"}> Write down what I say ${SpeechRec ? "" : "(not supported in this browser — use Chrome or Edge, or type your answers on the review page)"}</label>
           <label><input type="checkbox" id="o-rec" ${canRecord ? "" : "disabled"}> Record my answers so I can listen back (stays on this device) ${canRecord ? "" : "(not supported)"}</label>
         </fieldset>
+        ${SpeechRec ? `<p class="small muted">Writing down your answers uses your browser's speech recognition. In Chrome, the audio is sent to Google to be converted to text; this site itself stores nothing on a server.</p>` : ""}
         <p class="small muted">${items.length} questions · ${mmss(items.reduce((s, it) => s + it.seconds, 0))} answer time plus ${FOLLOWUP_SECONDS} seconds per follow-up.</p>
         <div class="row"><button class="btn primary" id="go">Start examiner mode</button></div>
       </div>`;
@@ -473,6 +599,14 @@
       opts.speak = stage.querySelector("#o-speak").checked;
       opts.interrupt = stage.querySelector("#o-int").checked;
       opts.record = stage.querySelector("#o-rec").checked;
+      opts.transcribe = stage.querySelector("#o-txt").checked;
+      if (opts.transcribe) {
+        listener = makeListener((target, interim) => {
+          const box = stage.querySelector("[data-heard]");
+          if (box && target) box.textContent = (target.res.text[target.part] + interim).slice(-240) || "…";
+        });
+        if (listener) cleanup.push(() => listener.stop());
+      }
       let stream = null;
       if (opts.record) {
         try {
@@ -493,6 +627,7 @@
       }
       if (stream) stream.getTracks().forEach((t) => t.stop());
       await say("That's all the questions. Thank you.");
+      if (listener) listener.stop();
       summary(results);
     }
 
@@ -516,6 +651,7 @@
                 <button class="btn primary" data-act="done" disabled>I'm done</button>
               </div>
             </div>
+            ${listener ? `<div class="heard"><div class="eyebrow">Heard so far</div><p data-heard>…</p></div>` : ""}
             <p class="sr-only" data-live role="status" aria-live="polite"></p>
           </div>`;
         const $ = (s) => stage.querySelector(s);
@@ -525,7 +661,7 @@
           recorder.ondataavailable = (e) => chunks.push(e.data);
           recorder.start();
         }
-        const res = { item: it, asked: false, askedAt: null, mainUsed: 0, audio: null };
+        const res = { item: it, asked: false, askedAt: null, mainUsed: 0, audio: null, text: { main: "", fu: "" } };
         let left = it.seconds, fuLeft = FOLLOWUP_SECONDS, phase = "intro", tick = null, finished = false;
         // Interrupt somewhere between 35% and 65% of the main answer time.
         const interruptAt = Math.round(it.seconds * (0.35 + Math.random() * 0.3));
@@ -537,7 +673,11 @@
           $("[data-phase]").textContent = { intro: "Listen…", main: "Your answer", followup: "Follow-up answer", speaking: "Examiner speaking…" }[phase];
           $('[data-act="done"]').disabled = !(phase === "main" || phase === "followup");
         };
-        const startTick = () => { stop(); tick = setInterval(onTick, 1000); };
+        // Every time the student's turn (re)starts, listen into the right part of the answer.
+        const startTick = () => {
+          stop(); tick = setInterval(onTick, 1000);
+          if (listener && (phase === "main" || phase === "followup")) listener.listen(res, phase === "main" ? "main" : "fu");
+        };
         const onTick = () => {
           if (phase === "main") {
             left -= 1; res.mainUsed += 1;
@@ -578,7 +718,9 @@
         const finish = () => {
           if (finished) return;
           finished = true; stop();
-          const done = () => resolve(res);
+          if (listener) listener.pause();
+          // Give the recogniser a moment to deliver the last words before moving on.
+          const done = () => setTimeout(() => resolve(res), listener ? 700 : 0);
           if (recorder && recorder.state !== "inactive") {
             recorder.onstop = () => { res.audio = URL.createObjectURL(new Blob(chunks, { type: recorder.mimeType })); done(); };
             recorder.stop();
@@ -603,27 +745,52 @@
     }
 
     function summary(results) {
-      stage.innerHTML = `
-        <div class="card stack">
-          <h2>Your examiner review</h2>
-          <p class="muted">For each question: what the examiner was listening for in the follow-up, and the model answer.
-          ${results.some((r) => r.audio) ? "Listen to your recording and ask yourself: did I mention the key point? Did I hesitate or ramble?" : ""}</p>
-        </div>
-        ${results.map((r, i) => `
-          <div class="card stack">
-            <div class="eyebrow">Question ${i + 1}${r.item.label ? " · " + esc(r.item.label) : ""} · answered in ${mmss(r.mainUsed)} of ${mmss(r.item.seconds)}</div>
-            <p><strong>${esc(r.item.prompt)}</strong></p>
-            ${r.asked ? `<div class="followup"><div class="eyebrow">Follow-up${r.askedAt != null ? ` · after ${mmss(r.askedAt)}` : ""}</div><p>${esc(r.item.followup.ask)}</p>
-              <div class="eyebrow">The examiner listens for</div><p>${esc(r.item.followup.listen)}</p></div>` : ""}
-            ${r.audio ? `<audio controls src="${r.audio}" style="width:100%"></audio>` : ""}
-            <div class="row"><button class="btn" data-toggle="answer" aria-expanded="false">Show answer</button></div>
-            <div class="answer" data-answer hidden><div class="eyebrow">Model answer</div>${r.item.answerHtml}</div>
-          </div>`).join("")}
-        <div class="row"><button class="btn primary" id="again">Try again</button><a class="btn" href="${meta.back}">Back to the exam</a></div>`;
-      wireToggles(stage);
-      stage.querySelector("#again").onclick = () => route();
-      results.forEach((r) => r.audio && cleanup.push(() => URL.revokeObjectURL(r.audio)));
+      const review = {
+        when: new Date().toISOString(), title: meta.title, id: meta.id, back: meta.back, again: location.hash,
+        items: results.map((r) => ({
+          label: r.item.label, prompt: r.item.prompt, followupAsk: r.item.followup.ask, listen: r.item.followup.listen,
+          answerHtml: r.item.answerHtml, keypoints: r.item.keypoints, asked: r.asked, askedAt: r.askedAt,
+          mainUsed: r.mainUsed, seconds: r.item.seconds,
+          text: (r.text.main.trim() + (r.text.fu.trim() ? `\n\n[Follow-up] ${r.text.fu.trim()}` : "")).trim(),
+        })),
+      };
+      const list = loadAttempts();
+      list.unshift(review);
+      saveAttempts(list);
+      // Recordings are shown on this page only; they are not saved.
+      results.forEach((r, i) => { if (r.audio) { review.items[i].audio = r.audio; cleanup.push(() => URL.revokeObjectURL(r.audio)); } });
+      renderReview(stage, review, 0);
+      if (listener && listener.failed) {
+        stage.insertAdjacentHTML("afterbegin", `<p class="notice">Speech recognition was blocked (microphone permission), so nothing was written down. You can type your answers below.</p>`);
+      }
     }
+  }
+
+  function attempts(index) {
+    const list = loadAttempts();
+    if (index != null) {
+      const review = list[index];
+      if (!review) return notFound();
+      render(`<a href="#/attempts" class="small">← All my attempts</a>
+        <div class="eyebrow" style="margin-top:1rem">Examiner mode · ${esc(review.id)}</div>
+        <h1>${esc(review.title)}</h1><div id="stage" class="stack"></div>`, "attempts", "My attempt");
+      renderReview(document.getElementById("stage"), review, index);
+      return;
+    }
+    render(`
+      <div class="eyebrow">Examiner mode</div>
+      <h1>My attempts</h1>
+      <p class="muted">Your Examiner mode attempts (up to the last 20), saved in this browser only. Open one to see
+      what you said and which key points you covered.</p>
+      <div class="list" style="margin-top:1rem">${list.map((a, i) => `
+        <a class="item" href="#/attempts/${i}">
+          <div><div class="title">${esc(a.title)}</div>
+          <div class="meta">${esc(new Date(a.when).toLocaleString())} · ${score(a.items)} of ${maxScore(a.items)} key points</div></div>
+          <span aria-hidden="true">→</span></a>`).join("") || `<p class="muted">No attempts yet. Open any exam and press 🎙 Examiner mode.</p>`}</div>
+      ${list.length ? `<div class="row" style="margin-top:1.5rem"><button class="btn" id="clear">Delete all attempts</button></div>` : ""}`,
+      "attempts", "My attempts");
+    const clear = document.getElementById("clear");
+    if (clear) clear.onclick = () => { if (confirm("Delete all saved attempts from this browser?")) { saveAttempts([]); attempts(); } };
   }
 
   function examExaminer(id) {
@@ -635,7 +802,7 @@
     }, e.questions.map((qid) => {
       const q = Q[qid];
       return {
-        label: q.tool, prompt: q.prompt, seconds: Math.round(q.minutes * 60) + 30, followup: q.followup,
+        label: q.tool, prompt: q.prompt, seconds: Math.round(q.minutes * 60) + 30, followup: q.followup, keypoints: q.keypoints,
         answerHtml: `<p><strong>${esc(q.answer)}</strong></p>${q.tool === "SQL" ? `<pre><code>${esc(q.solution)}</code></pre>` : `<p>${esc(q.solution)}</p>`}`,
       };
     }));
@@ -647,7 +814,7 @@
     examinerMode({
       id: r.id, title: r.title, back: `#/regression/${r.id}`, section: "interpretation", intro: r.intro,
       reference: regressionReference(r),
-    }, r.questions.map((q) => ({ label: "", prompt: q.prompt, seconds: 75, followup: q.followup, answerHtml: paras(q.answer) })));
+    }, r.questions.map((q) => ({ label: "", prompt: q.prompt, seconds: 75, followup: q.followup, keypoints: q.keypoints, answerHtml: paras(q.answer) })));
   }
 
   function notFound() {
@@ -672,6 +839,7 @@
       case "interpretation": return interpretation();
       case "regression": return parts[2] === "examiner" ? regressionExaminer(parts[1]) : regressionExam(parts[1]);
       case "datasets": return datasets();
+      case "attempts": return attempts(parts[1] != null ? Number(parts[1]) : null);
       default: return notFound();
     }
   }

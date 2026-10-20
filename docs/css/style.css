@@ -172,6 +172,15 @@ input[type="search"] { flex: 1 1 220px; }
 .followup p:last-child { margin-bottom: 0; }
 .examiner .question-text { font-size: 1.3rem; }
 .tag.rec { color: #c62828; border-color: currentColor; }
+.heard { border: 1px dashed var(--border); border-radius: 8px; padding: 0.6rem 0.9rem; color: var(--muted); }
+.heard p { margin: 0; font-size: 0.95rem; }
+textarea {
+  font: inherit; font-size: 0.95rem; width: 100%; padding: 0.6rem 0.75rem; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text); resize: vertical;
+}
+.checklist { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.92rem; }
+.checklist li { display: flex; gap: 0.5rem; align-items: baseline; }
+.checklist li.miss { color: var(--muted); }
 .home-feature { border-color: var(--accent); background: linear-gradient(0deg, var(--accent-soft), var(--surface)); }
 
 @media (max-width: 760px) {
