@@ -88,13 +88,15 @@ def make_exams(questions, per_pair=5, seed=7):
     for k in range(per_pair):
         rng.shuffle(pairs)
         for e, s in pairs:
-            for _ in range(200):
+            for _ in range(5000):
                 n_excel = rng.choice([2, 3])
                 picked = rng.sample(by_ds[e], n_excel) + rng.sample(by_ds[s], 5 - n_excel)
                 total = sum(q["minutes"] for q in picked)
                 key = frozenset(q["id"] for q in picked)
                 if 6 <= total <= EXAM_MINUTES and key not in seen:
                     break
+            else:
+                raise RuntimeError(f"no exam of at most {EXAM_MINUTES} minutes found for {e} + {s}")
             seen.add(key)
             picked.sort(key=lambda q: (q["tool"] != "Excel", q["id"]))
             exams.append({"datasets": [e, s], "questions": [q["id"] for q in picked],
