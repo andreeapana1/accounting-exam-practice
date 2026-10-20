@@ -421,35 +421,45 @@
   const ATTEMPTS_KEY = "examiner-attempts";
   const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  // Continuous speech-to-text that writes into whichever answer is currently being given.
-  function makeListener(onText) {
+  // Speech-to-text that writes into whichever answer is currently being given.
+  // Chrome copes badly with stopping and restarting recognition quickly, so the recogniser runs for the whole
+  // exam: while the examiner speaks its results are simply ignored, and a watchdog restarts it if Chrome ends it.
+  const CAPTURE_GRACE_MS = 800; // words finalised just after the student's turn ends still count
+  function makeListener(onText, onStatus) {
     if (!SpeechRec) return null;
     const rec = new SpeechRec();
     rec.continuous = true;
     rec.interimResults = true;
     rec.lang = "en-US";
-    let target = null, want = false, running = false;
+    let target = null, capturing = false, pausedAt = 0, keepAlive = true, running = false, starting = false;
+    const start = () => {
+      if (!keepAlive || running || starting) return;
+      starting = true;
+      try { rec.start(); } catch { starting = false; }
+    };
+    const watchdog = setInterval(start, 1500);
     const listener = {
       failed: false,
-      listen(res, part) {
-        target = { res, part }; want = true;
-        if (!running) { try { rec.start(); } catch { /* still stopping; onend restarts */ } }
-      },
-      pause() { want = false; if (running) rec.stop(); },
-      stop() { want = false; target = null; try { rec.abort(); } catch { /* ignore */ } },
+      listen(res, part) { target = { res, part }; capturing = true; start(); },
+      pause() { if (capturing) { capturing = false; pausedAt = Date.now(); } },
+      stop() { keepAlive = false; capturing = false; target = null; clearInterval(watchdog); try { rec.abort(); } catch { /* ignore */ } },
     };
-    rec.onstart = () => { running = true; };
-    rec.onend = () => { running = false; if (want) { try { rec.start(); } catch { /* ignore */ } } };
-    rec.onerror = (e) => { if (/not-allowed/.test(e.error)) { want = false; listener.failed = true; } };
+    rec.onstart = () => { starting = false; running = true; onStatus(true); };
+    rec.onend = () => { starting = false; running = false; onStatus(false); if (keepAlive) setTimeout(start, 250); };
+    rec.onerror = (e) => {
+      if (/not-allowed/.test(e.error)) { keepAlive = false; listener.failed = true; clearInterval(watchdog); }
+    };
     rec.onresult = (e) => {
+      const accept = capturing || Date.now() - pausedAt < CAPTURE_GRACE_MS;
       let interim = "";
       for (let k = e.resultIndex; k < e.results.length; k++) {
         const r = e.results[k];
-        if (r.isFinal) { if (target) target.res.text[target.part] += r[0].transcript.trim() + " "; }
-        else interim += r[0].transcript;
+        if (r.isFinal) { if (accept && target) target.res.text[target.part] += r[0].transcript.trim() + " "; }
+        else if (capturing) interim += r[0].transcript;
       }
-      onText(target, interim);
+      if (capturing) onText(target, interim);
     };
+    start();
     return listener;
   }
 
@@ -555,7 +565,7 @@
       return vs.find((v) => /en-GB/i.test(v.lang)) || vs.find((v) => /^en/i.test(v.lang)) || null;
     };
     const opts = { speak: canSpeak, record: false, interrupt: true, transcribe: !!SpeechRec };
-    let listener = null;
+    let listener = null, micOn = false;
     // Speak text; resolve when finished (with a time-based fallback because onend is unreliable in some browsers).
     const say = (text) => new Promise((resolve) => {
       if (listener) listener.pause(); // don't transcribe the examiner's own voice
@@ -604,6 +614,10 @@
         listener = makeListener((target, interim) => {
           const box = stage.querySelector("[data-heard]");
           if (box && target) box.textContent = (target.res.text[target.part] + interim).slice(-240) || "…";
+        }, (on) => {
+          micOn = on;
+          const s = stage.querySelector("[data-mic]");
+          if (s) s.textContent = on ? "🎤 listening" : "🎤 reconnecting…";
         });
         if (listener) cleanup.push(() => listener.stop());
       }
@@ -651,7 +665,7 @@
                 <button class="btn primary" data-act="done" disabled>I'm done</button>
               </div>
             </div>
-            ${listener ? `<div class="heard"><div class="eyebrow">Heard so far</div><p data-heard>…</p></div>` : ""}
+            ${listener ? `<div class="heard"><div class="split"><div class="eyebrow">Heard so far</div><span class="small" data-mic>${micOn ? "🎤 listening" : "🎤 starting…"}</span></div><p data-heard>…</p></div>` : ""}
             <p class="sr-only" data-live role="status" aria-live="polite"></p>
           </div>`;
         const $ = (s) => stage.querySelector(s);
