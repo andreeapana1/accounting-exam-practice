@@ -8,6 +8,7 @@ import shutil
 import zipfile
 
 import excel_questions
+import followups
 import regression
 import sql_questions
 from common import DATA, EXCEL, FILES
@@ -113,11 +114,13 @@ def main():
     for key, ds in DATASETS.items():
         ds["size"] = (FILES / ds["file"]).stat().st_size
         ds["questions"] = sum(q["dataset"] == key for q in questions)
+    regression_exams = regression.all_exams()
+    followups.add_followups(questions, regression_exams)
     content = {
         "datasets": DATASETS,
         "questions": questions,
         "exams": make_exams(questions),
-        "regression": regression.all_exams(),
+        "regression": regression_exams,
     }
     (DATA / "content.json").write_text(json.dumps(content, ensure_ascii=False, indent=1))
     print(f"{len(questions)} questions, {len(content['exams'])} exams, {len(content['regression'])} regression exams")

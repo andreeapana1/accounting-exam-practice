@@ -126,6 +126,7 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
     }
     return {
         "id": eid, "title": title, "intro": context["intro"], "source": source,
+        "stakeholder": context["stakeholder"],
         "y": y, "x": x, "d": d, "equation": eq,
         "table": [{"param": p, "term": t, "estimate": fmt(c), "p": f"{pv:.3f}".rstrip("0").rstrip(".") if pv >= 0.001 else "<0.001"}
                   for p, t, c, pv in zip(par, terms, coefs, pvals)],

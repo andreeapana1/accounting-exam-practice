@@ -112,7 +112,11 @@
     "import",
     "counting"
    ],
-   "id": "Q001"
+   "id": "Q001",
+   "followup": {
+    "ask": "What is the first thing you check after importing a file?",
+    "listen": "Row and column counts, that columns split correctly, and that numbers and dates came in as the right type."
+   }
   },
   {
    "tool": "Excel",
@@ -124,7 +128,11 @@
    "skills": [
     "import"
    ],
-   "id": "Q002"
+   "id": "Q002",
+   "followup": {
+    "ask": "What is the first thing you check after importing a file?",
+    "listen": "Row and column counts, that columns split correctly, and that numbers and dates came in as the right type."
+   }
   },
   {
    "tool": "Excel",
@@ -137,7 +145,11 @@
     "missing data",
     "COUNTIF"
    ],
-   "id": "Q003"
+   "id": "Q003",
+   "followup": {
+    "ask": "What should you do with the missing values — delete them, fill them, or something else?",
+    "listen": "It depends on why they are missing; document the choice and how it affects the result. Never fill silently."
+   }
   },
   {
    "tool": "Excel",
@@ -150,7 +162,11 @@
     "data quality",
     "LEN"
    ],
-   "id": "Q004"
+   "id": "Q004",
+   "followup": {
+    "ask": "How would you check that your answer is right before you hand it in?",
+    "listen": "A sanity check: compare with a total or count, recompute one record by hand, or solve it a second way."
+   }
   },
   {
    "tool": "Excel",
@@ -163,7 +179,11 @@
     "UNIQUE",
     "PivotTable"
    ],
-   "id": "Q005"
+   "id": "Q005",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -176,7 +196,11 @@
     "dates",
     "MIN"
    ],
-   "id": "Q006"
+   "id": "Q006",
+   "followup": {
+    "ask": "How does Excel or SQL store a date behind what you see?",
+    "listen": "Excel stores a serial number of days; SQLite stores dates as text — calculations depend on the real type."
+   }
   },
   {
    "tool": "Excel",
@@ -189,7 +213,11 @@
     "dates",
     "MAX"
    ],
-   "id": "Q007"
+   "id": "Q007",
+   "followup": {
+    "ask": "How does Excel or SQL store a date behind what you see?",
+    "listen": "Excel stores a serial number of days; SQLite stores dates as text — calculations depend on the real type."
+   }
   },
   {
    "tool": "Excel",
@@ -202,7 +230,11 @@
     "UNIQUE",
     "PivotTable"
    ],
-   "id": "Q008"
+   "id": "Q008",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -214,7 +246,11 @@
    "skills": [
     "PivotTable"
    ],
-   "id": "Q009"
+   "id": "Q009",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -227,7 +263,11 @@
     "PivotTable",
     "filtering"
    ],
-   "id": "Q010"
+   "id": "Q010",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -239,7 +279,11 @@
    "skills": [
     "COUNTIFS"
    ],
-   "id": "Q011"
+   "id": "Q011",
+   "followup": {
+    "ask": "Walk me through each condition in your formula. What would change if you dropped one?",
+    "listen": "Each condition narrows the rows; dropping one counts records outside the intended population."
+   }
   },
   {
    "tool": "Excel",
@@ -253,7 +297,11 @@
     "wildcards",
     "percentages"
    ],
-   "id": "Q012"
+   "id": "Q012",
+   "followup": {
+    "ask": "Walk me through each condition in your formula. What would change if you dropped one?",
+    "listen": "Each condition narrows the rows; dropping one counts records outside the intended population."
+   }
   },
   {
    "tool": "Excel",
@@ -266,7 +314,11 @@
     "YEAR",
     "PivotTable"
    ],
-   "id": "Q013"
+   "id": "Q013",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -279,7 +331,11 @@
     "wildcards",
     "COUNTIFS"
    ],
-   "id": "Q014"
+   "id": "Q014",
+   "followup": {
+    "ask": "Walk me through each condition in your formula. What would change if you dropped one?",
+    "listen": "Each condition narrows the rows; dropping one counts records outside the intended population."
+   }
   },
   {
    "tool": "Excel",
@@ -292,7 +348,11 @@
     "filtering",
     "dates"
    ],
-   "id": "Q015"
+   "id": "Q015",
+   "followup": {
+    "ask": "How does Excel or SQL store a date behind what you see?",
+    "listen": "Excel stores a serial number of days; SQLite stores dates as text — calculations depend on the real type."
+   }
   },
   {
    "tool": "Excel",
@@ -305,7 +365,11 @@
     "date arithmetic",
     "AVERAGEIF"
    ],
-   "id": "Q016"
+   "id": "Q016",
+   "followup": {
+    "ask": "How did you turn the difference between two dates into hours or minutes?",
+    "listen": "Subtracting dates gives days; multiply by 24 for hours or by 24×60 for minutes."
+   }
   },
   {
    "tool": "Excel",
@@ -318,7 +382,11 @@
     "date arithmetic",
     "MINIFS"
    ],
-   "id": "Q017"
+   "id": "Q017",
+   "followup": {
+    "ask": "How did you turn the difference between two dates into hours or minutes?",
+    "listen": "Subtracting dates gives days; multiply by 24 for hours or by 24×60 for minutes."
+   }
   },
   {
    "tool": "Excel",
@@ -330,7 +398,11 @@
    "skills": [
     "date arithmetic"
    ],
-   "id": "Q018"
+   "id": "Q018",
+   "followup": {
+    "ask": "How did you turn the difference between two dates into hours or minutes?",
+    "listen": "Subtracting dates gives days; multiply by 24 for hours or by 24×60 for minutes."
+   }
   },
   {
    "tool": "Excel",
@@ -343,7 +415,11 @@
     "TEXT",
     "PivotTable"
    ],
-   "id": "Q019"
+   "id": "Q019",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -356,7 +432,11 @@
     "WEEKDAY",
     "date arithmetic"
    ],
-   "id": "Q020"
+   "id": "Q020",
+   "followup": {
+    "ask": "How did you turn the difference between two dates into hours or minutes?",
+    "listen": "Subtracting dates gives days; multiply by 24 for hours or by 24×60 for minutes."
+   }
   },
   {
    "tool": "Excel",
@@ -368,7 +448,11 @@
    "skills": [
     "import"
    ],
-   "id": "Q021"
+   "id": "Q021",
+   "followup": {
+    "ask": "What is the first thing you check after importing a file?",
+    "listen": "Row and column counts, that columns split correctly, and that numbers and dates came in as the right type."
+   }
   },
   {
    "tool": "Excel",
@@ -380,7 +464,11 @@
    "skills": [
     "duplicates"
    ],
-   "id": "Q022"
+   "id": "Q022",
+   "followup": {
+    "ask": "How do you decide whether a repeated row is a real duplicate or two genuine transactions?",
+    "listen": "Check a unique identifier or all fields; ask whether two identical transactions could legitimately occur."
+   }
   },
   {
    "tool": "Excel",
@@ -393,7 +481,11 @@
     "missing data",
     "unique identifiers"
    ],
-   "id": "Q023"
+   "id": "Q023",
+   "followup": {
+    "ask": "Which field, or combination of fields, uniquely identifies a row here — and how did you check?",
+    "listen": "Names are not unique; the identifier may need two columns combined. Check by comparing the count of distinct keys with the number of rows."
+   }
   },
   {
    "tool": "Excel",
@@ -406,7 +498,11 @@
     "SUBSTITUTE",
     "text cleaning"
    ],
-   "id": "Q024"
+   "id": "Q024",
+   "followup": {
+    "ask": "How would you check that your answer is right before you hand it in?",
+    "listen": "A sanity check: compare with a total or count, recompute one record by hand, or solve it a second way."
+   }
   },
   {
    "tool": "Excel",
@@ -419,7 +515,11 @@
     "delimiters",
     "text qualifiers"
    ],
-   "id": "Q025"
+   "id": "Q025",
+   "followup": {
+    "ask": "What would happen if you just double-clicked the file to open it?",
+    "listen": "Everything lands in one column because the delimiter is not a comma; you must choose the delimiter when importing."
+   }
   },
   {
    "tool": "Excel",
@@ -432,7 +532,11 @@
     "units of measurement",
     "COUNTIF"
    ],
-   "id": "Q026"
+   "id": "Q026",
+   "followup": {
+    "ask": "If you had not noticed this, what would go wrong in the analysis?",
+    "listen": "Values in different units (dollars vs millions) are not comparable — totals and ratios would be wildly wrong."
+   }
   },
   {
    "tool": "Excel",
@@ -446,7 +550,11 @@
     "LEFT",
     "VALUE"
    ],
-   "id": "Q027"
+   "id": "Q027",
+   "followup": {
+    "ask": "If you had not noticed this, what would go wrong in the analysis?",
+    "listen": "Values in different units (dollars vs millions) are not comparable — totals and ratios would be wildly wrong."
+   }
   },
   {
    "tool": "Excel",
@@ -459,7 +567,11 @@
     "number formats",
     "SUBSTITUTE"
    ],
-   "id": "Q028"
+   "id": "Q028",
+   "followup": {
+    "ask": "How would you check that your answer is right before you hand it in?",
+    "listen": "A sanity check: compare with a total or count, recompute one record by hand, or solve it a second way."
+   }
   },
   {
    "tool": "Excel",
@@ -471,7 +583,11 @@
    "skills": [
     "missing data"
    ],
-   "id": "Q029"
+   "id": "Q029",
+   "followup": {
+    "ask": "What should you do with the missing values — delete them, fill them, or something else?",
+    "listen": "It depends on why they are missing; document the choice and how it affects the result. Never fill silently."
+   }
   },
   {
    "tool": "Excel",
@@ -483,7 +599,11 @@
    "skills": [
     "units of measurement"
    ],
-   "id": "Q030"
+   "id": "Q030",
+   "followup": {
+    "ask": "If you had not noticed this, what would go wrong in the analysis?",
+    "listen": "Values in different units (dollars vs millions) are not comparable — totals and ratios would be wildly wrong."
+   }
   },
   {
    "tool": "Excel",
@@ -496,7 +616,11 @@
     "LEFT",
     "COUNTIF"
    ],
-   "id": "Q031"
+   "id": "Q031",
+   "followup": {
+    "ask": "What assumption does LEFT make, and when would it break?",
+    "listen": "It assumes a fixed number of characters; it breaks when codes have different lengths (e.g. US vs Japan)."
+   }
   },
   {
    "tool": "Excel",
@@ -509,7 +633,11 @@
     "RIGHT",
     "COUNTIF"
    ],
-   "id": "Q032"
+   "id": "Q032",
+   "followup": {
+    "ask": "Would your COUNTIF still be right if some cells had a trailing space or different capitals?",
+    "listen": "COUNTIF ignores case but not extra spaces; clean the text (TRIM) or check distinct values first."
+   }
   },
   {
    "tool": "Excel",
@@ -521,7 +649,11 @@
    "skills": [
     "MID"
    ],
-   "id": "Q033"
+   "id": "Q033",
+   "followup": {
+    "ask": "Your formula works on the first row. How do you know it works on all of them?",
+    "listen": "Positions differ between rows when lengths vary; use FIND to locate the hyphen and spot-check unusual rows."
+   }
   },
   {
    "tool": "Excel",
@@ -535,7 +667,11 @@
     "FIND",
     "MAXIFS"
    ],
-   "id": "Q034"
+   "id": "Q034",
+   "followup": {
+    "ask": "Your formula works on the first row. How do you know it works on all of them?",
+    "listen": "Positions differ between rows when lengths vary; use FIND to locate the hyphen and spot-check unusual rows."
+   }
   },
   {
    "tool": "Excel",
@@ -548,7 +684,11 @@
     "concatenation",
     "UNIQUE"
    ],
-   "id": "Q035"
+   "id": "Q035",
+   "followup": {
+    "ask": "How would you find out which values are causing duplicates in the first place?",
+    "listen": "Count each value (PivotTable or COUNTIF) and look at those that appear more than once."
+   }
   },
   {
    "tool": "Excel",
@@ -560,7 +700,11 @@
    "skills": [
     "PivotTable"
    ],
-   "id": "Q036"
+   "id": "Q036",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -573,7 +717,11 @@
     "LEFT",
     "PivotTable"
    ],
-   "id": "Q037"
+   "id": "Q037",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -585,7 +733,11 @@
    "skills": [
     "COUNTIFS"
    ],
-   "id": "Q038"
+   "id": "Q038",
+   "followup": {
+    "ask": "Walk me through each condition in your formula. What would change if you dropped one?",
+    "listen": "Each condition narrows the rows; dropping one counts records outside the intended population."
+   }
   },
   {
    "tool": "Excel",
@@ -599,7 +751,11 @@
     "MIN",
     "FIND"
    ],
-   "id": "Q039"
+   "id": "Q039",
+   "followup": {
+    "ask": "Why did you use FIND instead of a fixed position?",
+    "listen": "The parts have different lengths, so the hyphen moves; FIND locates it in every row."
+   }
   },
   {
    "tool": "Excel",
@@ -612,7 +768,11 @@
     "IF",
     "COUNTIF"
    ],
-   "id": "Q040"
+   "id": "Q040",
+   "followup": {
+    "ask": "Would your COUNTIF still be right if some cells had a trailing space or different capitals?",
+    "listen": "COUNTIF ignores case but not extra spaces; clean the text (TRIM) or check distinct values first."
+   }
   },
   {
    "tool": "Excel",
@@ -627,7 +787,11 @@
     "ISNUMBER",
     "VALUE"
    ],
-   "id": "Q041"
+   "id": "Q041",
+   "followup": {
+    "ask": "Your formula works on the first row. How do you know it works on all of them?",
+    "listen": "Positions differ between rows when lengths vary; use FIND to locate the hyphen and spot-check unusual rows."
+   }
   },
   {
    "tool": "Excel",
@@ -640,7 +804,11 @@
     "MID",
     "FIND"
    ],
-   "id": "Q042"
+   "id": "Q042",
+   "followup": {
+    "ask": "Your formula works on the first row. How do you know it works on all of them?",
+    "listen": "Positions differ between rows when lengths vary; use FIND to locate the hyphen and spot-check unusual rows."
+   }
   },
   {
    "tool": "Excel",
@@ -653,7 +821,11 @@
     "concatenation",
     "UNIQUE"
    ],
-   "id": "Q043"
+   "id": "Q043",
+   "followup": {
+    "ask": "How would you find out which values are causing duplicates in the first place?",
+    "listen": "Count each value (PivotTable or COUNTIF) and look at those that appear more than once."
+   }
   },
   {
    "tool": "Excel",
@@ -665,7 +837,11 @@
    "skills": [
     "COUNTIFS"
    ],
-   "id": "Q044"
+   "id": "Q044",
+   "followup": {
+    "ask": "Walk me through each condition in your formula. What would change if you dropped one?",
+    "listen": "Each condition narrows the rows; dropping one counts records outside the intended population."
+   }
   },
   {
    "tool": "Excel",
@@ -678,7 +854,11 @@
     "VALUE",
     "control totals"
    ],
-   "id": "Q045"
+   "id": "Q045",
+   "followup": {
+    "ask": "How would you convince a reviewer that nothing went wrong in this step?",
+    "listen": "Reconcile a control total: row counts in and out, or a total that must tie out (e.g. debits = credits)."
+   }
   },
   {
    "tool": "Excel",
@@ -691,7 +871,11 @@
     "RIGHT",
     "data quality"
    ],
-   "id": "Q046"
+   "id": "Q046",
+   "followup": {
+    "ask": "How would you check that your answer is right before you hand it in?",
+    "listen": "A sanity check: compare with a total or count, recompute one record by hand, or solve it a second way."
+   }
   },
   {
    "tool": "Excel",
@@ -704,7 +888,11 @@
     "UNIQUE",
     "counting"
    ],
-   "id": "Q047"
+   "id": "Q047",
+   "followup": {
+    "ask": "How would you find out which values are causing duplicates in the first place?",
+    "listen": "Count each value (PivotTable or COUNTIF) and look at those that appear more than once."
+   }
   },
   {
    "tool": "Excel",
@@ -716,7 +904,11 @@
    "skills": [
     "control totals"
    ],
-   "id": "Q048"
+   "id": "Q048",
+   "followup": {
+    "ask": "How would you convince a reviewer that nothing went wrong in this step?",
+    "listen": "Reconcile a control total: row counts in and out, or a total that must tie out (e.g. debits = credits)."
+   }
   },
   {
    "tool": "Excel",
@@ -728,7 +920,11 @@
    "skills": [
     "SUM"
    ],
-   "id": "Q049"
+   "id": "Q049",
+   "followup": {
+    "ask": "What would make this total misleading even if the formula is correct?",
+    "listen": "Duplicates, returns (negative values), totals rows included in the range, or mixed units."
+   }
   },
   {
    "tool": "Excel",
@@ -741,7 +937,11 @@
     "XLOOKUP",
     "INDEX/MATCH"
    ],
-   "id": "Q050"
+   "id": "Q050",
+   "followup": {
+    "ask": "Why INDEX/MATCH or XLOOKUP rather than VLOOKUP here?",
+    "listen": "VLOOKUP only looks to the right and breaks when columns move; INDEX/MATCH and XLOOKUP look in any direction."
+   }
   },
   {
    "tool": "Excel",
@@ -754,7 +954,11 @@
     "INDEX/MATCH",
     "COUNTIF"
    ],
-   "id": "Q051"
+   "id": "Q051",
+   "followup": {
+    "ask": "Why INDEX/MATCH or XLOOKUP rather than VLOOKUP here?",
+    "listen": "VLOOKUP only looks to the right and breaks when columns move; INDEX/MATCH and XLOOKUP look in any direction."
+   }
   },
   {
    "tool": "Excel",
@@ -767,7 +971,11 @@
     "INDEX/MATCH",
     "SUMIF"
    ],
-   "id": "Q052"
+   "id": "Q052",
+   "followup": {
+    "ask": "Why INDEX/MATCH or XLOOKUP rather than VLOOKUP here?",
+    "listen": "VLOOKUP only looks to the right and breaks when columns move; INDEX/MATCH and XLOOKUP look in any direction."
+   }
   },
   {
    "tool": "Excel",
@@ -781,7 +989,11 @@
     "array formulas",
     "unique identifiers"
    ],
-   "id": "Q053"
+   "id": "Q053",
+   "followup": {
+    "ask": "Which field, or combination of fields, uniquely identifies a row here — and how did you check?",
+    "listen": "Names are not unique; the identifier may need two columns combined. Check by comparing the count of distinct keys with the number of rows."
+   }
   },
   {
    "tool": "Excel",
@@ -794,7 +1006,11 @@
     "XLOOKUP",
     "SUMIF"
    ],
-   "id": "Q054"
+   "id": "Q054",
+   "followup": {
+    "ask": "What happens with your formula if the value is not found?",
+    "listen": "It returns #N/A (or a chosen default); you should check for and explain unmatched rows rather than hide them."
+   }
   },
   {
    "tool": "Excel",
@@ -807,7 +1023,11 @@
     "SUMIF",
     "wildcards"
    ],
-   "id": "Q055"
+   "id": "Q055",
+   "followup": {
+    "ask": "Could your text search pick up records you did not intend? Give an example.",
+    "listen": "Wildcards match anywhere: '*BROADWAY*' also matches cross streets; check a sample of matches."
+   }
   },
   {
    "tool": "Excel",
@@ -820,7 +1040,11 @@
     "delimiters",
     "import"
    ],
-   "id": "Q056"
+   "id": "Q056",
+   "followup": {
+    "ask": "What would happen if you just double-clicked the file to open it?",
+    "listen": "Everything lands in one column because the delimiter is not a comma; you must choose the delimiter when importing."
+   }
   },
   {
    "tool": "Excel",
@@ -833,7 +1057,11 @@
     "import",
     "counting"
    ],
-   "id": "Q057"
+   "id": "Q057",
+   "followup": {
+    "ask": "What is the first thing you check after importing a file?",
+    "listen": "Row and column counts, that columns split correctly, and that numbers and dates came in as the right type."
+   }
   },
   {
    "tool": "Excel",
@@ -845,7 +1073,11 @@
    "skills": [
     "SUM"
    ],
-   "id": "Q058"
+   "id": "Q058",
+   "followup": {
+    "ask": "What would make this total misleading even if the formula is correct?",
+    "listen": "Duplicates, returns (negative values), totals rows included in the range, or mixed units."
+   }
   },
   {
    "tool": "Excel",
@@ -858,7 +1090,11 @@
     "aggregation",
     "comparability"
    ],
-   "id": "Q059"
+   "id": "Q059",
+   "followup": {
+    "ask": "Why can't you simply compare the two years' totals as they come out of the systems?",
+    "listen": "The systems define and aggregate fields differently; align definitions (Reg_Pay + OT_Pay = Gross_Wages) first."
+   }
   },
   {
    "tool": "Excel",
@@ -871,7 +1107,11 @@
     "missing data",
     "COUNTBLANK"
    ],
-   "id": "Q060"
+   "id": "Q060",
+   "followup": {
+    "ask": "What should you do with the missing values — delete them, fill them, or something else?",
+    "listen": "It depends on why they are missing; document the choice and how it affects the result. Never fill silently."
+   }
   },
   {
    "tool": "Excel",
@@ -884,7 +1124,11 @@
     "SUMIF",
     "missing data"
    ],
-   "id": "Q061"
+   "id": "Q061",
+   "followup": {
+    "ask": "What should you do with the missing values — delete them, fill them, or something else?",
+    "listen": "It depends on why they are missing; document the choice and how it affects the result. Never fill silently."
+   }
   },
   {
    "tool": "Excel",
@@ -896,7 +1140,11 @@
    "skills": [
     "SUM"
    ],
-   "id": "Q062"
+   "id": "Q062",
+   "followup": {
+    "ask": "What would make this total misleading even if the formula is correct?",
+    "listen": "Duplicates, returns (negative values), totals rows included in the range, or mixed units."
+   }
   },
   {
    "tool": "Excel",
@@ -908,7 +1156,11 @@
    "skills": [
     "PivotTable"
    ],
-   "id": "Q063"
+   "id": "Q063",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -923,7 +1175,11 @@
     "ISNUMBER",
     "PivotTable"
    ],
-   "id": "Q064"
+   "id": "Q064",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -936,7 +1192,11 @@
     "MONTH",
     "PivotTable"
    ],
-   "id": "Q065"
+   "id": "Q065",
+   "followup": {
+    "ask": "Why a PivotTable rather than formulas — and how would someone else check your work?",
+    "listen": "PivotTables are fast for summaries; to make it reviewable, keep the source data intact and the pivot refreshable."
+   }
   },
   {
    "tool": "Excel",
@@ -950,7 +1210,11 @@
     "ISNA",
     "text vs number"
    ],
-   "id": "Q066"
+   "id": "Q066",
+   "followup": {
+    "ask": "Why does it matter whether the code is stored as text or as a number?",
+    "listen": "001 as a number becomes 1, so lookups and joins against the text value silently fail."
+   }
   },
   {
    "tool": "Excel",
@@ -963,7 +1227,11 @@
     "text vs number",
     "import"
    ],
-   "id": "Q067"
+   "id": "Q067",
+   "followup": {
+    "ask": "Why does it matter whether the code is stored as text or as a number?",
+    "listen": "001 as a number becomes 1, so lookups and joins against the text value silently fail."
+   }
   },
   {
    "tool": "Excel",
@@ -976,7 +1244,11 @@
     "SUMIF",
     "MID"
    ],
-   "id": "Q068"
+   "id": "Q068",
+   "followup": {
+    "ask": "Your formula works on the first row. How do you know it works on all of them?",
+    "listen": "Positions differ between rows when lengths vary; use FIND to locate the hyphen and spot-check unusual rows."
+   }
   },
   {
    "tool": "Excel",
@@ -989,7 +1261,11 @@
     "import",
     "COUNTIF"
    ],
-   "id": "Q069"
+   "id": "Q069",
+   "followup": {
+    "ask": "What is the first thing you check after importing a file?",
+    "listen": "Row and column counts, that columns split correctly, and that numbers and dates came in as the right type."
+   }
   },
   {
    "tool": "Excel",
@@ -1001,7 +1277,11 @@
    "skills": [
     "UNIQUE"
    ],
-   "id": "Q070"
+   "id": "Q070",
+   "followup": {
+    "ask": "How would you find out which values are causing duplicates in the first place?",
+    "listen": "Count each value (PivotTable or COUNTIF) and look at those that appear more than once."
+   }
   },
   {
    "tool": "SQL",
@@ -1013,7 +1293,11 @@
    "skills": [
     "schema"
    ],
-   "id": "Q071"
+   "id": "Q071",
+   "followup": {
+    "ask": "How would you check that your answer is right before you hand it in?",
+    "listen": "A sanity check: compare with a total or count, recompute one record by hand, or solve it a second way."
+   }
   },
   {
    "tool": "SQL",
@@ -1025,7 +1309,11 @@
    "skills": [
     "LIMIT"
    ],
-   "id": "Q072"
+   "id": "Q072",
+   "followup": {
+    "ask": "Why is LIMIT without ORDER BY risky?",
+    "listen": "Without ORDER BY, the database may return rows in any order, so 'the first five' is not guaranteed."
+   }
   },
   {
    "tool": "SQL",
@@ -1038,7 +1326,11 @@
     "ORDER BY",
     "LIMIT"
    ],
-   "id": "Q073"
+   "id": "Q073",
+   "followup": {
+    "ask": "If two rows tie, which one comes first in your result — and does it matter for the answer?",
+    "listen": "Without a second sort key the order of ties is arbitrary; add a tie-breaker when the position matters."
+   }
   },
   {
    "tool": "SQL",
@@ -1050,7 +1342,11 @@
    "skills": [
     "COUNT"
    ],
-   "id": "Q074"
+   "id": "Q074",
+   "followup": {
+    "ask": "What exactly are you counting — rows, people or transactions — and why does it matter?",
+    "listen": "Rows are not always entities: one person can have many rows, so say which unit you count."
+   }
   },
   {
    "tool": "SQL",
@@ -1062,7 +1358,11 @@
    "skills": [
     "WHERE"
    ],
-   "id": "Q075"
+   "id": "Q075",
+   "followup": {
+    "ask": "Is your condition inclusive or exclusive at the boundary — and is that what the question asked?",
+    "listen": "> versus >= changes the answer for values exactly at the limit; read the control rule carefully."
+   }
   },
   {
    "tool": "SQL",
@@ -1075,7 +1375,11 @@
     "WHERE",
     "AND"
    ],
-   "id": "Q076"
+   "id": "Q076",
+   "followup": {
+    "ask": "Is your condition inclusive or exclusive at the boundary — and is that what the question asked?",
+    "listen": "> versus >= changes the answer for values exactly at the limit; read the control rule carefully."
+   }
   },
   {
    "tool": "SQL",
@@ -1088,7 +1392,11 @@
     "JOIN",
     "IN"
    ],
-   "id": "Q077"
+   "id": "Q077",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1100,7 +1408,11 @@
    "skills": [
     "LIKE"
    ],
-   "id": "Q078"
+   "id": "Q078",
+   "followup": {
+    "ask": "Is your text search case-sensitive, and could it match things you did not mean?",
+    "listen": "LIKE is case-insensitive for ASCII in SQLite; '%amazon%' also matches AmazonPrime, Kindle etc. — review the vendors."
+   }
   },
   {
    "tool": "SQL",
@@ -1113,7 +1425,11 @@
     "COUNT",
     "NULL"
    ],
-   "id": "Q079"
+   "id": "Q079",
+   "followup": {
+    "ask": "Why can COUNT of a column give a different answer from COUNT(*)?",
+    "listen": "COUNT(column) skips NULL values; COUNT(*) counts every row."
+   }
   },
   {
    "tool": "SQL",
@@ -1125,7 +1441,11 @@
    "skills": [
     "COUNT"
    ],
-   "id": "Q080"
+   "id": "Q080",
+   "followup": {
+    "ask": "What exactly are you counting — rows, people or transactions — and why does it matter?",
+    "listen": "Rows are not always entities: one person can have many rows, so say which unit you count."
+   }
   },
   {
    "tool": "SQL",
@@ -1138,7 +1458,11 @@
     "LENGTH",
     "MAX"
    ],
-   "id": "Q081"
+   "id": "Q081",
+   "followup": {
+    "ask": "How would you check that your answer is right before you hand it in?",
+    "listen": "A sanity check: compare with a total or count, recompute one record by hand, or solve it a second way."
+   }
   },
   {
    "tool": "SQL",
@@ -1151,7 +1475,11 @@
     "dates",
     "strftime"
    ],
-   "id": "Q082"
+   "id": "Q082",
+   "followup": {
+    "ask": "How does Excel or SQL store a date behind what you see?",
+    "listen": "Excel stores a serial number of days; SQLite stores dates as text — calculations depend on the real type."
+   }
   },
   {
    "tool": "SQL",
@@ -1164,7 +1492,11 @@
     "dates",
     "julianday"
    ],
-   "id": "Q083"
+   "id": "Q083",
+   "followup": {
+    "ask": "How does Excel or SQL store a date behind what you see?",
+    "listen": "Excel stores a serial number of days; SQLite stores dates as text — calculations depend on the real type."
+   }
   },
   {
    "tool": "SQL",
@@ -1178,7 +1510,11 @@
     "SUM",
     "ORDER BY"
    ],
-   "id": "Q084"
+   "id": "Q084",
+   "followup": {
+    "ask": "What exactly does each row of your result represent?",
+    "listen": "One row per group (e.g. per cardholder); every selected column must be grouped or aggregated."
+   }
   },
   {
    "tool": "SQL",
@@ -1190,7 +1526,11 @@
    "skills": [
     "COUNT"
    ],
-   "id": "Q085"
+   "id": "Q085",
+   "followup": {
+    "ask": "What exactly are you counting — rows, people or transactions — and why does it matter?",
+    "listen": "Rows are not always entities: one person can have many rows, so say which unit you count."
+   }
   },
   {
    "tool": "SQL",
@@ -1202,7 +1542,11 @@
    "skills": [
     "DISTINCT"
    ],
-   "id": "Q086"
+   "id": "Q086",
+   "followup": {
+    "ask": "Why did you need DISTINCT here — what would the number be without it?",
+    "listen": "Without DISTINCT, a person or album appearing several times is counted several times."
+   }
   },
   {
    "tool": "SQL",
@@ -1214,7 +1558,11 @@
    "skills": [
     "GROUP BY"
    ],
-   "id": "Q087"
+   "id": "Q087",
+   "followup": {
+    "ask": "What exactly does each row of your result represent?",
+    "listen": "One row per group (e.g. per cardholder); every selected column must be grouped or aggregated."
+   }
   },
   {
    "tool": "SQL",
@@ -1227,7 +1575,11 @@
     "MIN",
     "MAX"
    ],
-   "id": "Q088"
+   "id": "Q088",
+   "followup": {
+    "ask": "How would you check that your answer is right before you hand it in?",
+    "listen": "A sanity check: compare with a total or count, recompute one record by hand, or solve it a second way."
+   }
   },
   {
    "tool": "SQL",
@@ -1240,7 +1592,11 @@
     "subqueries",
     "GROUP BY"
    ],
-   "id": "Q089"
+   "id": "Q089",
+   "followup": {
+    "ask": "Why did you avoid typing the ID number directly into the query?",
+    "listen": "Hard-coding values makes the query fragile; a subquery finds the ID from the data, so it still works if IDs change."
+   }
   },
   {
    "tool": "SQL",
@@ -1253,7 +1609,11 @@
     "JOIN",
     "GROUP BY"
    ],
-   "id": "Q090"
+   "id": "Q090",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1266,7 +1626,11 @@
     "JOIN",
     "DISTINCT"
    ],
-   "id": "Q091"
+   "id": "Q091",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1280,7 +1644,11 @@
     "GROUP BY",
     "concatenation"
    ],
-   "id": "Q092"
+   "id": "Q092",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1292,7 +1660,11 @@
    "skills": [
     "ORDER BY"
    ],
-   "id": "Q093"
+   "id": "Q093",
+   "followup": {
+    "ask": "If two rows tie, which one comes first in your result — and does it matter for the answer?",
+    "listen": "Without a second sort key the order of ties is arbitrary; add a tie-breaker when the position matters."
+   }
   },
   {
    "tool": "SQL",
@@ -1305,7 +1677,11 @@
     "ORDER BY",
     "LIMIT"
    ],
-   "id": "Q094"
+   "id": "Q094",
+   "followup": {
+    "ask": "If two rows tie, which one comes first in your result — and does it matter for the answer?",
+    "listen": "Without a second sort key the order of ties is arbitrary; add a tie-breaker when the position matters."
+   }
   },
   {
    "tool": "SQL",
@@ -1318,7 +1694,11 @@
     "WHERE",
     "AND"
    ],
-   "id": "Q095"
+   "id": "Q095",
+   "followup": {
+    "ask": "Is your condition inclusive or exclusive at the boundary — and is that what the question asked?",
+    "listen": "> versus >= changes the answer for values exactly at the limit; read the control rule carefully."
+   }
   },
   {
    "tool": "SQL",
@@ -1330,7 +1710,11 @@
    "skills": [
     "AVG"
    ],
-   "id": "Q096"
+   "id": "Q096",
+   "followup": {
+    "ask": "Is the average a good summary here, or would something else describe the data better?",
+    "listen": "Averages are pulled by outliers and skew; the median or a distribution may be more informative."
+   }
   },
   {
    "tool": "SQL",
@@ -1342,7 +1726,11 @@
    "skills": [
     "subqueries"
    ],
-   "id": "Q097"
+   "id": "Q097",
+   "followup": {
+    "ask": "Why did you avoid typing the ID number directly into the query?",
+    "listen": "Hard-coding values makes the query fragile; a subquery finds the ID from the data, so it still works if IDs change."
+   }
   },
   {
    "tool": "SQL",
@@ -1355,7 +1743,11 @@
     "JOIN",
     "AVG"
    ],
-   "id": "Q098"
+   "id": "Q098",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1367,7 +1759,11 @@
    "skills": [
     "LIKE"
    ],
-   "id": "Q099"
+   "id": "Q099",
+   "followup": {
+    "ask": "Is your text search case-sensitive, and could it match things you did not mean?",
+    "listen": "LIKE is case-insensitive for ASCII in SQLite; '%amazon%' also matches AmazonPrime, Kindle etc. — review the vendors."
+   }
   },
   {
    "tool": "SQL",
@@ -1380,7 +1776,11 @@
     "JOIN",
     "GROUP BY"
    ],
-   "id": "Q100"
+   "id": "Q100",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1392,7 +1792,11 @@
    "skills": [
     "WHERE"
    ],
-   "id": "Q101"
+   "id": "Q101",
+   "followup": {
+    "ask": "Is your condition inclusive or exclusive at the boundary — and is that what the question asked?",
+    "listen": "> versus >= changes the answer for values exactly at the limit; read the control rule carefully."
+   }
   },
   {
    "tool": "SQL",
@@ -1404,7 +1808,11 @@
    "skills": [
     "WHERE"
    ],
-   "id": "Q102"
+   "id": "Q102",
+   "followup": {
+    "ask": "Is your condition inclusive or exclusive at the boundary — and is that what the question asked?",
+    "listen": "> versus >= changes the answer for values exactly at the limit; read the control rule carefully."
+   }
   },
   {
    "tool": "SQL",
@@ -1417,7 +1825,11 @@
     "WHERE",
     "ORDER BY"
    ],
-   "id": "Q103"
+   "id": "Q103",
+   "followup": {
+    "ask": "If two rows tie, which one comes first in your result — and does it matter for the answer?",
+    "listen": "Without a second sort key the order of ties is arbitrary; add a tie-breaker when the position matters."
+   }
   },
   {
    "tool": "SQL",
@@ -1429,7 +1841,11 @@
    "skills": [
     "WHERE"
    ],
-   "id": "Q104"
+   "id": "Q104",
+   "followup": {
+    "ask": "Is your condition inclusive or exclusive at the boundary — and is that what the question asked?",
+    "listen": "> versus >= changes the answer for values exactly at the limit; read the control rule carefully."
+   }
   },
   {
    "tool": "SQL",
@@ -1442,7 +1858,11 @@
     "LIKE",
     "ORDER BY"
    ],
-   "id": "Q105"
+   "id": "Q105",
+   "followup": {
+    "ask": "Is your text search case-sensitive, and could it match things you did not mean?",
+    "listen": "LIKE is case-insensitive for ASCII in SQLite; '%amazon%' also matches AmazonPrime, Kindle etc. — review the vendors."
+   }
   },
   {
    "tool": "SQL",
@@ -1455,7 +1875,11 @@
     "JOIN",
     "AVG"
    ],
-   "id": "Q106"
+   "id": "Q106",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1468,7 +1892,11 @@
     "JOIN",
     "ORDER BY"
    ],
-   "id": "Q107"
+   "id": "Q107",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1481,7 +1909,11 @@
     "subqueries",
     "escaping quotes"
    ],
-   "id": "Q108"
+   "id": "Q108",
+   "followup": {
+    "ask": "Why did you avoid typing the ID number directly into the query?",
+    "listen": "Hard-coding values makes the query fragile; a subquery finds the ID from the data, so it still works if IDs change."
+   }
   },
   {
    "tool": "SQL",
@@ -1494,7 +1926,11 @@
     "JOIN",
     "DISTINCT"
    ],
-   "id": "Q109"
+   "id": "Q109",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1507,7 +1943,11 @@
     "JOIN",
     "DISTINCT"
    ],
-   "id": "Q110"
+   "id": "Q110",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1521,7 +1961,11 @@
     "ORDER BY",
     "LIMIT"
    ],
-   "id": "Q111"
+   "id": "Q111",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1534,7 +1978,11 @@
     "subqueries",
     "INTERSECT"
    ],
-   "id": "Q112"
+   "id": "Q112",
+   "followup": {
+    "ask": "Why did you avoid typing the ID number directly into the query?",
+    "listen": "Hard-coding values makes the query fragile; a subquery finds the ID from the data, so it still works if IDs change."
+   }
   },
   {
    "tool": "SQL",
@@ -1546,7 +1994,11 @@
    "skills": [
     "subqueries"
    ],
-   "id": "Q113"
+   "id": "Q113",
+   "followup": {
+    "ask": "Why did you avoid typing the ID number directly into the query?",
+    "listen": "Hard-coding values makes the query fragile; a subquery finds the ID from the data, so it still works if IDs change."
+   }
   },
   {
    "tool": "SQL",
@@ -1558,7 +2010,11 @@
    "skills": [
     "WHERE"
    ],
-   "id": "Q114"
+   "id": "Q114",
+   "followup": {
+    "ask": "Is your condition inclusive or exclusive at the boundary — and is that what the question asked?",
+    "listen": "> versus >= changes the answer for values exactly at the limit; read the control rule carefully."
+   }
   },
   {
    "tool": "SQL",
@@ -1572,7 +2028,11 @@
     "IN",
     "investigation"
    ],
-   "id": "Q115"
+   "id": "Q115",
+   "followup": {
+    "ask": "Why did you avoid typing the ID number directly into the query?",
+    "listen": "Hard-coding values makes the query fragile; a subquery finds the ID from the data, so it still works if IDs change."
+   }
   },
   {
    "tool": "SQL",
@@ -1585,7 +2045,11 @@
     "JOIN",
     "ORDER BY"
    ],
-   "id": "Q116"
+   "id": "Q116",
+   "followup": {
+    "ask": "Which join did you use, and what would change with a LEFT JOIN instead?",
+    "listen": "An inner join keeps only matches; a left join keeps every row from the left table with NULLs where nothing matches."
+   }
   },
   {
    "tool": "SQL",
@@ -1597,7 +2061,11 @@
    "skills": [
     "subqueries"
    ],
-   "id": "Q117"
+   "id": "Q117",
+   "followup": {
+    "ask": "Why did you avoid typing the ID number directly into the query?",
+    "listen": "Hard-coding values makes the query fragile; a subquery finds the ID from the data, so it still works if IDs change."
+   }
   },
   {
    "tool": "SQL",
@@ -1610,7 +2078,11 @@
     "COUNT",
     "aliases"
    ],
-   "id": "Q118"
+   "id": "Q118",
+   "followup": {
+    "ask": "What exactly are you counting — rows, people or transactions — and why does it matter?",
+    "listen": "Rows are not always entities: one person can have many rows, so say which unit you count."
+   }
   },
   {
    "tool": "SQL",
@@ -1622,7 +2094,11 @@
    "skills": [
     "WHERE"
    ],
-   "id": "Q119"
+   "id": "Q119",
+   "followup": {
+    "ask": "Is your condition inclusive or exclusive at the boundary — and is that what the question asked?",
+    "listen": "> versus >= changes the answer for values exactly at the limit; read the control rule carefully."
+   }
   },
   {
    "tool": "SQL",
@@ -1636,7 +2112,11 @@
     "BETWEEN",
     "returns"
    ],
-   "id": "Q120"
+   "id": "Q120",
+   "followup": {
+    "ask": "Returns are stored as negative amounts. How did you make sure your answer treats them correctly?",
+    "listen": "Filter on Amount < 0 and remember the 'largest' return is the most negative number."
+   }
   },
   {
    "tool": "SQL",
@@ -1649,7 +2129,11 @@
     "GROUP BY",
     "ORDER BY"
    ],
-   "id": "Q121"
+   "id": "Q121",
+   "followup": {
+    "ask": "What exactly does each row of your result represent?",
+    "listen": "One row per group (e.g. per cardholder); every selected column must be grouped or aggregated."
+   }
   },
   {
    "tool": "SQL",
@@ -1662,7 +2146,11 @@
     "GROUP BY",
     "HAVING"
    ],
-   "id": "Q122"
+   "id": "Q122",
+   "followup": {
+    "ask": "What is the difference between WHERE and HAVING in your query?",
+    "listen": "WHERE filters rows before grouping; HAVING filters groups after aggregation."
+   }
   },
   {
    "tool": "SQL",
@@ -1676,7 +2164,11 @@
     "returns",
     "ORDER BY"
    ],
-   "id": "Q123"
+   "id": "Q123",
+   "followup": {
+    "ask": "Returns are stored as negative amounts. How did you make sure your answer treats them correctly?",
+    "listen": "Filter on Amount < 0 and remember the 'largest' return is the most negative number."
+   }
   },
   {
    "tool": "SQL",
@@ -1689,7 +2181,11 @@
     "LIKE",
     "WHERE"
    ],
-   "id": "Q124"
+   "id": "Q124",
+   "followup": {
+    "ask": "Is your text search case-sensitive, and could it match things you did not mean?",
+    "listen": "LIKE is case-insensitive for ASCII in SQLite; '%amazon%' also matches AmazonPrime, Kindle etc. — review the vendors."
+   }
   },
   {
    "tool": "SQL",
@@ -1701,7 +2197,11 @@
    "skills": [
     "calculated fields"
    ],
-   "id": "Q125"
+   "id": "Q125",
+   "followup": {
+    "ask": "How would you check that your answer is right before you hand it in?",
+    "listen": "A sanity check: compare with a total or count, recompute one record by hand, or solve it a second way."
+   }
   },
   {
    "tool": "SQL",
@@ -1714,7 +2214,11 @@
     "CASE WHEN",
     "UPPER"
    ],
-   "id": "Q126"
+   "id": "Q126",
+   "followup": {
+    "ask": "Talk me through the logic of your CASE expression. What happens at exactly the boundary?",
+    "listen": "Boundaries must match the rule (>= 500 vs > 500); check one value on each side."
+   }
   },
   {
    "tool": "SQL",
@@ -1726,7 +2230,11 @@
    "skills": [
     "AVG"
    ],
-   "id": "Q127"
+   "id": "Q127",
+   "followup": {
+    "ask": "Is the average a good summary here, or would something else describe the data better?",
+    "listen": "Averages are pulled by outliers and skew; the median or a distribution may be more informative."
+   }
   },
   {
    "tool": "SQL",
@@ -1740,7 +2248,11 @@
     "HAVING",
     "internal controls"
    ],
-   "id": "Q128"
+   "id": "Q128",
+   "followup": {
+    "ask": "Suppose your query flags someone. Does that prove they broke the rules? What would you do next?",
+    "listen": "A flag is only an indication: there can be approved exceptions. Next step is follow-up testing — check receipts, approvals or ask the cardholder's supervisor."
+   }
   },
   {
    "tool": "SQL",
@@ -1754,7 +2266,11 @@
     "HAVING",
     "internal controls"
    ],
-   "id": "Q129"
+   "id": "Q129",
+   "followup": {
+    "ask": "Suppose your query flags someone. Does that prove they broke the rules? What would you do next?",
+    "listen": "A flag is only an indication: there can be approved exceptions. Next step is follow-up testing — check receipts, approvals or ask the cardholder's supervisor."
+   }
   },
   {
    "tool": "SQL",
@@ -1767,7 +2283,11 @@
     "WHERE",
     "internal controls"
    ],
-   "id": "Q130"
+   "id": "Q130",
+   "followup": {
+    "ask": "Suppose your query flags someone. Does that prove they broke the rules? What would you do next?",
+    "listen": "A flag is only an indication: there can be approved exceptions. Next step is follow-up testing — check receipts, approvals or ask the cardholder's supervisor."
+   }
   },
   {
    "tool": "SQL",
@@ -1781,7 +2301,11 @@
     "HAVING",
     "internal controls"
    ],
-   "id": "Q131"
+   "id": "Q131",
+   "followup": {
+    "ask": "Suppose your query flags someone. Does that prove they broke the rules? What would you do next?",
+    "listen": "A flag is only an indication: there can be approved exceptions. Next step is follow-up testing — check receipts, approvals or ask the cardholder's supervisor."
+   }
   },
   {
    "tool": "SQL",
@@ -1795,7 +2319,11 @@
     "CASE WHEN",
     "fraud tests"
    ],
-   "id": "Q132"
+   "id": "Q132",
+   "followup": {
+    "ask": "What can this test tell an auditor, and what can it not tell them?",
+    "listen": "It points to higher-risk transactions or people; it does not prove fraud. Results need further evidence."
+   }
   },
   {
    "tool": "SQL",
@@ -1809,7 +2337,11 @@
     "HAVING",
     "fraud tests"
    ],
-   "id": "Q133"
+   "id": "Q133",
+   "followup": {
+    "ask": "What can this test tell an auditor, and what can it not tell them?",
+    "listen": "It points to higher-risk transactions or people; it does not prove fraud. Results need further evidence."
+   }
   },
   {
    "tool": "SQL",
@@ -1822,7 +2354,11 @@
     "modulo",
     "fraud tests"
    ],
-   "id": "Q134"
+   "id": "Q134",
+   "followup": {
+    "ask": "What can this test tell an auditor, and what can it not tell them?",
+    "listen": "It points to higher-risk transactions or people; it does not prove fraud. Results need further evidence."
+   }
   },
   {
    "tool": "SQL",
@@ -1834,7 +2370,11 @@
    "skills": [
     "GROUP BY"
    ],
-   "id": "Q135"
+   "id": "Q135",
+   "followup": {
+    "ask": "What exactly does each row of your result represent?",
+    "listen": "One row per group (e.g. per cardholder); every selected column must be grouped or aggregated."
+   }
   },
   {
    "tool": "SQL",
@@ -1847,7 +2387,11 @@
     "dates",
     "data types"
    ],
-   "id": "Q136"
+   "id": "Q136",
+   "followup": {
+    "ask": "How is this date stored, and how does that affect sorting and filtering?",
+    "listen": "It is text, so it sorts character by character; use the Year/Month columns or convert to a real date."
+   }
   },
   {
    "tool": "SQL",
@@ -1859,7 +2403,11 @@
    "skills": [
     "GROUP BY"
    ],
-   "id": "Q137"
+   "id": "Q137",
+   "followup": {
+    "ask": "What exactly does each row of your result represent?",
+    "listen": "One row per group (e.g. per cardholder); every selected column must be grouped or aggregated."
+   }
   }
  ],
  "exams": [
@@ -3790,6 +4338,7 @@
    "title": "Restaurant sales, weather and game days",
    "intro": "Larry's Commissary point-of-sale data for 2018, merged with daily weather and university football game days (the restaurant regression case). The regression was estimated on the case data.",
    "source": "Estimated on the case data: n = 312 days, R² = 0.10",
+   "stakeholder": "Bob, the restaurant owner",
    "y": {
     "name": "Daily sales",
     "unit": "USD"
@@ -3833,22 +4382,38 @@
     {
      "kind": "P",
      "prompt": "Predict the daily sales for game days with max temperature = 75 °F.",
-     "answer": "Predicted daily sales = 2,684.57 + 7.31 × 75 + 1,421.34 × 1 = 4,654.16 USD."
+     "answer": "Predicted daily sales = 2,684.57 + 7.31 × 75 + 1,421.34 × 1 = 4,654.16 USD.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, max temperature, game day.",
-     "answer": "Intercept (2,684.57): predicted daily sales for days without a home-town football game when max temperature = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nMax temperature (7.31): holding game day constant, each additional degree Fahrenheit changes predicted daily sales by 7.31 USD.\n\nGame day (1,421.34): holding max temperature constant, game days are predicted to have 1,421.34 USD more than days without a home-town football game (the reference group)."
+     "answer": "Intercept (2,684.57): predicted daily sales for days without a home-town football game when max temperature = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nMax temperature (7.31): holding game day constant, each additional degree Fahrenheit changes predicted daily sales by 7.31 USD.\n\nGame day (1,421.34): holding max temperature constant, game days are predicted to have 1,421.34 USD more than days without a home-town football game (the reference group).",
+     "followup": {
+      "ask": "Now explain the game day effect to Bob, the restaurant owner in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on daily sales at the 5% level? What does that mean for Bob, the restaurant owner?",
-     "answer": "At the 5% level, Max temperature, Game day are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Max temperature, Game day are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "Bob, the restaurant owner asks for a prediction for days without a home-town football game with max temperature = 110 °F. How confident should they be?",
-     "answer": "The equation gives 3,488.67 USD, but 110 lies outside the observed range (29–104 °F). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 3,488.67 USD, but 110 lies outside the observed range (29–104 °F). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell Bob, the restaurant owner instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -3858,6 +4423,7 @@
    "title": "Restaurant sales: last year's sales × game day",
    "intro": "Larry's Commissary point-of-sale data for 2018, merged with daily weather and university football game days (the restaurant regression case). The regression was estimated on the case data.",
    "source": "Estimated on the case data: n = 312 days, R² = 0.54",
+   "stakeholder": "Bob, the restaurant owner",
    "y": {
     "name": "Daily sales",
     "unit": "USD"
@@ -3907,22 +4473,38 @@
     {
      "kind": "P",
      "prompt": "Predict the daily sales for game days with sales one year ago = 4,000 USD.",
-     "answer": "Predicted daily sales = 1,044.42 + 0.62 × 4,000 + 387.03 × 1 + 0.011 × 4,000 × 1 = 3,955.45 USD."
+     "answer": "Predicted daily sales = 1,044.42 + 0.62 × 4,000 + 387.03 × 1 + 0.011 × 4,000 × 1 = 3,955.45 USD.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, sales one year ago, game day, sales one year ago×game day.",
-     "answer": "Intercept (1,044.42): predicted daily sales for days without a home-town football game when sales one year ago = 0. \n\nSales one year ago (0.62): for days without a home-town football game, each additional dollar of sales on the same day last year changes predicted daily sales by 0.62 USD.\n\nGame day (387.03): at sales one year ago = 0, game days are predicted to be 387.03 USD higher than days without a home-town football game. Because of the interaction, the gap changes with sales one year ago.\n\nInteraction (0.011): the sales one year ago slope is 0.011 higher for game days, so their slope is 0.62 + (0.011) = 0.631.\n\nGroup equations: days without a home-town football game: 1,044.42 + 0.62 × Sales one year ago; game days: 1,431.45 + 0.631 × Sales one year ago."
+     "answer": "Intercept (1,044.42): predicted daily sales for days without a home-town football game when sales one year ago = 0. \n\nSales one year ago (0.62): for days without a home-town football game, each additional dollar of sales on the same day last year changes predicted daily sales by 0.62 USD.\n\nGame day (387.03): at sales one year ago = 0, game days are predicted to be 387.03 USD higher than days without a home-town football game. Because of the interaction, the gap changes with sales one year ago.\n\nInteraction (0.011): the sales one year ago slope is 0.011 higher for game days, so their slope is 0.62 + (0.011) = 0.631.\n\nGroup equations: days without a home-town football game: 1,044.42 + 0.62 × Sales one year ago; game days: 1,431.45 + 0.631 × Sales one year ago.",
+     "followup": {
+      "ask": "Now explain the game day effect to Bob, the restaurant owner in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on daily sales at the 5% level? What does that mean for Bob, the restaurant owner?",
-     "answer": "At the 5% level, Sales one year ago is statistically significant (p < 0.05). Game day, Sales one year ago×Game day are not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Sales one year ago is statistically significant (p < 0.05). Game day, Sales one year ago×Game day are not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "Bob, the restaurant owner asks for a prediction for game days with sales one year ago = 12,100 USD. How confident should they be?",
-     "answer": "The equation gives 9,066.55 USD, but 12,100 lies outside the observed range (0–7,600 USD). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 9,066.55 USD, but 12,100 lies outside the observed range (0–7,600 USD). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell Bob, the restaurant owner instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -3932,6 +4514,7 @@
    "title": "Hotel room revenue",
    "intro": "The hotel and conference center from ETL Case 4 wants to understand daily room revenue.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the hotel's controller",
    "y": {
     "name": "Room revenue",
     "unit": "USD"
@@ -3975,22 +4558,38 @@
     {
      "kind": "P",
      "prompt": "Predict the room revenue for conference days with rooms occupied = 120 rooms.",
-     "answer": "Predicted room revenue = 1,798 + 90 × 120 + 1,926 × 1 = 14,524 USD."
+     "answer": "Predicted room revenue = 1,798 + 90 × 120 + 1,926 × 1 = 14,524 USD.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, rooms occupied, conference day.",
-     "answer": "Intercept (1,798): predicted room revenue for days without a conference when rooms occupied = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nRooms occupied (90): holding conference day constant, each additional occupied room changes predicted room revenue by 90 USD.\n\nConference day (1,926): holding rooms occupied constant, conference days are predicted to have 1,926 USD more than days without a conference (the reference group)."
+     "answer": "Intercept (1,798): predicted room revenue for days without a conference when rooms occupied = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nRooms occupied (90): holding conference day constant, each additional occupied room changes predicted room revenue by 90 USD.\n\nConference day (1,926): holding rooms occupied constant, conference days are predicted to have 1,926 USD more than days without a conference (the reference group).",
+     "followup": {
+      "ask": "Now explain the conference day effect to the hotel's controller in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on room revenue at the 5% level? What does that mean for the hotel's controller?",
-     "answer": "At the 5% level, Rooms occupied is statistically significant (p < 0.05). Conference day is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Rooms occupied is statistically significant (p < 0.05). Conference day is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The hotel's controller asks for a prediction for days without a conference with rooms occupied = 360 rooms. How confident should they be?",
-     "answer": "The equation gives 34,198 USD, but 360 lies outside the observed range (40–180 rooms). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 34,198 USD, but 360 lies outside the observed range (40–180 rooms). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the hotel's controller instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4000,6 +4599,7 @@
    "title": "Hotel room revenue",
    "intro": "The hotel and conference center from ETL Case 4 wants to understand daily room revenue.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the hotel's controller",
    "y": {
     "name": "Room revenue",
     "unit": "USD"
@@ -4049,22 +4649,38 @@
     {
      "kind": "P",
      "prompt": "Predict the room revenue for days without a conference with rooms occupied = 77 rooms.",
-     "answer": "Predicted room revenue = 3,458 + 93 × 77 + 2,407 × 0 − 15 × 77 × 0 = 10,619 USD."
+     "answer": "Predicted room revenue = 3,458 + 93 × 77 + 2,407 × 0 − 15 × 77 × 0 = 10,619 USD.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, rooms occupied, conference day, rooms occupied×conference day.",
-     "answer": "Intercept (3,458): predicted room revenue for days without a conference when rooms occupied = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nRooms occupied (93): for days without a conference, each additional occupied room changes predicted room revenue by 93 USD.\n\nConference day (2,407): at rooms occupied = 0, conference days are predicted to be 2,407 USD higher than days without a conference. Because of the interaction, the gap changes with rooms occupied.\n\nInteraction (-15): the rooms occupied slope is -15 lower for conference days, so their slope is 93 + (-15) = 78.\n\nGroup equations: days without a conference: 3,458 + 93 × Rooms occupied; conference days: 5,865 + 78 × Rooms occupied."
+     "answer": "Intercept (3,458): predicted room revenue for days without a conference when rooms occupied = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nRooms occupied (93): for days without a conference, each additional occupied room changes predicted room revenue by 93 USD.\n\nConference day (2,407): at rooms occupied = 0, conference days are predicted to be 2,407 USD higher than days without a conference. Because of the interaction, the gap changes with rooms occupied.\n\nInteraction (-15): the rooms occupied slope is -15 lower for conference days, so their slope is 93 + (-15) = 78.\n\nGroup equations: days without a conference: 3,458 + 93 × Rooms occupied; conference days: 5,865 + 78 × Rooms occupied.",
+     "followup": {
+      "ask": "Now explain the conference day effect to the hotel's controller in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on room revenue at the 5% level? What does that mean for the hotel's controller?",
-     "answer": "At the 5% level, Rooms occupied, Conference day, Rooms occupied×Conference day are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Rooms occupied, Conference day, Rooms occupied×Conference day are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The hotel's controller asks for a prediction for days without a conference with rooms occupied = 360 rooms. How confident should they be?",
-     "answer": "The equation gives 36,938 USD, but 360 lies outside the observed range (40–180 rooms). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 36,938 USD, but 360 lies outside the observed range (40–180 rooms). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the hotel's controller instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4074,6 +4690,7 @@
    "title": "Payroll overtime",
    "intro": "IntegrateCo (payroll case) wants to explain monthly overtime pay per employee.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "Noah, IntegrateCo's CFO",
    "y": {
     "name": "Overtime pay",
     "unit": "USD per month"
@@ -4117,22 +4734,38 @@
     {
      "kind": "P",
      "prompt": "Predict the overtime pay for employees in installation roles with projects assigned = 3 projects.",
-     "answer": "Predicted overtime pay = 65 + 79 × 3 + 150 × 1 = 452 USD per month."
+     "answer": "Predicted overtime pay = 65 + 79 × 3 + 150 × 1 = 452 USD per month.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, projects assigned, installation job.",
-     "answer": "Intercept (65): predicted overtime pay for employees in office roles when projects assigned = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nProjects assigned (79): holding installation job constant, each additional project changes predicted overtime pay by 79 USD per month.\n\nInstallation job (150): holding projects assigned constant, employees in installation roles are predicted to have 150 USD per month more than employees in office roles (the reference group)."
+     "answer": "Intercept (65): predicted overtime pay for employees in office roles when projects assigned = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nProjects assigned (79): holding installation job constant, each additional project changes predicted overtime pay by 79 USD per month.\n\nInstallation job (150): holding projects assigned constant, employees in installation roles are predicted to have 150 USD per month more than employees in office roles (the reference group).",
+     "followup": {
+      "ask": "Now explain the installation job effect to Noah, IntegrateCo's CFO in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on overtime pay at the 5% level? What does that mean for Noah, IntegrateCo's CFO?",
-     "answer": "At the 5% level, Projects assigned is statistically significant (p < 0.05). Installation job is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Projects assigned is statistically significant (p < 0.05). Installation job is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "Noah, IntegrateCo's CFO asks for a prediction for employees in office roles with projects assigned = 16 projects. How confident should they be?",
-     "answer": "The equation gives 1,329 USD per month, but 16 lies outside the observed range (1–8 projects). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 1,329 USD per month, but 16 lies outside the observed range (1–8 projects). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell Noah, IntegrateCo's CFO instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4142,6 +4775,7 @@
    "title": "Payroll overtime",
    "intro": "IntegrateCo (payroll case) wants to explain monthly overtime pay per employee.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "Noah, IntegrateCo's CFO",
    "y": {
     "name": "Overtime pay",
     "unit": "USD per month"
@@ -4191,22 +4825,38 @@
     {
      "kind": "P",
      "prompt": "Predict the overtime pay for employees in office roles with projects assigned = 4 projects.",
-     "answer": "Predicted overtime pay = 101 + 90 × 4 + 122 × 0 + 13 × 4 × 0 = 461 USD per month."
+     "answer": "Predicted overtime pay = 101 + 90 × 4 + 122 × 0 + 13 × 4 × 0 = 461 USD per month.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, projects assigned, installation job, projects assigned×installation job.",
-     "answer": "Intercept (101): predicted overtime pay for employees in office roles when projects assigned = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nProjects assigned (90): for employees in office roles, each additional project changes predicted overtime pay by 90 USD per month.\n\nInstallation job (122): at projects assigned = 0, employees in installation roles are predicted to be 122 USD per month higher than employees in office roles. Because of the interaction, the gap changes with projects assigned.\n\nInteraction (13): the projects assigned slope is 13 higher for employees in installation roles, so their slope is 90 + (13) = 103.\n\nGroup equations: employees in office roles: 101 + 90 × Projects assigned; employees in installation roles: 223 + 103 × Projects assigned."
+     "answer": "Intercept (101): predicted overtime pay for employees in office roles when projects assigned = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nProjects assigned (90): for employees in office roles, each additional project changes predicted overtime pay by 90 USD per month.\n\nInstallation job (122): at projects assigned = 0, employees in installation roles are predicted to be 122 USD per month higher than employees in office roles. Because of the interaction, the gap changes with projects assigned.\n\nInteraction (13): the projects assigned slope is 13 higher for employees in installation roles, so their slope is 90 + (13) = 103.\n\nGroup equations: employees in office roles: 101 + 90 × Projects assigned; employees in installation roles: 223 + 103 × Projects assigned.",
+     "followup": {
+      "ask": "Now explain the installation job effect to Noah, IntegrateCo's CFO in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on overtime pay at the 5% level? What does that mean for Noah, IntegrateCo's CFO?",
-     "answer": "At the 5% level, Projects assigned, Installation job are statistically significant (p < 0.05). Projects assigned×Installation job is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Projects assigned, Installation job are statistically significant (p < 0.05). Projects assigned×Installation job is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "Noah, IntegrateCo's CFO asks for a prediction for employees in office roles with projects assigned = 16 projects. How confident should they be?",
-     "answer": "The equation gives 1,541 USD per month, but 16 lies outside the observed range (1–8 projects). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 1,541 USD per month, but 16 lies outside the observed range (1–8 projects). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell Noah, IntegrateCo's CFO instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4216,6 +4866,7 @@
    "title": "P-card spending",
    "intro": "OSU's internal audit team studies monthly P-card spending per cardholder (P-card case).",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "OSU's internal auditor",
    "y": {
     "name": "Monthly P-card spending",
     "unit": "USD"
@@ -4259,22 +4910,38 @@
     {
      "kind": "P",
      "prompt": "Predict the monthly p-card spending for staff cardholders with transactions = 30 transactions.",
-     "answer": "Predicted monthly p-card spending = 814 + 270 × 30 − 467 × 0 = 8,914 USD."
+     "answer": "Predicted monthly p-card spending = 814 + 270 × 30 − 467 × 0 = 8,914 USD.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, transactions, student employee.",
-     "answer": "Intercept (814): predicted monthly p-card spending for staff cardholders when transactions = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nTransactions (270): holding student employee constant, each additional transaction changes predicted monthly p-card spending by 270 USD.\n\nStudent employee (-467): holding transactions constant, student-employee cardholders are predicted to have 467 USD less than staff cardholders (the reference group)."
+     "answer": "Intercept (814): predicted monthly p-card spending for staff cardholders when transactions = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nTransactions (270): holding student employee constant, each additional transaction changes predicted monthly p-card spending by 270 USD.\n\nStudent employee (-467): holding transactions constant, student-employee cardholders are predicted to have 467 USD less than staff cardholders (the reference group).",
+     "followup": {
+      "ask": "Now explain the student employee effect to OSU's internal auditor in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on monthly p-card spending at the 5% level? What does that mean for OSU's internal auditor?",
-     "answer": "At the 5% level, Transactions, Student employee are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Transactions, Student employee are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "OSU's internal auditor asks for a prediction for staff cardholders with transactions = 120 transactions. How confident should they be?",
-     "answer": "The equation gives 33,214 USD, but 120 lies outside the observed range (2–60 transactions). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 33,214 USD, but 120 lies outside the observed range (2–60 transactions). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell OSU's internal auditor instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4284,6 +4951,7 @@
    "title": "P-card spending",
    "intro": "OSU's internal audit team studies monthly P-card spending per cardholder (P-card case).",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "OSU's internal auditor",
    "y": {
     "name": "Monthly P-card spending",
     "unit": "USD"
@@ -4333,22 +5001,38 @@
     {
      "kind": "P",
      "prompt": "Predict the monthly p-card spending for student-employee cardholders with transactions = 27 transactions.",
-     "answer": "Predicted monthly p-card spending = 479 + 250 × 27 − 526 × 1 − 16 × 27 × 1 = 6,271 USD."
+     "answer": "Predicted monthly p-card spending = 479 + 250 × 27 − 526 × 1 − 16 × 27 × 1 = 6,271 USD.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, transactions, student employee, transactions×student employee.",
-     "answer": "Intercept (479): predicted monthly p-card spending for staff cardholders when transactions = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nTransactions (250): for staff cardholders, each additional transaction changes predicted monthly p-card spending by 250 USD.\n\nStudent employee (-526): at transactions = 0, student-employee cardholders are predicted to be -526 USD lower than staff cardholders. Because of the interaction, the gap changes with transactions.\n\nInteraction (-16): the transactions slope is -16 lower for student-employee cardholders, so their slope is 250 + (-16) = 234.\n\nGroup equations: staff cardholders: 479 + 250 × Transactions; student-employee cardholders: -47 + 234 × Transactions."
+     "answer": "Intercept (479): predicted monthly p-card spending for staff cardholders when transactions = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nTransactions (250): for staff cardholders, each additional transaction changes predicted monthly p-card spending by 250 USD.\n\nStudent employee (-526): at transactions = 0, student-employee cardholders are predicted to be -526 USD lower than staff cardholders. Because of the interaction, the gap changes with transactions.\n\nInteraction (-16): the transactions slope is -16 lower for student-employee cardholders, so their slope is 250 + (-16) = 234.\n\nGroup equations: staff cardholders: 479 + 250 × Transactions; student-employee cardholders: -47 + 234 × Transactions.",
+     "followup": {
+      "ask": "Now explain the student employee effect to OSU's internal auditor in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on monthly p-card spending at the 5% level? What does that mean for OSU's internal auditor?",
-     "answer": "At the 5% level, Transactions is statistically significant (p < 0.05). Student employee, Transactions×Student employee are not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Transactions is statistically significant (p < 0.05). Student employee, Transactions×Student employee are not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "OSU's internal auditor asks for a prediction for staff cardholders with transactions = 120 transactions. How confident should they be?",
-     "answer": "The equation gives 30,479 USD, but 120 lies outside the observed range (2–60 transactions). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 30,479 USD, but 120 lies outside the observed range (2–60 transactions). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell OSU's internal auditor instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4358,6 +5042,7 @@
    "title": "Journal entry review time",
    "intro": "An audit team measures how long it takes to review journal entries for a client.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the audit senior",
    "y": {
     "name": "Review time",
     "unit": "minutes per entry"
@@ -4401,22 +5086,38 @@
     {
      "kind": "P",
      "prompt": "Predict the review time for system-generated entries with line items = 21 line items.",
-     "answer": "Predicted review time = 5.4 + 1.1 × 21 + 12 × 0 = 28.5 minutes per entry."
+     "answer": "Predicted review time = 5.4 + 1.1 × 21 + 12 × 0 = 28.5 minutes per entry.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, line items, manual entry.",
-     "answer": "Intercept (5.4): predicted review time for system-generated entries when line items = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLine items (1.1): holding manual entry constant, each additional line item changes predicted review time by 1.1 minutes per entry.\n\nManual entry (12): holding line items constant, manual entries are predicted to have 12 minutes per entry more than system-generated entries (the reference group)."
+     "answer": "Intercept (5.4): predicted review time for system-generated entries when line items = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLine items (1.1): holding manual entry constant, each additional line item changes predicted review time by 1.1 minutes per entry.\n\nManual entry (12): holding line items constant, manual entries are predicted to have 12 minutes per entry more than system-generated entries (the reference group).",
+     "followup": {
+      "ask": "Now explain the manual entry effect to the audit senior in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on review time at the 5% level? What does that mean for the audit senior?",
-     "answer": "At the 5% level, Line items, Manual entry are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Line items, Manual entry are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The audit senior asks for a prediction for system-generated entries with line items = 60 line items. How confident should they be?",
-     "answer": "The equation gives 71.4 minutes per entry, but 60 lies outside the observed range (2–30 line items). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 71.4 minutes per entry, but 60 lies outside the observed range (2–30 line items). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the audit senior instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4426,6 +5127,7 @@
    "title": "Journal entry review time",
    "intro": "An audit team measures how long it takes to review journal entries for a client.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the audit senior",
    "y": {
     "name": "Review time",
     "unit": "minutes per entry"
@@ -4475,22 +5177,38 @@
     {
      "kind": "P",
      "prompt": "Predict the review time for manual entries with line items = 17 line items.",
-     "answer": "Predicted review time = 4.9 + 1 × 17 + 4 × 1 + 0.44 × 17 × 1 = 33.38 minutes per entry."
+     "answer": "Predicted review time = 4.9 + 1 × 17 + 4 × 1 + 0.44 × 17 × 1 = 33.38 minutes per entry.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, line items, manual entry, line items×manual entry.",
-     "answer": "Intercept (4.9): predicted review time for system-generated entries when line items = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLine items (1): for system-generated entries, each additional line item changes predicted review time by 1 minutes per entry.\n\nManual entry (4): at line items = 0, manual entries are predicted to be 4 minutes per entry higher than system-generated entries. Because of the interaction, the gap changes with line items.\n\nInteraction (0.44): the line items slope is 0.44 higher for manual entries, so their slope is 1 + (0.44) = 1.44.\n\nGroup equations: system-generated entries: 4.9 + 1 × Line items; manual entries: 8.9 + 1.44 × Line items."
+     "answer": "Intercept (4.9): predicted review time for system-generated entries when line items = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLine items (1): for system-generated entries, each additional line item changes predicted review time by 1 minutes per entry.\n\nManual entry (4): at line items = 0, manual entries are predicted to be 4 minutes per entry higher than system-generated entries. Because of the interaction, the gap changes with line items.\n\nInteraction (0.44): the line items slope is 0.44 higher for manual entries, so their slope is 1 + (0.44) = 1.44.\n\nGroup equations: system-generated entries: 4.9 + 1 × Line items; manual entries: 8.9 + 1.44 × Line items.",
+     "followup": {
+      "ask": "Now explain the manual entry effect to the audit senior in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on review time at the 5% level? What does that mean for the audit senior?",
-     "answer": "At the 5% level, Line items is statistically significant (p < 0.05). Manual entry, Line items×Manual entry are not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Line items is statistically significant (p < 0.05). Manual entry, Line items×Manual entry are not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The audit senior asks for a prediction for system-generated entries with line items = 60 line items. How confident should they be?",
-     "answer": "The equation gives 64.9 minutes per entry, but 60 lies outside the observed range (2–30 line items). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 64.9 minutes per entry, but 60 lies outside the observed range (2–30 line items). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the audit senior instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4500,6 +5218,7 @@
    "title": "Film permit processing",
    "intro": "The NYC film office (Excel case) studies the lead time between entering and starting a permit.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the NYC film office manager",
    "y": {
     "name": "Lead time",
     "unit": "days"
@@ -4543,22 +5262,38 @@
     {
      "kind": "P",
      "prompt": "Predict the lead time for television shoots with locations on the permit = 5 locations.",
-     "answer": "Predicted lead time = 3.6 + 0.88 × 5 − 1.1 × 1 = 6.9 days."
+     "answer": "Predicted lead time = 3.6 + 0.88 × 5 − 1.1 × 1 = 6.9 days.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, locations on the permit, television shoot.",
-     "answer": "Intercept (3.6): predicted lead time for film shoots when locations on the permit = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLocations on the permit (0.88): holding television shoot constant, each additional location changes predicted lead time by 0.88 days.\n\nTelevision shoot (-1.1): holding locations on the permit constant, television shoots are predicted to have 1.1 days less than film shoots (the reference group)."
+     "answer": "Intercept (3.6): predicted lead time for film shoots when locations on the permit = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLocations on the permit (0.88): holding television shoot constant, each additional location changes predicted lead time by 0.88 days.\n\nTelevision shoot (-1.1): holding locations on the permit constant, television shoots are predicted to have 1.1 days less than film shoots (the reference group).",
+     "followup": {
+      "ask": "Now explain the television shoot effect to the NYC film office manager in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on lead time at the 5% level? What does that mean for the NYC film office manager?",
-     "answer": "At the 5% level, Locations on the permit, Television shoot are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Locations on the permit, Television shoot are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The NYC film office manager asks for a prediction for film shoots with locations on the permit = 24 locations. How confident should they be?",
-     "answer": "The equation gives 24.72 days, but 24 lies outside the observed range (1–12 locations). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 24.72 days, but 24 lies outside the observed range (1–12 locations). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the NYC film office manager instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4568,6 +5303,7 @@
    "title": "Film permit processing",
    "intro": "The NYC film office (Excel case) studies the lead time between entering and starting a permit.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the NYC film office manager",
    "y": {
     "name": "Lead time",
     "unit": "days"
@@ -4617,22 +5353,38 @@
     {
      "kind": "P",
      "prompt": "Predict the lead time for television shoots with locations on the permit = 8 locations.",
-     "answer": "Predicted lead time = 2 + 0.43 × 8 − 0.7 × 1 + 0.25 × 8 × 1 = 6.74 days."
+     "answer": "Predicted lead time = 2 + 0.43 × 8 − 0.7 × 1 + 0.25 × 8 × 1 = 6.74 days.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, locations on the permit, television shoot, locations on the permit×television shoot.",
-     "answer": "Intercept (2): predicted lead time for film shoots when locations on the permit = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLocations on the permit (0.43): for film shoots, each additional location changes predicted lead time by 0.43 days.\n\nTelevision shoot (-0.7): at locations on the permit = 0, television shoots are predicted to be -0.7 days lower than film shoots. Because of the interaction, the gap changes with locations on the permit.\n\nInteraction (0.25): the locations on the permit slope is 0.25 higher for television shoots, so their slope is 0.43 + (0.25) = 0.68.\n\nGroup equations: film shoots: 2 + 0.43 × Locations on the permit; television shoots: 1.3 + 0.68 × Locations on the permit."
+     "answer": "Intercept (2): predicted lead time for film shoots when locations on the permit = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLocations on the permit (0.43): for film shoots, each additional location changes predicted lead time by 0.43 days.\n\nTelevision shoot (-0.7): at locations on the permit = 0, television shoots are predicted to be -0.7 days lower than film shoots. Because of the interaction, the gap changes with locations on the permit.\n\nInteraction (0.25): the locations on the permit slope is 0.25 higher for television shoots, so their slope is 0.43 + (0.25) = 0.68.\n\nGroup equations: film shoots: 2 + 0.43 × Locations on the permit; television shoots: 1.3 + 0.68 × Locations on the permit.",
+     "followup": {
+      "ask": "Now explain the television shoot effect to the NYC film office manager in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on lead time at the 5% level? What does that mean for the NYC film office manager?",
-     "answer": "At the 5% level, Locations on the permit, Television shoot are statistically significant (p < 0.05). Locations on the permit×Television shoot is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Locations on the permit, Television shoot are statistically significant (p < 0.05). Locations on the permit×Television shoot is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The NYC film office manager asks for a prediction for film shoots with locations on the permit = 24 locations. How confident should they be?",
-     "answer": "The equation gives 12.32 days, but 24 lies outside the observed range (1–12 locations). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 12.32 days, but 24 lies outside the observed range (1–12 locations). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the NYC film office manager instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4642,6 +5394,7 @@
    "title": "Restaurant ingredient costs",
    "intro": "Larry's Commissary (restaurant case) wants to plan daily ingredient purchases.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "Bob, the restaurant owner",
    "y": {
     "name": "Ingredient cost",
     "unit": "USD per day"
@@ -4685,22 +5438,38 @@
     {
      "kind": "P",
      "prompt": "Predict the ingredient cost for weekdays with covers served = 232 guests.",
-     "answer": "Predicted ingredient cost = 303 + 6.3 × 232 + 342 × 0 = 1,764.6 USD per day."
+     "answer": "Predicted ingredient cost = 303 + 6.3 × 232 + 342 × 0 = 1,764.6 USD per day.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, covers served, weekend.",
-     "answer": "Intercept (303): predicted ingredient cost for weekdays when covers served = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nCovers served (6.3): holding weekend constant, each additional guest changes predicted ingredient cost by 6.3 USD per day.\n\nWeekend (342): holding covers served constant, weekend days are predicted to have 342 USD per day more than weekdays (the reference group)."
+     "answer": "Intercept (303): predicted ingredient cost for weekdays when covers served = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nCovers served (6.3): holding weekend constant, each additional guest changes predicted ingredient cost by 6.3 USD per day.\n\nWeekend (342): holding covers served constant, weekend days are predicted to have 342 USD per day more than weekdays (the reference group).",
+     "followup": {
+      "ask": "Now explain the weekend effect to Bob, the restaurant owner in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on ingredient cost at the 5% level? What does that mean for Bob, the restaurant owner?",
-     "answer": "At the 5% level, Covers served, Weekend are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Covers served, Weekend are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "Bob, the restaurant owner asks for a prediction for weekdays with covers served = 800 guests. How confident should they be?",
-     "answer": "The equation gives 5,343 USD per day, but 800 lies outside the observed range (80–400 guests). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 5,343 USD per day, but 800 lies outside the observed range (80–400 guests). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell Bob, the restaurant owner instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4710,6 +5479,7 @@
    "title": "Restaurant ingredient costs",
    "intro": "Larry's Commissary (restaurant case) wants to plan daily ingredient purchases.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "Bob, the restaurant owner",
    "y": {
     "name": "Ingredient cost",
     "unit": "USD per day"
@@ -4759,22 +5529,38 @@
     {
      "kind": "P",
      "prompt": "Predict the ingredient cost for weekend days with covers served = 325 guests.",
-     "answer": "Predicted ingredient cost = 282 + 5.9 × 325 + 389 × 1 + 1.9 × 325 × 1 = 3,206 USD per day."
+     "answer": "Predicted ingredient cost = 282 + 5.9 × 325 + 389 × 1 + 1.9 × 325 × 1 = 3,206 USD per day.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, covers served, weekend, covers served×weekend.",
-     "answer": "Intercept (282): predicted ingredient cost for weekdays when covers served = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nCovers served (5.9): for weekdays, each additional guest changes predicted ingredient cost by 5.9 USD per day.\n\nWeekend (389): at covers served = 0, weekend days are predicted to be 389 USD per day higher than weekdays. Because of the interaction, the gap changes with covers served.\n\nInteraction (1.9): the covers served slope is 1.9 higher for weekend days, so their slope is 5.9 + (1.9) = 7.8.\n\nGroup equations: weekdays: 282 + 5.9 × Covers served; weekend days: 671 + 7.8 × Covers served."
+     "answer": "Intercept (282): predicted ingredient cost for weekdays when covers served = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nCovers served (5.9): for weekdays, each additional guest changes predicted ingredient cost by 5.9 USD per day.\n\nWeekend (389): at covers served = 0, weekend days are predicted to be 389 USD per day higher than weekdays. Because of the interaction, the gap changes with covers served.\n\nInteraction (1.9): the covers served slope is 1.9 higher for weekend days, so their slope is 5.9 + (1.9) = 7.8.\n\nGroup equations: weekdays: 282 + 5.9 × Covers served; weekend days: 671 + 7.8 × Covers served.",
+     "followup": {
+      "ask": "Now explain the weekend effect to Bob, the restaurant owner in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on ingredient cost at the 5% level? What does that mean for Bob, the restaurant owner?",
-     "answer": "At the 5% level, Covers served, Weekend are statistically significant (p < 0.05). Covers served×Weekend is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Covers served, Weekend are statistically significant (p < 0.05). Covers served×Weekend is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "Bob, the restaurant owner asks for a prediction for weekdays with covers served = 800 guests. How confident should they be?",
-     "answer": "The equation gives 5,002 USD per day, but 800 lies outside the observed range (80–400 guests). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 5,002 USD per day, but 800 lies outside the observed range (80–400 guests). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell Bob, the restaurant owner instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4784,6 +5570,7 @@
    "title": "Accounts receivable collection",
    "intro": "A wholesaler studies how many days customers take to pay their invoices.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the credit manager",
    "y": {
     "name": "Days to pay",
     "unit": "days"
@@ -4827,22 +5614,38 @@
     {
      "kind": "P",
      "prompt": "Predict the days to pay for existing customers with invoice amount = 38 thousand USD.",
-     "answer": "Predicted days to pay = 34 + 0.46 × 38 + 5 × 0 = 51.48 days."
+     "answer": "Predicted days to pay = 34 + 0.46 × 38 + 5 × 0 = 51.48 days.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, invoice amount, new customer.",
-     "answer": "Intercept (34): predicted days to pay for existing customers when invoice amount = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nInvoice amount (0.46): holding new customer constant, each additional thousand USD of invoice value changes predicted days to pay by 0.46 days.\n\nNew customer (5): holding invoice amount constant, new customers are predicted to have 5 days more than existing customers (the reference group)."
+     "answer": "Intercept (34): predicted days to pay for existing customers when invoice amount = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nInvoice amount (0.46): holding new customer constant, each additional thousand USD of invoice value changes predicted days to pay by 0.46 days.\n\nNew customer (5): holding invoice amount constant, new customers are predicted to have 5 days more than existing customers (the reference group).",
+     "followup": {
+      "ask": "Now explain the new customer effect to the credit manager in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on days to pay at the 5% level? What does that mean for the credit manager?",
-     "answer": "At the 5% level, Invoice amount is statistically significant (p < 0.05). New customer is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Invoice amount is statistically significant (p < 0.05). New customer is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The credit manager asks for a prediction for existing customers with invoice amount = 100 thousand USD. How confident should they be?",
-     "answer": "The equation gives 80 days, but 100 lies outside the observed range (1–50 thousand USD). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 80 days, but 100 lies outside the observed range (1–50 thousand USD). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the credit manager instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4852,6 +5655,7 @@
    "title": "Accounts receivable collection",
    "intro": "A wholesaler studies how many days customers take to pay their invoices.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the credit manager",
    "y": {
     "name": "Days to pay",
     "unit": "days"
@@ -4901,22 +5705,38 @@
     {
      "kind": "P",
      "prompt": "Predict the days to pay for new customers with invoice amount = 33 thousand USD.",
-     "answer": "Predicted days to pay = 20 + 0.61 × 33 + 11 × 1 − 0.22 × 33 × 1 = 43.87 days."
+     "answer": "Predicted days to pay = 20 + 0.61 × 33 + 11 × 1 − 0.22 × 33 × 1 = 43.87 days.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, invoice amount, new customer, invoice amount×new customer.",
-     "answer": "Intercept (20): predicted days to pay for existing customers when invoice amount = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nInvoice amount (0.61): for existing customers, each additional thousand USD of invoice value changes predicted days to pay by 0.61 days.\n\nNew customer (11): at invoice amount = 0, new customers are predicted to be 11 days higher than existing customers. Because of the interaction, the gap changes with invoice amount.\n\nInteraction (-0.22): the invoice amount slope is -0.22 lower for new customers, so their slope is 0.61 + (-0.22) = 0.39.\n\nGroup equations: existing customers: 20 + 0.61 × Invoice amount; new customers: 31 + 0.39 × Invoice amount."
+     "answer": "Intercept (20): predicted days to pay for existing customers when invoice amount = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nInvoice amount (0.61): for existing customers, each additional thousand USD of invoice value changes predicted days to pay by 0.61 days.\n\nNew customer (11): at invoice amount = 0, new customers are predicted to be 11 days higher than existing customers. Because of the interaction, the gap changes with invoice amount.\n\nInteraction (-0.22): the invoice amount slope is -0.22 lower for new customers, so their slope is 0.61 + (-0.22) = 0.39.\n\nGroup equations: existing customers: 20 + 0.61 × Invoice amount; new customers: 31 + 0.39 × Invoice amount.",
+     "followup": {
+      "ask": "Now explain the new customer effect to the credit manager in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on days to pay at the 5% level? What does that mean for the credit manager?",
-     "answer": "At the 5% level, Invoice amount, New customer, Invoice amount×New customer are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Invoice amount, New customer, Invoice amount×New customer are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The credit manager asks for a prediction for existing customers with invoice amount = 100 thousand USD. How confident should they be?",
-     "answer": "The equation gives 81 days, but 100 lies outside the observed range (1–50 thousand USD). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 81 days, but 100 lies outside the observed range (1–50 thousand USD). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the credit manager instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4926,6 +5746,7 @@
    "title": "Music downloads",
    "intro": "The digital music store from the Chinook database studies monthly downloads per customer.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the Chinook sales manager",
    "y": {
     "name": "Downloads",
     "unit": "tracks per month"
@@ -4969,22 +5790,38 @@
     {
      "kind": "P",
      "prompt": "Predict the downloads for premium members with marketing emails = 6 emails.",
-     "answer": "Predicted downloads = 6.3 + 1.1 × 6 + 2.8 × 1 = 15.7 tracks per month."
+     "answer": "Predicted downloads = 6.3 + 1.1 × 6 + 2.8 × 1 = 15.7 tracks per month.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, marketing emails, premium member.",
-     "answer": "Intercept (6.3): predicted downloads for standard customers when marketing emails = 0. \n\nMarketing emails (1.1): holding premium member constant, each additional marketing email changes predicted downloads by 1.1 tracks per month.\n\nPremium member (2.8): holding marketing emails constant, premium members are predicted to have 2.8 tracks per month more than standard customers (the reference group)."
+     "answer": "Intercept (6.3): predicted downloads for standard customers when marketing emails = 0. \n\nMarketing emails (1.1): holding premium member constant, each additional marketing email changes predicted downloads by 1.1 tracks per month.\n\nPremium member (2.8): holding marketing emails constant, premium members are predicted to have 2.8 tracks per month more than standard customers (the reference group).",
+     "followup": {
+      "ask": "Now explain the premium member effect to the Chinook sales manager in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on downloads at the 5% level? What does that mean for the Chinook sales manager?",
-     "answer": "At the 5% level, Marketing emails, Premium member are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Marketing emails, Premium member are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The Chinook sales manager asks for a prediction for standard customers with marketing emails = 24 emails. How confident should they be?",
-     "answer": "The equation gives 32.7 tracks per month, but 24 lies outside the observed range (0–12 emails). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 32.7 tracks per month, but 24 lies outside the observed range (0–12 emails). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the Chinook sales manager instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -4994,6 +5831,7 @@
    "title": "Music downloads",
    "intro": "The digital music store from the Chinook database studies monthly downloads per customer.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the Chinook sales manager",
    "y": {
     "name": "Downloads",
     "unit": "tracks per month"
@@ -5043,22 +5881,38 @@
     {
      "kind": "P",
      "prompt": "Predict the downloads for premium members with marketing emails = 8 emails.",
-     "answer": "Predicted downloads = 5.9 + 1.5 × 8 + 6.4 × 1 + 0.27 × 8 × 1 = 26.46 tracks per month."
+     "answer": "Predicted downloads = 5.9 + 1.5 × 8 + 6.4 × 1 + 0.27 × 8 × 1 = 26.46 tracks per month.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, marketing emails, premium member, marketing emails×premium member.",
-     "answer": "Intercept (5.9): predicted downloads for standard customers when marketing emails = 0. \n\nMarketing emails (1.5): for standard customers, each additional marketing email changes predicted downloads by 1.5 tracks per month.\n\nPremium member (6.4): at marketing emails = 0, premium members are predicted to be 6.4 tracks per month higher than standard customers. Because of the interaction, the gap changes with marketing emails.\n\nInteraction (0.27): the marketing emails slope is 0.27 higher for premium members, so their slope is 1.5 + (0.27) = 1.77.\n\nGroup equations: standard customers: 5.9 + 1.5 × Marketing emails; premium members: 12.3 + 1.77 × Marketing emails."
+     "answer": "Intercept (5.9): predicted downloads for standard customers when marketing emails = 0. \n\nMarketing emails (1.5): for standard customers, each additional marketing email changes predicted downloads by 1.5 tracks per month.\n\nPremium member (6.4): at marketing emails = 0, premium members are predicted to be 6.4 tracks per month higher than standard customers. Because of the interaction, the gap changes with marketing emails.\n\nInteraction (0.27): the marketing emails slope is 0.27 higher for premium members, so their slope is 1.5 + (0.27) = 1.77.\n\nGroup equations: standard customers: 5.9 + 1.5 × Marketing emails; premium members: 12.3 + 1.77 × Marketing emails.",
+     "followup": {
+      "ask": "Now explain the premium member effect to the Chinook sales manager in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on downloads at the 5% level? What does that mean for the Chinook sales manager?",
-     "answer": "At the 5% level, Marketing emails, Marketing emails×Premium member are statistically significant (p < 0.05). Premium member is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Marketing emails, Marketing emails×Premium member are statistically significant (p < 0.05). Premium member is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The Chinook sales manager asks for a prediction for standard customers with marketing emails = 24 emails. How confident should they be?",
-     "answer": "The equation gives 41.9 tracks per month, but 24 lies outside the observed range (0–12 emails). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 41.9 tracks per month, but 24 lies outside the observed range (0–12 emails). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the Chinook sales manager instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -5068,6 +5922,7 @@
    "title": "Holiday-home bookings",
    "intro": "A holiday-home rental agency studies booked nights per month.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the rental agency",
    "y": {
     "name": "Booked nights",
     "unit": "nights per month"
@@ -5111,22 +5966,38 @@
     {
      "kind": "P",
      "prompt": "Predict the booked nights for homes with a private pool with nightly price = 153 EUR/night.",
-     "answer": "Predicted booked nights = 28 − 0.09 × 153 + 2.9 × 1 = 17.13 nights per month."
+     "answer": "Predicted booked nights = 28 − 0.09 × 153 + 2.9 × 1 = 17.13 nights per month.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, nightly price, private pool.",
-     "answer": "Intercept (28): predicted booked nights for homes without a private pool when nightly price = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nNightly price (-0.09): holding private pool constant, each additional euro per night changes predicted booked nights by -0.09 nights per month.\n\nPrivate pool (2.9): holding nightly price constant, homes with a private pool are predicted to have 2.9 nights per month more than homes without a private pool (the reference group)."
+     "answer": "Intercept (28): predicted booked nights for homes without a private pool when nightly price = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nNightly price (-0.09): holding private pool constant, each additional euro per night changes predicted booked nights by -0.09 nights per month.\n\nPrivate pool (2.9): holding nightly price constant, homes with a private pool are predicted to have 2.9 nights per month more than homes without a private pool (the reference group).",
+     "followup": {
+      "ask": "Now explain the private pool effect to the rental agency in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on booked nights at the 5% level? What does that mean for the rental agency?",
-     "answer": "At the 5% level, Nightly price, Private pool are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Nightly price, Private pool are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The rental agency asks for a prediction for homes without a private pool with nightly price = 360 EUR/night. How confident should they be?",
-     "answer": "The equation gives -4.4 nights per month, but 360 lies outside the observed range (60–180 EUR/night). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives -4.4 nights per month, but 360 lies outside the observed range (60–180 EUR/night). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the rental agency instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -5136,6 +6007,7 @@
    "title": "Holiday-home bookings",
    "intro": "A holiday-home rental agency studies booked nights per month.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the rental agency",
    "y": {
     "name": "Booked nights",
     "unit": "nights per month"
@@ -5185,22 +6057,38 @@
     {
      "kind": "P",
      "prompt": "Predict the booked nights for homes with a private pool with nightly price = 133 EUR/night.",
-     "answer": "Predicted booked nights = 33 − 0.12 × 133 + 4.1 × 1 + 0.01 × 133 × 1 = 22.47 nights per month."
+     "answer": "Predicted booked nights = 33 − 0.12 × 133 + 4.1 × 1 + 0.01 × 133 × 1 = 22.47 nights per month.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, nightly price, private pool, nightly price×private pool.",
-     "answer": "Intercept (33): predicted booked nights for homes without a private pool when nightly price = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nNightly price (-0.12): for homes without a private pool, each additional euro per night changes predicted booked nights by -0.12 nights per month.\n\nPrivate pool (4.1): at nightly price = 0, homes with a private pool are predicted to be 4.1 nights per month higher than homes without a private pool. Because of the interaction, the gap changes with nightly price.\n\nInteraction (0.01): the nightly price slope is 0.01 higher for homes with a private pool, so their slope is -0.12 + (0.01) = -0.11.\n\nGroup equations: homes without a private pool: 33 − 0.12 × Nightly price; homes with a private pool: 37.1 − 0.11 × Nightly price."
+     "answer": "Intercept (33): predicted booked nights for homes without a private pool when nightly price = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nNightly price (-0.12): for homes without a private pool, each additional euro per night changes predicted booked nights by -0.12 nights per month.\n\nPrivate pool (4.1): at nightly price = 0, homes with a private pool are predicted to be 4.1 nights per month higher than homes without a private pool. Because of the interaction, the gap changes with nightly price.\n\nInteraction (0.01): the nightly price slope is 0.01 higher for homes with a private pool, so their slope is -0.12 + (0.01) = -0.11.\n\nGroup equations: homes without a private pool: 33 − 0.12 × Nightly price; homes with a private pool: 37.1 − 0.11 × Nightly price.",
+     "followup": {
+      "ask": "Now explain the private pool effect to the rental agency in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on booked nights at the 5% level? What does that mean for the rental agency?",
-     "answer": "At the 5% level, Nightly price, Private pool are statistically significant (p < 0.05). Nightly price×Private pool is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Nightly price, Private pool are statistically significant (p < 0.05). Nightly price×Private pool is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The rental agency asks for a prediction for homes without a private pool with nightly price = 360 EUR/night. How confident should they be?",
-     "answer": "The equation gives -10.2 nights per month, but 360 lies outside the observed range (60–180 EUR/night). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives -10.2 nights per month, but 360 lies outside the observed range (60–180 EUR/night). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the rental agency instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -5210,6 +6098,7 @@
    "title": "Audit fees",
    "intro": "An audit firm studies the fees it charges clients.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the audit partner",
    "y": {
     "name": "Audit fee",
     "unit": "thousand DKK"
@@ -5253,22 +6142,38 @@
     {
      "kind": "P",
      "prompt": "Predict the audit fee for listed clients with client revenue = 261 million DKK.",
-     "answer": "Predicted audit fee = 83 + 0.41 × 261 + 240 × 1 = 430.01 thousand DKK."
+     "answer": "Predicted audit fee = 83 + 0.41 × 261 + 240 × 1 = 430.01 thousand DKK.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, client revenue, listed client.",
-     "answer": "Intercept (83): predicted audit fee for private clients when client revenue = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nClient revenue (0.41): holding listed client constant, each additional million DKK of client revenue changes predicted audit fee by 0.41 thousand DKK.\n\nListed client (240): holding client revenue constant, listed clients are predicted to have 240 thousand DKK more than private clients (the reference group)."
+     "answer": "Intercept (83): predicted audit fee for private clients when client revenue = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nClient revenue (0.41): holding listed client constant, each additional million DKK of client revenue changes predicted audit fee by 0.41 thousand DKK.\n\nListed client (240): holding client revenue constant, listed clients are predicted to have 240 thousand DKK more than private clients (the reference group).",
+     "followup": {
+      "ask": "Now explain the listed client effect to the audit partner in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on audit fee at the 5% level? What does that mean for the audit partner?",
-     "answer": "At the 5% level, Client revenue is statistically significant (p < 0.05). Listed client is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Client revenue is statistically significant (p < 0.05). Listed client is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The audit partner asks for a prediction for private clients with client revenue = 1,000 million DKK. How confident should they be?",
-     "answer": "The equation gives 493 thousand DKK, but 1,000 lies outside the observed range (10–500 million DKK). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 493 thousand DKK, but 1,000 lies outside the observed range (10–500 million DKK). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the audit partner instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5
@@ -5278,6 +6183,7 @@
    "title": "Audit fees",
    "intro": "An audit firm studies the fees it charges clients.",
    "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "stakeholder": "the audit partner",
    "y": {
     "name": "Audit fee",
     "unit": "thousand DKK"
@@ -5327,22 +6233,38 @@
     {
      "kind": "P",
      "prompt": "Predict the audit fee for private clients with client revenue = 121 million DKK.",
-     "answer": "Predicted audit fee = 112 + 0.71 × 121 + 104 × 0 − 0.12 × 121 × 0 = 197.91 thousand DKK."
+     "answer": "Predicted audit fee = 112 + 0.71 × 121 + 104 × 0 − 0.12 × 121 × 0 = 197.91 thousand DKK.",
+     "followup": {
+      "ask": "Talk me through the calculation. Which terms matter for this group, and which drop out?",
+      "listen": "Plug in each value; terms multiplied by a dummy of 0 drop out; state the answer in the outcome's unit."
+     }
     },
     {
      "kind": "I",
      "prompt": "Interpret all coefficients in context: intercept, client revenue, listed client, client revenue×listed client.",
-     "answer": "Intercept (112): predicted audit fee for private clients when client revenue = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nClient revenue (0.71): for private clients, each additional million DKK of client revenue changes predicted audit fee by 0.71 thousand DKK.\n\nListed client (104): at client revenue = 0, listed clients are predicted to be 104 thousand DKK higher than private clients. Because of the interaction, the gap changes with client revenue.\n\nInteraction (-0.12): the client revenue slope is -0.12 lower for listed clients, so their slope is 0.71 + (-0.12) = 0.59.\n\nGroup equations: private clients: 112 + 0.71 × Client revenue; listed clients: 216 + 0.59 × Client revenue."
+     "answer": "Intercept (112): predicted audit fee for private clients when client revenue = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nClient revenue (0.71): for private clients, each additional million DKK of client revenue changes predicted audit fee by 0.71 thousand DKK.\n\nListed client (104): at client revenue = 0, listed clients are predicted to be 104 thousand DKK higher than private clients. Because of the interaction, the gap changes with client revenue.\n\nInteraction (-0.12): the client revenue slope is -0.12 lower for listed clients, so their slope is 0.71 + (-0.12) = 0.59.\n\nGroup equations: private clients: 112 + 0.71 × Client revenue; listed clients: 216 + 0.59 × Client revenue.",
+     "followup": {
+      "ask": "Now explain the listed client effect to the audit partner in one sentence — without the words 'coefficient' or 'dummy'.",
+      "listen": "Plain words, the unit, the comparison group, and 'all else equal'. No statistical jargon."
+     }
     },
     {
      "kind": "S",
      "prompt": "Which predictors have a statistically significant effect on audit fee at the 5% level? What does that mean for the audit partner?",
-     "answer": "At the 5% level, Client revenue, Listed client, Client revenue×Listed client are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+     "answer": "At the 5% level, Client revenue, Listed client, Client revenue×Listed client are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important.",
+     "followup": {
+      "ask": "Does 'statistically significant' mean the effect is important for the business?",
+      "listen": "No — significance says the effect is unlikely to be zero; importance depends on its size in context."
+     }
     },
     {
      "kind": "R",
      "prompt": "The audit partner asks for a prediction for private clients with client revenue = 1,000 million DKK. How confident should they be?",
-     "answer": "The equation gives 822 thousand DKK, but 1,000 lies outside the observed range (10–500 million DKK). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+     "answer": "The equation gives 822 thousand DKK, but 1,000 lies outside the observed range (10–500 million DKK). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning.",
+     "followup": {
+      "ask": "So what would you tell the audit partner instead of just giving that number?",
+      "listen": "Warn that it is outside the data; offer a prediction within the range, or suggest collecting more data."
+     }
     }
    ],
    "minutes": 5

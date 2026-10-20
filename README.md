@@ -6,6 +6,11 @@ A practice website for the oral exam in *Data Analytics in Accounting*. Students
 - **A question bank**: every Excel and SQL question, filterable by tool, dataset and skill.
 - **Data interpretation exams**: regression output with four questions (predict, interpret, significance, reliability) in five minutes.
 
+- **Examiner mode** 🎙: the browser reads each question aloud, the student answers out loud against a countdown,
+  and the "examiner" interrupts once per question with a follow-up (*why that join? is that significant? say it
+  to the CFO*). The review page shows what the examiner listens for, the model answers and, optionally, the
+  student's own recordings (kept on their device). It uses the browser's built-in speech, so no AI service is involved.
+
 The site is static (HTML, CSS and JavaScript in `docs/`) and is served by GitHub Pages.
 
 ## How the content is made
@@ -18,6 +23,7 @@ The course folder contains cases and datasets but no exam questions, so the ques
 | `excel_questions.py` | NYC film permits (PwC), ETL cases 1–4, IntegrateCo payroll |
 | `sql_questions.py` | Chinook, CS50 songs/movies/Fiftyville, OSU P-cards; each answer comes from running the reference query |
 | `regression.py` | Two exams estimated on the restaurant case data, plus constructed business scenarios |
+| `followups.py` | The examiner's follow-up question and "listens for" point for every question |
 | `build.py` | Copies the download files, builds practice subsets of the large databases, assembles exams, writes `docs/data/content.json` |
 
 The two largest databases are cut down so they download quickly: `pcards_2014.db` (calendar year 2014)

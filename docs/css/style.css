@@ -163,6 +163,17 @@ input[type="search"] { flex: 1 1 220px; }
 .item .meta { font-size: 0.82rem; color: var(--muted); }
 .item .title { font-weight: 500; }
 
+/* examiner mode */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.options { border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; margin: 0; }
+.options label { display: flex; gap: 0.6rem; align-items: center; }
+.options input { width: 18px; height: 18px; accent-color: var(--accent); }
+.followup { border-left: 3px solid var(--warn); background: var(--warn-soft); padding: 0.8rem 1rem; border-radius: 0 8px 8px 0; }
+.followup p:last-child { margin-bottom: 0; }
+.examiner .question-text { font-size: 1.3rem; }
+.tag.rec { color: #c62828; border-color: currentColor; }
+.home-feature { border-color: var(--accent); background: linear-gradient(0deg, var(--accent-soft), var(--surface)); }
+
 @media (max-width: 760px) {
   main { padding-top: 1.25rem; }
   .exam { grid-template-columns: 1fr; }
