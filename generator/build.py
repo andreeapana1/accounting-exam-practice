@@ -7,9 +7,11 @@ import random
 import shutil
 import zipfile
 
+import excel_extra
 import excel_questions
 import followups
 import regression
+import sql_extra
 import sql_questions
 from common import DATA, EXCEL, FILES
 
@@ -77,26 +79,49 @@ def copy_excel_files():
             z.write(INTEGRATECO / name, name)
 
 
-def make_exams(questions, per_pair=5, seed=7):
+def make_exams(questions, per_pair=10, seed=7):
     """Each exam: one Excel file + one SQL database, five questions that fit in about eight minutes."""
     rng = random.Random(seed)
     by_ds = {}
     for q in questions:
         by_ds.setdefault(q["dataset"], []).append(q)
     exams, seen = [], set()
+    uses = {q["id"]: 0 for q in questions}
     pairs = [(e, s) for e in EXAM_EXCEL for s in EXAM_SQL]
     for k in range(per_pair):
         rng.shuffle(pairs)
         for e, s in pairs:
-            for _ in range(5000):
-                n_excel = rng.choice([2, 3])
-                picked = rng.sample(by_ds[e], n_excel) + rng.sample(by_ds[s], 5 - n_excel)
-                total = sum(q["minutes"] for q in picked)
-                key = frozenset(q["id"] for q in picked)
-                if 6 <= total <= EXAM_MINUTES and key not in seen:
+            # Draw many valid candidates and keep the one whose questions have been used least so far,
+            # so every question in the bank turns up in exams rather than a few favourites.
+            # Long questions rarely fit by chance, so each exam is built around the least-used question
+            # of its two files and the remaining time is filled around it.
+            pool = by_ds[e] + by_ds[s]
+            anchors = sorted(pool, key=lambda q: (uses[q["id"]], rng.random()))[:8] + [None]
+            best = None
+            for anchor in anchors:  # if the least-used question cannot fit with this pair, try the next one
+                for _ in range(400):
+                    n_excel = rng.choice([2, 3])
+                    ex_pool = [q for q in by_ds[e] if q is not anchor]
+                    sq_pool = [q for q in by_ds[s] if q is not anchor]
+                    if anchor is None:
+                        picked = rng.sample(ex_pool, n_excel) + rng.sample(sq_pool, 5 - n_excel)
+                    elif anchor["dataset"] == e:
+                        picked = [anchor] + rng.sample(ex_pool, n_excel - 1) + rng.sample(sq_pool, 5 - n_excel)
+                    else:
+                        picked = rng.sample(ex_pool, n_excel) + [anchor] + rng.sample(sq_pool, 4 - n_excel)
+                    total = sum(q["minutes"] for q in picked)
+                    key = frozenset(q["id"] for q in picked)
+                    if 6 <= total <= EXAM_MINUTES and key not in seen:
+                        cost = sum(uses[q["id"]] ** 2 for q in picked)
+                        if best is None or cost < best[0]:
+                            best = (cost, picked, key)
+                if best:
                     break
-            else:
+            if best is None:
                 raise RuntimeError(f"no exam of at most {EXAM_MINUTES} minutes found for {e} + {s}")
+            _, picked, key = best
+            for q in picked:
+                uses[q["id"]] += 1
             seen.add(key)
             picked.sort(key=lambda q: (q["tool"] != "Excel", q["id"]))
             exams.append({"datasets": [e, s], "questions": [q["id"] for q in picked],
@@ -110,7 +135,8 @@ def main():
     FILES.mkdir(parents=True, exist_ok=True)
     DATA.mkdir(parents=True, exist_ok=True)
     copy_excel_files()
-    questions = excel_questions.all_questions() + sql_questions.all_questions()
+    questions = (excel_questions.all_questions() + excel_extra.all_questions()
+                 + sql_questions.all_questions() + sql_extra.all_questions())
     for i, q in enumerate(questions, 1):
         q["id"] = f"Q{i:03d}"
     for key, ds in DATASETS.items():

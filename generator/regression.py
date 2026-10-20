@@ -81,7 +81,7 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
 
     # 1. Planning prediction
     xv, dv = predict_at
-    yhat = b0 + b1 * xv + b2 * dv + b3 * xv * dv
+    yhat = round(b0 + b1 * xv + b2 * dv + b3 * xv * dv, 2)  # predictions are reported to 2 decimals
     group = d["comp"] if dv else d["ref"]
     work = f"{fmt(b0)}{signed(b1)} × {num(xv)}{signed(b2)} × {dv}"
     if interaction:
@@ -102,7 +102,7 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
 
     # 2. Size of the group difference
     gx = gap_at
-    gap = b2 + b3 * gx
+    gap = round(b2 + b3 * gx, 2)
     if interaction:
         gap_ans = (f"With the interaction, the gap depends on {x['name'].lower()}: gap = {par[2]} + {par[3]} × "
                    f"{x['name']} = {fmt(b2)}{signed(b3)} × {num(gx)} = {fmt(gap)} {unit}.{scale_note(gx)} "
@@ -162,7 +162,7 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
 
     # 4. Can the prediction be trusted?
     ox, odv = outside
-    oyhat = b0 + b1 * ox + b2 * odv + b3 * ox * odv
+    oyhat = round(b0 + b1 * ox + b2 * odv + b3 * ox * odv, 2)
     q_trust = {
         "kind": "R",
         "prompt": f"A colleague used the model to predict {y['name'].lower()} for {joined(d['comp'] if odv else d['ref'])}"
@@ -192,19 +192,25 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
 # --------------------------------------------------------- restaurant (real)
 def restaurant_data():
     wb = openpyxl.load_workbook(RESTAURANT, read_only=True, data_only=True)
-    sales, sales364 = defaultdict(float), defaultdict(float)
+    sales, sales364, sales28 = defaultdict(float), defaultdict(float), defaultdict(float)
     for r in wb["salesData"].iter_rows(min_row=2, values_only=True):
         if r[0] is None:
             continue
         sales[r[0].date()] += r[5] or 0
         sales364[r[0].date()] += r[11] or 0
-    tmax = {r[0].date(): r[3] for r in wb["weatherData"].iter_rows(min_row=2, values_only=True) if r[0]}
+        sales28[r[0].date()] += r[15] or 0
+    weather = {r[0].date(): r for r in wb["weatherData"].iter_rows(min_row=2, values_only=True) if r[0]}
+    tmax = {d: w[3] for d, w in weather.items()}
     game = {r[0].date(): r[4] for r in wb["gameData"].iter_rows(min_row=2, values_only=True) if r[0]}
     days = sorted(d for d in sales if d in tmax)
     return {
         "y": np.array([sales[d] for d in days]),
         "y364": np.array([sales364[d] for d in days]),
+        "y28": np.array([sales28[d] for d in days]),
         "tmax": np.array([tmax[d] for d in days]),
+        # rainfall is "NA" on some days: keep it missing (NaN) rather than pretending it was dry
+        "prcp": np.array([float(weather[d][1]) if isinstance(weather[d][1], (int, float)) else np.nan for d in days]),
+        "weekend": np.array([float(d.weekday() >= 5) for d in days]),
         "game": np.array([float(game.get(d, 0)) for d in days]),
     }
 
@@ -229,7 +235,27 @@ def restaurant_exams():
     beta, p, r2, n = ols(r["y"], [r["y364"], r["game"], r["y364"] * r["game"]])
     ex2 = build_exam("REG02", "Larry's Commissary: last year's sales × game day", stake, y, s364, game, beta, p, True,
                      (4000, 1), 5000, (round(hi * 1.6, -2), 1), f"Estimated on the case data: n = {n} days, R² = {r2:.2f}")
-    return [ex1, ex2]
+    ok = ~np.isnan(r["prcp"])
+    wet_max = float(np.nanmax(r["prcp"]))
+    rain = {"name": "Rainfall", "unit": "inches", "unit_one": "inch of rain", "phrase": "{v} inches of rain",
+            "range": (0, round(wet_max, 1))}
+    beta, p, r2, n = ols(r["y"][ok], [r["prcp"][ok], r["game"][ok]])
+    ex3 = build_exam("REG03", "Larry's Commissary: rain and game days", stake, y, rain, game, beta, p, False,
+                     (0.5, 0), 0.5, (round(wet_max * 2, 1), 0),
+                     f"Estimated on the case data: n = {n} days (days with rainfall recorded as NA excluded), R² = {r2:.2f}")
+
+    weekend = {"name": "Weekend", "ref": "weekdays (Monday–Friday)", "comp": "weekend days"}
+    beta, p, r2, n = ols(r["y"], [r["tmax"], r["weekend"]])
+    ex4 = build_exam("REG04", "Larry's Commissary: weather and weekends", stake, y, t, weekend, beta, p, False,
+                     (60, 1), 60, (120, 1), f"Estimated on the case data: n = {n} days, R² = {r2:.2f}")
+
+    hi28 = float(r["y28"].max())
+    s28 = {"name": "Sales four weeks ago", "unit": "USD", "unit_one": "dollar of sales on the same day four weeks earlier",
+           "phrase": "sales of {v} USD on the same day four weeks earlier", "range": (round(float(r["y28"].min()), -2), round(hi28, -2))}
+    beta, p, r2, n = ols(r["y"], [r["y28"], r["game"], r["y28"] * r["game"]])
+    ex5 = build_exam("REG05", "Larry's Commissary: four weeks ago × game day", stake, y, s28, game, beta, p, True,
+                     (3500, 1), 4000, (round(hi28 * 1.6, -2), 0), f"Estimated on the case data: n = {n} days, R² = {r2:.2f}")
+    return [ex1, ex2, ex3, ex4, ex5]
 
 
 # ------------------------------------------------------- scenario templates
@@ -284,10 +310,40 @@ SCENARIOS = [
          y=("Audit fee", "thousand DKK"), x=("Client revenue", "million DKK", "million DKK of client revenue", (10, 500)),
          d=("Listed client", "private clients", "listed clients"),
          b0=(50, 150), b1=(0.3, 1.2), b2=(60, 250), b3=(-0.3, 0.6)),
+    dict(title="Expense claim processing", phrase="{v} receipts on the claim", scale=1, stakeholder="the finance manager",
+         intro="A finance team measures how long it takes to check and approve employee expense claims.",
+         y=("Processing time", "minutes per claim"), x=("Receipts", "receipts", "receipt", (1, 15)),
+         d=("Scanned receipts", "claims with paper receipts", "claims with scanned receipts"),
+         b0=(4, 10), b1=(0.8, 2.4), b2=(-5, -1), b3=(-0.6, 0.2)),
+    dict(title="Bank reconciliation differences", phrase="{v} bank transactions", scale=1000, stakeholder="the treasury accountant",
+         intro="A company counts the items left unreconciled at each month-end bank reconciliation.",
+         y=("Unreconciled items", "items per month"), x=("Bank transactions", "thousand transactions", "thousand transactions", (1, 20)),
+         d=("Automated bank feed", "months with manual statement imports", "months with an automated bank feed"),
+         b0=(3, 9), b1=(0.8, 2.5), b2=(-6, -1), b3=(-1, 0.1)),
+    dict(title="Tax return preparation", phrase="{v} income sources", scale=1, stakeholder="the tax manager",
+         intro="An accounting firm records the hours spent preparing personal tax returns.",
+         y=("Preparation time", "hours per return"), x=("Income sources", "income sources", "income source", (1, 10)),
+         d=("Self-employed client", "employed clients", "self-employed clients"),
+         b0=(1, 3), b1=(0.4, 1.2), b2=(1.5, 5), b3=(-0.3, 0.6)),
+    dict(title="Payroll corrections", phrase="{v} employees paid", scale=1, stakeholder="the payroll supervisor",
+         intro="A payroll team counts how many corrections each payroll run needs after it has been processed.",
+         y=("Corrections", "corrections per run"), x=("Employees paid", "employees", "employee", (20, 300)),
+         d=("Manual timesheets", "runs with electronic timesheets", "runs with manual timesheets"),
+         b0=(1, 4), b1=(0.01, 0.05), b2=(2, 8), b3=(-0.01, 0.03)),
+    dict(title="Purchase order approval time", phrase="an order value of {v} DKK", scale=1000, stakeholder="the procurement manager",
+         intro="A procurement department studies how long purchase orders wait for approval.",
+         y=("Approval time", "days"), x=("Order value", "thousand DKK", "thousand DKK of order value", (1, 100)),
+         d=("New supplier", "existing suppliers", "new suppliers"),
+         b0=(1, 3), b1=(0.03, 0.09), b2=(1, 4), b3=(-0.02, 0.04)),
+    dict(title="Inventory count differences", phrase="{v} stock items counted", scale=100, stakeholder="the warehouse controller",
+         intro="At each stock count, a warehouse compares counted quantities with the inventory records.",
+         y=("Count differences", "items with a difference"), x=("Items counted", "hundred items", "hundred items counted", (2, 40)),
+         d=("Barcode scanning", "counts done on paper", "counts done with barcode scanners"),
+         b0=(2, 8), b1=(0.6, 1.6), b2=(-6, -1), b3=(-0.8, 0.1)),
 ]
 
 
-def scenario_exams(start=3, per_scenario=2, seed=2026):
+def scenario_exams(start=6, per_scenario=3, seed=2026):
     rng = random.Random(seed)
     exams, eid = [], start
     for s in SCENARIOS:

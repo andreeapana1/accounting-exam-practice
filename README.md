@@ -28,9 +28,9 @@ Many are written as audit-style checks — reconciliations, control tests, uniqu
 
 | Module | What it produces |
 |---|---|
-| `excel_questions.py` | NYC film permits (PwC), ETL cases 1–4, IntegrateCo payroll |
-| `sql_questions.py` | Chinook, CS50 songs/movies/Fiftyville, OSU P-cards; each answer comes from running the reference query |
-| `regression.py` | Two exams estimated on the restaurant case data, plus constructed business scenarios |
+| `excel_questions.py`, `excel_extra.py` | NYC film permits (PwC), ETL cases 1–4, IntegrateCo payroll |
+| `sql_questions.py`, `sql_extra.py` | Chinook, CS50 songs/movies/Fiftyville, OSU P-cards; each answer comes from running the reference query |
+| `regression.py` | Five exams estimated on the restaurant case data (weather, rain, weekends, game days, earlier sales), plus constructed business scenarios |
 | `followups.py` | The examiner's follow-up question and "listens for" point for every question |
 | `keypoints.py` | The checklist of key points a spoken answer should contain |
 | `check_overlap.py` | Flags any question too similar to a list of reference prompts (e.g. another site's questions) |
