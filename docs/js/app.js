@@ -479,11 +479,12 @@
   }
   function pointMet(kp, text) {
     if (kp.number != null) {
-      const target = Math.abs(kp.number);
-      return numbersIn(text).some((n) => {
+      // alt: the same amount in the model's own units (e.g. 60 for 6,000 invoices measured in hundreds)
+      const targets = [kp.number, ...(kp.alt || [])].map(Math.abs);
+      return numbersIn(text).some((n) => targets.some((target) => {
         const d = Math.abs(n - target);
         return kp.tol ? d <= kp.tol * target + 0.005 : d < 1e-6;
-      });
+      }));
     }
     const t = ` ${text.toLowerCase().replace(/\s+/g, " ")} `;
     return kp.terms.some((term) => t.includes(term.toLowerCase()));
@@ -902,7 +903,8 @@
     }
   }
 
-  fetch("data/content.json")
+  // no-cache: revalidate with the server so students always get the latest questions after an update
+  fetch("data/content.json", { cache: "no-cache" })
     .then((r) => r.json())
     .then((data) => {
       C = data;

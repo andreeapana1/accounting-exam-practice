@@ -59,6 +59,17 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
     b0, b1, b2 = coefs[:3]
     b3 = coefs[3] if interaction else 0
     unit = y["unit"]
+    # How to say a value of x in a sentence. Some variables are measured in hundreds or thousands
+    # (x = 46 means 4,600 invoices), so sentences use the real amount and answers explain the scaling.
+    scale = x.get("scale", 1)
+    say = lambda v: x["phrase"].format(v=num(v * scale))
+    joined = lambda group: f"{group}{' and ' if ' with ' in group else ' with '}"
+    lo, hi = x["range"]
+    per, _, base = x["unit"].partition(" ")  # "hundred invoices" -> "hundred", "invoices"
+    scale_note = lambda v: (f" {x['name']} is measured in {per}s of {base}, so {num(v * scale)} means "
+                            f"{x['name']} = {num(v)}." if scale != 1 else "")
+    span = (f"{x['name'].lower()} from {num(lo * scale)} to {num(hi * scale)} "
+            f"{base if scale != 1 else x['unit']}")
     who = context["stakeholder"]
     # "Noah, IntegrateCo's CFO" needs a closing comma when it is the subject of a sentence.
     subj = who + ("," if "," in who else "")
@@ -78,9 +89,8 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
     dropped = "" if dv else f" The {d['name'].lower()} term{'s' if interaction else ''} drop{'' if interaction else 's'} out because {d['name']} = 0."
     q_plan = {
         "kind": "P",
-        "prompt": f"{Who} is planning for {group} with {x['name'].lower()} at {num(xv)} {x['unit']}. "
-                  f"What {y['name'].lower()} should they plan for?",
-        "answer": f"Predicted {y['name'].lower()} = {work} = {fmt(yhat)} {unit}.{dropped}",
+        "prompt": f"{Who} is planning for {joined(group)}{say(xv)}. What {y['name'].lower()} should they plan for?",
+        "answer": f"{scale_note(xv).strip()} Predicted {y['name'].lower()} = {work} = {fmt(yhat)} {unit}.{dropped}".strip(),
         "keypoints": [
             {"label": f"Gave the prediction ({fmt(yhat)})", "number": yhat, "tol": 0.01},
             {"label": f"Stated the unit ({unit})", "terms": unit_terms},
@@ -93,17 +103,17 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
     gap = b2 + b3 * gx
     if interaction:
         gap_ans = (f"With the interaction, the gap depends on {x['name'].lower()}: gap = {par[2]} + {par[3]} × "
-                   f"{x['name']} = {fmt(b2)}{signed(b3)} × {num(gx)} = {fmt(gap)} {unit}. "
-                   f"{d['comp'][0].upper() + d['comp'][1:]} are predicted to have {fmt(abs(gap))} {unit} "
-                   f"{'more' if gap >= 0 else 'less'} than {d['ref']} at {num(gx)} {x['unit']}.")
+                   f"{x['name']} = {fmt(b2)}{signed(b3)} × {num(gx)} = {fmt(gap)} {unit}.{scale_note(gx)} "
+                   f"With {say(gx)}, {d['comp']} are predicted to have {fmt(abs(gap))} {unit} "
+                   f"{'more' if gap >= 0 else 'less'} than {d['ref']}.")
     else:
         gap_ans = (f"Without an interaction the gap is the same at every level of {x['name'].lower()}: it is {par[2]} = "
                    f"{fmt(b2)} {unit}. Holding {x['name'].lower()} constant, {d['comp']} are predicted to have "
                    f"{fmt(abs(b2))} {unit} {'more' if b2 >= 0 else 'less'} than {d['ref']} (the reference group).")
     q_gap = {
         "kind": "G",
-        "prompt": f"At {x['name'].lower()} = {num(gx)} {x['unit']}, how large is the predicted difference in "
-                  f"{y['name'].lower()} between {d['comp']} and {d['ref']}? Which part of the equation gives you that number?",
+        "prompt": f"With {say(gx)}, how large is the predicted difference in {y['name'].lower()} between "
+                  f"{d['comp']} and {d['ref']}? Which part of the equation gives you that number?",
         "answer": gap_ans,
         "keypoints": [
             {"label": f"Gave the size of the gap ({fmt(gap)})", "number": gap, "tol": 0.01},
@@ -145,16 +155,17 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
     oyhat = b0 + b1 * ox + b2 * odv + b3 * ox * odv
     q_trust = {
         "kind": "R",
-        "prompt": f"A colleague used the model to predict {y['name'].lower()} for {d['comp'] if odv else d['ref']} with "
-                  f"{x['name'].lower()} = {num(ox)} {x['unit']} and got {fmt(oyhat)} {unit}. Should {subj} rely on this number?",
-        "answer": f"No, not without a strong warning. {num(ox)} lies outside the range the model was estimated on "
-                  f"({num(lo)}–{num(hi)} {x['unit']}). This is extrapolation: the linear relationship may not hold there. "
-                  f"Use values inside the range, or collect data that covers this situation.",
+        "prompt": f"A colleague used the model to predict {y['name'].lower()} for {joined(d['comp'] if odv else d['ref'])}"
+                  f"{say(ox)} and got {fmt(oyhat)} {unit}. Should {subj} rely on this number?",
+        "answer": f"No, not without a strong warning. The model was estimated on data with {span}, so "
+                  f"{say(ox)} lies outside the observed range. This is extrapolation: the linear relationship may not "
+                  f"hold there. Use values inside the range, or collect data that covers this situation.",
         "keypoints": [
             {"label": "Said the value is outside the observed range", "terms": ["outside", "range", "beyond", "higher than", "above"]},
             {"label": "Called it extrapolation / unreliable", "terms": ["extrapolat", "unreliable", "not reliable", "careful",
                                                                        "caution", "uncertain", "not confident", "risky"]},
-            {"label": f"Mentioned the observed range ({num(lo)}–{num(hi)})", "number": hi, "tol": 0.01},
+            {"label": f"Mentioned the observed range ({num(lo * scale)}–{num(hi * scale)})", "number": hi * scale,
+             "alt": [hi] if scale != 1 else [], "tol": 0.01},
         ],
     }
     return {
@@ -194,7 +205,7 @@ def restaurant_exams():
                       "game days (the restaurant regression case). The regression was estimated on the case data."}
     y = {"name": "Daily sales", "unit": "USD"}
     game = {"name": "Game day", "ref": "days without a home-town football game", "comp": "game days"}
-    t = {"name": "Max temperature", "unit": "°F", "unit_one": "degree Fahrenheit",
+    t = {"name": "Max temperature", "unit": "°F", "unit_one": "degree Fahrenheit", "phrase": "a maximum temperature of {v} °F",
          "range": (round(float(r["tmax"].min())), round(float(r["tmax"].max())))}
     beta, p, r2, n = ols(r["y"], [r["tmax"], r["game"]])
     ex1 = build_exam("REG01", "Larry's Commissary: weather and game days", stake, y, t, game, beta, p, False,
@@ -202,6 +213,7 @@ def restaurant_exams():
 
     hi = float(r["y364"].max())
     s364 = {"name": "Sales one year ago", "unit": "USD", "unit_one": "dollar of sales on the same day last year",
+            "phrase": "sales of {v} USD on the same day last year",
             "range": (round(float(r["y364"].min()), -2), round(hi, -2))}
     beta, p, r2, n = ols(r["y"], [r["y364"], r["game"], r["y364"] * r["game"]])
     ex2 = build_exam("REG02", "Larry's Commissary: last year's sales × game day", stake, y, s364, game, beta, p, True,
@@ -211,52 +223,52 @@ def restaurant_exams():
 
 # ------------------------------------------------------- scenario templates
 SCENARIOS = [
-    dict(title="Month-end close duration", stakeholder="the group controller",
+    dict(title="Month-end close duration", phrase="{v} journal entries", scale=1000, stakeholder="the group controller",
          intro="After IntegrateCo's new accounting system, the controller studies how long the month-end close takes.",
          y=("Close duration", "working days"), x=("Journal entries", "thousand entries", "thousand entries", (2, 20)),
          d=("New ERP system", "months on the old system", "months on the new system"),
          b0=(3, 6), b1=(0.2, 0.6), b2=(-2.5, -0.5), b3=(-0.15, 0.05)),
-    dict(title="Payroll overtime", stakeholder="Noah, IntegrateCo's CFO",
+    dict(title="Payroll overtime", phrase="{v} projects assigned", scale=1, stakeholder="Noah, IntegrateCo's CFO",
          intro="IntegrateCo (payroll case) wants to explain monthly overtime pay per employee.",
          y=("Overtime pay", "USD per month"), x=("Projects assigned", "projects", "project", (1, 8)),
          d=("Installation job", "employees in office roles", "employees in installation roles"),
          b0=(20, 120), b1=(30, 90), b2=(40, 200), b3=(-20, 40)),
-    dict(title="P-card spending", stakeholder="OSU's internal auditor",
+    dict(title="P-card spending", phrase="{v} transactions in the month", scale=1, stakeholder="OSU's internal auditor",
          intro="OSU's internal audit team studies monthly P-card spending per cardholder (P-card case).",
          y=("Monthly P-card spending", "USD"), x=("Transactions", "transactions", "transaction", (2, 60)),
          d=("Student employee", "staff cardholders", "student-employee cardholders"),
          b0=(200, 900), b1=(150, 320), b2=(-900, -150), b3=(-120, 10)),
-    dict(title="Journal entry review time", stakeholder="the audit senior",
+    dict(title="Journal entry review time", phrase="{v} line items in the entry", scale=1, stakeholder="the audit senior",
          intro="An audit team measures how long it takes to review journal entries for a client.",
          y=("Review time", "minutes per entry"), x=("Line items", "line items", "line item", (2, 30)),
          d=("Manual entry", "system-generated entries", "manual entries"),
          b0=(2, 6), b1=(0.5, 1.6), b2=(3, 12), b3=(-0.3, 0.8)),
-    dict(title="Film permit lead time", stakeholder="the NYC film office manager",
+    dict(title="Film permit lead time", phrase="{v} locations on the permit", scale=1, stakeholder="the NYC film office manager",
          intro="The NYC film office (Excel case) studies the lead time between entering and starting a permit.",
          y=("Lead time", "days"), x=("Locations on the permit", "locations", "location", (1, 12)),
          d=("Television shoot", "film shoots", "television shoots"),
          b0=(2, 5), b1=(0.3, 1.2), b2=(-2.5, -0.5), b3=(-0.4, 0.3)),
-    dict(title="Invoice matching errors", stakeholder="the accounts payable manager",
+    dict(title="Invoice matching errors", phrase="{v} invoices processed", scale=100, stakeholder="the accounts payable manager",
          intro="An accounts payable team counts invoices that fail the three-way match (order, receipt, invoice).",
          y=("Matching errors", "errors per month"), x=("Invoices processed", "hundred invoices", "hundred invoices", (5, 60)),
          d=("Automated matching", "months with manual matching", "months with automated matching"),
          b0=(2, 8), b1=(0.6, 1.8), b2=(-6, -1), b3=(-0.9, 0.1)),
-    dict(title="Accounts receivable collection", stakeholder="the credit manager",
+    dict(title="Accounts receivable collection", phrase="an invoice amount of {v} USD", scale=1000, stakeholder="the credit manager",
          intro="A wholesaler studies how many days customers take to pay their invoices.",
          y=("Days to pay", "days"), x=("Invoice amount", "thousand USD", "thousand USD of invoice value", (1, 50)),
          d=("New customer", "existing customers", "new customers"),
          b0=(20, 35), b1=(0.2, 0.9), b2=(3, 12), b3=(-0.3, 0.4)),
-    dict(title="Music downloads", stakeholder="the Chinook sales manager",
+    dict(title="Music downloads", phrase="{v} marketing emails", scale=1, stakeholder="the Chinook sales manager",
          intro="The digital music store from the Chinook database studies monthly downloads per customer.",
          y=("Downloads", "tracks per month"), x=("Marketing emails", "emails", "marketing email", (0, 12)),
          d=("Premium member", "standard customers", "premium members"),
          b0=(3, 8), b1=(0.4, 1.5), b2=(2, 7), b3=(-0.4, 0.6)),
-    dict(title="Audit hours", stakeholder="the engagement partner",
+    dict(title="Audit hours", phrase="{v} subsidiaries", scale=1, stakeholder="the engagement partner",
          intro="An audit firm studies how many hours an engagement takes.",
          y=("Audit hours", "hours"), x=("Subsidiaries", "subsidiaries", "subsidiary", (1, 25)),
          d=("First-year client", "returning clients", "first-year clients"),
          b0=(150, 400), b1=(20, 60), b2=(40, 180), b3=(-8, 12)),
-    dict(title="Audit fees", stakeholder="the audit partner",
+    dict(title="Audit fees", phrase="client revenue of {v} million DKK", scale=1, stakeholder="the audit partner",
          intro="An audit firm studies the fees it charges clients.",
          y=("Audit fee", "thousand DKK"), x=("Client revenue", "million DKK", "million DKK of client revenue", (10, 500)),
          d=("Listed client", "private clients", "listed clients"),
@@ -288,7 +300,8 @@ def scenario_exams(start=3, per_scenario=2, seed=2026):
                 f"REG{eid:02d}", s["title"],
                 {"stakeholder": s["stakeholder"], "intro": s["intro"]},
                 {"name": s["y"][0], "unit": s["y"][1]},
-                {"name": s["x"][0], "unit": s["x"][1], "unit_one": s["x"][2], "range": s["x"][3]},
+                {"name": s["x"][0], "unit": s["x"][1], "unit_one": s["x"][2], "range": s["x"][3],
+                 "phrase": s["phrase"], "scale": s["scale"]},
                 {"name": s["d"][0], "ref": s["d"][1], "comp": s["d"][2]},
                 coefs, pvals, interaction, (xv, rng.choice([0, 1])), gx, (out, 0),
                 "Constructed scenario for practice (coefficients are illustrative)."))
