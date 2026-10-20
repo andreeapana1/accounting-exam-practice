@@ -426,7 +426,8 @@
   // exam: while the examiner speaks its results are simply ignored, and a watchdog restarts it if Chrome ends it.
   const CAPTURE_GRACE_MS = 800; // words finalised just after the student's turn ends still count
   const ECHO_TAIL_MS = 3000; // after the examiner stops, its words can still arrive as transcript for a while
-  const tokens = (s) => s.toLowerCase().replace(/(\d),(?=\d{3})/g, "$1").match(/[a-z0-9.']+/g) || [];
+  // words and numbers; a full stop only counts inside a number ("19.4"), not at the end of a sentence
+  const tokens = (s) => s.toLowerCase().replace(/(\d),(?=\d{3})/g, "$1").match(/[a-z']+|\d+(?:\.\d+)?/g) || [];
   const pairs = (ws) => ws.slice(1).map((w, k) => `${ws[k]} ${w}`);
 
   // The microphone also hears the examiner's voice from the speakers. The site knows exactly what the
@@ -448,6 +449,25 @@
         const ps = pairs(ws);
         const share = ps.filter((p) => recent.some((r) => r.pairs.has(p))).length / ps.length;
         return share >= (soon ? 0.5 : 0.7);
+      },
+      // Chrome often merges the examiner's words and the student's into one segment when there is no pause.
+      // Remove every run of 4+ words that follows the examiner's word order (one misheard word is tolerated).
+      strip(segment) {
+        const words = segment.split(/\s+/).filter(Boolean);
+        const norm = words.map((w) => tokens(w).join(""));
+        const hit = norm.slice(1).map((w, k) => recent.some((r) => r.pairs.has(`${norm[k]} ${w}`)));
+        const covered = words.map((_, k) => hit[k - 1] || hit[k]);
+        // bridge a single misheard word between two matching stretches ("new" heard as "news")
+        for (let k = 1; k < words.length - 1; k++) if (!covered[k] && covered[k - 1] && covered[k + 1]) covered[k] = "gap";
+        const keep = words.map(() => true);
+        for (let k = 0; k < words.length;) {
+          if (!covered[k]) { k++; continue; }
+          let j = k;
+          while (j < words.length && covered[j]) j++;
+          if (j - k >= 4) for (let m = k; m < j; m++) keep[m] = false;
+          k = j;
+        }
+        return words.filter((_, k) => keep[k]).join(" ");
       },
     };
   }
@@ -472,6 +492,10 @@
       echo,
       listen(res, part) { target = { res, part }; capturing = true; start(); },
       pause() { if (capturing) { capturing = false; pausedAt = Date.now(); } },
+      // Before the examiner speaks: finish the session so the student's last words are delivered.
+      flush() { if (running) { try { rec.stop(); } catch { /* ignore */ } } },
+      // When the examiner stops: throw away whatever was being heard (its voice) and start a fresh session.
+      discard() { if (running || starting) { try { rec.abort(); } catch { /* ignore */ } } },
       stop() { keepAlive = false; capturing = false; target = null; clearInterval(watchdog); try { rec.abort(); } catch { /* ignore */ } },
     };
     rec.onstart = () => { starting = false; running = true; onStatus(true); };
@@ -485,9 +509,14 @@
       for (let k = e.resultIndex; k < e.results.length; k++) {
         const r = e.results[k];
         if (r.isFinal) {
-          const seg = r[0].transcript.trim();
-          if (accept && target && !echo.isEcho(seg)) target.res.text[target.part] += seg + " ";
-        } else if (capturing && !echo.isEcho(r[0].transcript)) interim += r[0].transcript;
+          // Cut the examiner's phrases out first, then judge only what is left — a segment can be mostly
+          // examiner and still end with the student's answer.
+          const own = echo.strip(r[0].transcript.trim());
+          if (accept && target && own && !echo.isEcho(own)) target.res.text[target.part] += own + " ";
+        } else if (capturing) {
+          const own = echo.strip(r[0].transcript);
+          if (own && !echo.isEcho(own)) interim += own + " ";
+        }
       }
       listener.interim = capturing ? interim : "";
       if (capturing) onText(target, interim);
@@ -589,12 +618,15 @@
     for (let k = 0; k < words.length; k++) { if (pos + words[k].length >= m.index) { at = k; break; } pos += words[k].length + 1; }
     return words.slice(Math.max(0, at - 4), at + 5).join(" ");
   }
-  const lastNumber = (text) => {
+  // The last number the student said that is not simply read from the screen (coefficients, p-values,
+  // the range, numbers in the question) — that is the one that counts as their answer.
+  const lastNumber = (text, known = []) => {
     let s = text;
     while (/\d,\d{3}/.test(s)) s = s.replace(/(\d),(\d{3})/g, "$1$2");
-    const m = s.match(/\d+(?:\.\d+)?/g);
-    return m ? m[m.length - 1] : null;
+    const own = (s.match(/\d+(?:\.\d+)?/g) || []).filter((n) => !known.some((k) => Math.abs(Math.abs(k) - Number(n)) < 1e-9));
+    return own.length ? own[own.length - 1] : null;
   };
+  const numbersShown = (...texts) => texts.join(" ").replace(/(\d),(?=\d{3})/g, "$1").match(/\d+(?:\.\d+)?/g)?.map(Number) || [];
 
   function chooseFollowup(it, raw, adaptive) {
     const std = it.keypoints.find((k) => k.followup);
@@ -615,7 +647,7 @@
       if (m.when(t, it)) return { ask: m.ask, listen: m.listen, check: { terms: m.terms }, why: `Because you said: “…${quote(text, m.re)}…”` };
     }
     const numKp = it.keypoints.find((k) => k.number != null && !k.followup);
-    const n = lastNumber(text);
+    const n = lastNumber(text, it.known || []);
     if (numKp && n && !pointMet(numKp, text)) {
       return { ask: `You said ${n}. Can you check that number? Talk me through how you got it.`,
         listen: `Recomputes step by step and arrives at the right figure: ${numKp.label.replace(/^Gave the /, "")}.`,
@@ -724,7 +756,9 @@
     let listener = null, micOn = false;
     // Speak text; resolve when finished (with a time-based fallback because onend is unreliable in some browsers).
     const say = (text) => new Promise((resolve) => {
-      if (listener) { listener.pause(); listener.echo.spoke(text); } // don't transcribe the examiner's own voice
+      // Don't transcribe the examiner's own voice: stop capturing, remember what it says, and close the
+      // current recognition session so the student's last words are finalised before the examiner starts.
+      if (listener) { listener.pause(); listener.echo.spoke(text); listener.flush(); }
       const live = stage.querySelector("[data-live]");
       if (live) live.textContent = text;
       if (!opts.speak) return resolve();
@@ -738,7 +772,7 @@
         if (done) return;
         done = true; clearTimeout(t);
         // Wait a moment after the examiner stops so its last words are not taken as the student's.
-        if (listener) { listener.echo.finished(); setTimeout(resolve, 600); } else resolve();
+        if (listener) { listener.echo.finished(); listener.discard(); setTimeout(resolve, 600); } else resolve();
       };
       const t = setTimeout(finish, 1500 + text.length * 75);
       u.onend = finish;
@@ -1020,7 +1054,7 @@
       const q = Q[qid];
       return {
         label: q.tool, prompt: q.prompt, seconds: Math.round(q.minutes * 60) + 30, followup: q.followup, keypoints: q.keypoints,
-        skills: q.skills,
+        skills: q.skills, known: numbersShown(q.prompt),
         answerHtml: `<p><strong>${esc(q.answer)}</strong></p>${q.tool === "SQL" ? `<pre><code>${esc(q.solution)}</code></pre>` : `<p>${esc(q.solution)}</p>`}`,
       };
     }));
@@ -1032,7 +1066,12 @@
     examinerMode({
       id: r.id, title: r.title, back: `#/regression/${r.id}`, section: "interpretation", intro: r.intro,
       reference: regressionReference(r),
-    }, r.questions.map((q) => ({ label: "", kind: q.kind, prompt: q.prompt, seconds: 75, followup: q.followup, keypoints: q.keypoints, answerHtml: paras(q.answer) })));
+    }, r.questions.map((q) => ({
+      label: "", kind: q.kind, prompt: q.prompt, seconds: 75, followup: q.followup, keypoints: q.keypoints,
+      answerHtml: paras(q.answer),
+      // numbers visible on screen: reading these out is not an answer
+      known: numbersShown(q.prompt, r.table.map((t) => `${t.estimate} ${t.p}`).join(" "), r.x.range.join(" ")),
+    })));
   }
 
   function notFound() {
