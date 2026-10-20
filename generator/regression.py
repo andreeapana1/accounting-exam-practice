@@ -92,9 +92,11 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
         "prompt": f"{Who} is planning for {joined(group)}{say(xv)}. What {y['name'].lower()} should they plan for?",
         "answer": f"{scale_note(xv).strip()} Predicted {y['name'].lower()} = {work} = {fmt(yhat)} {unit}.{dropped}".strip(),
         "keypoints": [
-            {"label": f"Gave the prediction ({fmt(yhat)})", "number": yhat, "tol": 0.01},
-            {"label": f"Stated the unit ({unit})", "terms": unit_terms},
-            {"label": "Showed how the values go into the equation", "terms": ["plus", "times", "multipl", "+", "×"]},
+            {"label": f"Gave the prediction ({fmt(yhat)})", "number": yhat, "tol": 0.01,
+             "probe": "So what is the figure? Give me the actual number you would plan for."},
+            {"label": f"Stated the unit ({unit})", "terms": unit_terms, "probe": "In what unit is that number?"},
+            {"label": "Showed how the values go into the equation", "terms": ["plus", "times", "multipl", "+", "×"],
+             "probe": "How did you get there? Which values go into the equation?"},
         ],
     }
 
@@ -116,10 +118,14 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
                   f"{d['comp']} and {d['ref']}? Which part of the equation gives you that number?",
         "answer": gap_ans,
         "keypoints": [
-            {"label": f"Gave the size of the gap ({fmt(gap)})", "number": gap, "tol": 0.01},
-            {"label": f"Named the comparison group ({d['ref']})", "terms": ref_terms},
+            {"label": f"Gave the size of the gap ({fmt(gap)})", "number": gap, "tol": 0.01,
+             "probe": "So how big is the difference, as a number?"},
+            {"label": f"Named the comparison group ({d['ref']})", "terms": ref_terms,
+             "probe": "More or less compared with which group, exactly?"},
             {"label": "Pointed to the right coefficient(s)" + (" — including the interaction" if interaction else ""),
-             "terms": ["interaction", "slope", "depends"] if interaction else ["coefficient", par[2], "dummy", "constant"]},
+             "terms": ["interaction", "slope", "depends"] if interaction else ["coefficient", par[2], "dummy", "constant"],
+             "probe": "Does that gap stay the same for every value, or does it change?" if interaction
+             else "Which number in the regression table gives you that difference?"},
         ],
     }
 
@@ -142,11 +148,15 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
                   f"which one would you remove — or would you keep them all? Why?",
         "answer": drop_ans,
         "keypoints": [
-            {"label": "Used the p-values / 5% level", "terms": ["0.05", "5%", "5 %", "five percent", "p-value", "p value"]},
+            {"label": "Used the p-values / 5% level", "terms": ["0.05", "5%", "5 %", "five percent", "p-value", "p value"],
+             "probe": "What in the regression output are you basing that on?"},
             {"label": f"Chose {weakest[0] if weakest[1] >= 0.05 else 'to keep all variables'}",
              "terms": [w.lower() for w in weakest[0].replace("×", " ").split() if len(w) > 3][:2] + (["interaction"] if "×" in weakest[0] else [])
-             if weakest[1] >= 0.05 else ["keep", "all of them", "none"]},
-            {"label": "Explained what a high/low p-value means", "terms": ["zero", "no effect", "chance", "rule out", "evidence"]},
+             if weakest[1] >= 0.05 else ["keep", "all of them", "none"],
+             "probe": "Look at the p-values again: which variable has the weakest evidence?" if weakest[1] >= 0.05
+             else "Is there any variable you would remove, and why or why not?"},
+            {"label": "Explained what a high/low p-value means", "terms": ["zero", "no effect", "chance", "rule out", "evidence"],
+             "probe": "What does a p-value above 0.05 actually tell you about that variable?"},
         ],
     }
 
@@ -161,11 +171,12 @@ def build_exam(eid, title, context, y, x, d, coefs, pvals, interaction, predict_
                   f"{say(ox)} lies outside the observed range. This is extrapolation: the linear relationship may not "
                   f"hold there. Use values inside the range, or collect data that covers this situation.",
         "keypoints": [
-            {"label": "Said the value is outside the observed range", "terms": ["outside", "range", "beyond", "higher than", "above"]},
-            {"label": "Called it extrapolation / unreliable", "terms": ["extrapolat", "unreliable", "not reliable", "careful",
+            {"label": "Said the value is outside the observed range", "terms": ["outside", "range", "beyond", "higher than", "above"],
+             "probe": "What range of values was the model actually estimated on?"},
+            {"label": "Called it extrapolation / unreliable", "probe": "What is the risk of using the model for a value like that?", "terms": ["extrapolat", "unreliable", "not reliable", "careful",
                                                                        "caution", "uncertain", "not confident", "risky"]},
             {"label": f"Mentioned the observed range ({num(lo * scale)}–{num(hi * scale)})", "number": hi * scale,
-             "alt": [hi] if scale != 1 else [], "tol": 0.01},
+             "alt": [hi] if scale != 1 else [], "tol": 0.01, "probe": "Can you tell me the range the data covers?"},
         ],
     }
     return {

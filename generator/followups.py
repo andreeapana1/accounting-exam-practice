@@ -136,4 +136,4 @@ def add_followups(questions, regression_exams):
             ask, listen = REGRESSION_FOLLOWUPS[q["kind"]]
             q["followup"] = {"ask": ask.format(d=ex["d"]["name"].lower(), stakeholder=stakeholder), "listen": listen}
             q["keypoints"].append({"label": "Answered the follow-up (see what the examiner listens for)",
-                                   "terms": REGRESSION_FOLLOWUP_TERMS[q["kind"]]})
+                                   "terms": REGRESSION_FOLLOWUP_TERMS[q["kind"]], "followup": True})

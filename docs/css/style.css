@@ -170,6 +170,7 @@ input[type="search"] { flex: 1 1 220px; }
 .options input { width: 18px; height: 18px; accent-color: var(--accent); }
 .followup { border-left: 3px solid var(--warn); background: var(--warn-soft); padding: 0.8rem 1rem; border-radius: 0 8px 8px 0; }
 .followup p:last-child { margin-bottom: 0; }
+.followup .why { color: var(--warn); font-style: italic; margin-top: -0.4rem; }
 .examiner .question-text { font-size: 1.3rem; }
 .tag.rec { color: #c62828; border-color: currentColor; }
 .voice-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }

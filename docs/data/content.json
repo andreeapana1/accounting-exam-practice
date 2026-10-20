@@ -122,7 +122,9 @@
      "label": "Gave the answer (Yes)",
      "terms": [
       "yes"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (unique identifiers)",
@@ -130,14 +132,16 @@
       "unique",
       "identifier",
       " id"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (UNIQUE)",
      "terms": [
       "unique",
       "distinct"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -147,7 +151,8 @@
       "unique",
       "count the rows",
       "number of rows"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -173,7 +178,9 @@
      "terms": [
       "as the text \"n/a\"",
       "\"n/a\""
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (missing data)",
@@ -182,14 +189,16 @@
       "blank",
       "empty",
       "n/a"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (COUNTIF)",
      "terms": [
       "countif",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -198,7 +207,8 @@
       "why",
       "document",
       "reason"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -222,7 +232,9 @@
     {
      "label": "Gave the answer (2)",
      "number": 2.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (data quality)",
@@ -230,14 +242,16 @@
       "invalid",
       "quality",
       "wrong"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (LEN)",
      "terms": [
       "len",
       "length"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -249,7 +263,8 @@
       "by hand",
       "second way",
       "compare"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -274,14 +289,17 @@
      "label": "Gave the answer (EventAgency)",
      "terms": [
       "eventagency"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (UNIQUE)",
      "terms": [
       "unique",
       "distinct"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (data quality)",
@@ -289,7 +307,8 @@
       "invalid",
       "quality",
       "wrong"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -298,7 +317,8 @@
       "countif",
       "more than once",
       "count each"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -323,13 +343,16 @@
     {
      "label": "Gave the answer (21)",
      "number": 21.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (dates)",
      "terms": [
       "date"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (data quality)",
@@ -337,7 +360,8 @@
       "invalid",
       "quality",
       "wrong"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -346,7 +370,8 @@
       "number of days",
       "text",
       "stored"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -370,7 +395,9 @@
     {
      "label": "Gave the answer (3,059)",
      "number": 3059.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (wildcards)",
@@ -378,14 +405,16 @@
       "wildcard",
       "asterisk",
       "star"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (COUNTIF)",
      "terms": [
       "countif",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -394,7 +423,8 @@
       "cross street",
       "sample",
       "anywhere"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -419,21 +449,25 @@
     {
      "label": "Gave the answer (60)",
      "number": 60.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (LEN)",
      "terms": [
       "len",
       "length"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (SUBSTITUTE)",
      "terms": [
       "substitute",
       "replace"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -442,7 +476,8 @@
       "trim",
       "capital",
       "case"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -466,20 +501,24 @@
     {
      "label": "Gave the answer (3,760)",
      "number": 3760.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (WEEKDAY)",
      "terms": [
       "weekday"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (COUNTIF)",
      "terms": [
       "countif",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -488,7 +527,8 @@
       "trim",
       "capital",
       "case"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -513,20 +553,24 @@
     {
      "label": "Gave the answer (42.4%)",
      "number": 42.4,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (dates)",
      "terms": [
       "date"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (COUNTIF)",
      "terms": [
       "countif",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -535,7 +579,8 @@
       "number of days",
       "text",
       "stored"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -562,7 +607,9 @@
      "terms": [
       "eventid 74427",
       "eventid"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (date arithmetic)",
@@ -571,7 +618,8 @@
       "difference",
       "minus",
       "times 24"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (MAX)",
@@ -580,7 +628,8 @@
       "newest",
       "latest",
       "largest"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -589,7 +638,8 @@
       "not found",
       "error",
       "default"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -613,13 +663,16 @@
     {
      "label": "Gave the answer (8,476)",
      "number": 8476.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (dates)",
      "terms": [
       "date"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (date arithmetic)",
@@ -628,7 +681,8 @@
       "difference",
       "minus",
       "times 24"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -637,7 +691,8 @@
       "number of days",
       "text",
       "stored"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -662,7 +717,9 @@
      "label": "Gave the answer (October)",
      "terms": [
       "october"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (TEXT)",
@@ -670,13 +727,15 @@
       "text function",
       "day name",
       "dddd"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (PivotTable)",
      "terms": [
       "pivot"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -686,7 +745,8 @@
       "refresh",
       "source data",
       "review"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -711,7 +771,9 @@
      "label": "Gave the answer (Sunday)",
      "terms": [
       "sunday"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (TEXT)",
@@ -719,13 +781,15 @@
       "text function",
       "day name",
       "dddd"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (PivotTable)",
      "terms": [
       "pivot"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -735,7 +799,8 @@
       "refresh",
       "source data",
       "review"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -759,20 +824,24 @@
     {
      "label": "Gave the answer (178)",
      "number": 178.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (UNIQUE)",
      "terms": [
       "unique",
       "distinct"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (filtering)",
      "terms": [
       "filter"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -781,7 +850,8 @@
       "countif",
       "more than once",
       "count each"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -805,13 +875,16 @@
     {
      "label": "Gave the answer (51)",
      "number": 51.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (dates)",
      "terms": [
       "date"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (date arithmetic)",
@@ -820,7 +893,8 @@
       "difference",
       "minus",
       "times 24"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -829,7 +903,8 @@
       "number of days",
       "text",
       "stored"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -852,7 +927,9 @@
     {
      "label": "Gave the answer (22)",
      "number": 22.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (import)",
@@ -860,7 +937,8 @@
       "import",
       "delimiter",
       "open"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -870,7 +948,8 @@
       "type",
       "count",
       "split"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -893,13 +972,16 @@
     {
      "label": "Gave the answer (1)",
      "number": 1.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (duplicates)",
      "terms": [
       "duplicate"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -910,7 +992,8 @@
       "legitimate",
       "genuine",
       "every column"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -934,7 +1017,9 @@
     {
      "label": "Gave the answer (3)",
      "number": 3.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (missing data)",
@@ -943,7 +1028,8 @@
       "blank",
       "empty",
       "n/a"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (unique identifiers)",
@@ -951,7 +1037,8 @@
       "unique",
       "identifier",
       " id"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -961,7 +1048,8 @@
       "unique",
       "count the rows",
       "number of rows"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -985,14 +1073,17 @@
     {
      "label": "Gave the answer (2)",
      "number": 2.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (SUBSTITUTE)",
      "terms": [
       "substitute",
       "replace"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (text cleaning)",
@@ -1001,7 +1092,8 @@
       "substitute",
       "trim",
       "remove the spaces"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1013,7 +1105,8 @@
       "by hand",
       "second way",
       "compare"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1039,7 +1132,9 @@
      "terms": [
       "apple, inc.",
       "apple,"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (delimiters)",
@@ -1047,14 +1142,16 @@
       "delimiter",
       "pipe",
       "separator"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (text qualifiers)",
      "terms": [
       "quote",
       "qualifier"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1063,7 +1160,8 @@
       "single column",
       "delimiter",
       "pipe"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1087,7 +1185,9 @@
     {
      "label": "Gave the answer (10)",
      "number": 10.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (units of measurement)",
@@ -1095,14 +1195,16 @@
       "million",
       "unit",
       "thousand"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (COUNTIF)",
      "terms": [
       "countif",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1111,7 +1213,8 @@
       "not comparable",
       "different unit",
       "wrong total"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1136,7 +1239,9 @@
     {
      "label": "Gave the answer (25,900,000,000)",
      "number": 25900000000.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (units of measurement)",
@@ -1144,13 +1249,15 @@
       "million",
       "unit",
       "thousand"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (LEFT)",
      "terms": [
       "left"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1159,7 +1266,8 @@
       "not comparable",
       "different unit",
       "wrong total"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1183,7 +1291,9 @@
     {
      "label": "Gave the answer (13)",
      "number": 13.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (number formats)",
@@ -1191,14 +1301,16 @@
       "parenthes",
       "negative",
       "minus"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (SUBSTITUTE)",
      "terms": [
       "substitute",
       "replace"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1210,7 +1322,8 @@
       "by hand",
       "second way",
       "compare"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1233,7 +1346,9 @@
     {
      "label": "Gave the answer (4)",
      "number": 4.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (missing data)",
@@ -1242,7 +1357,8 @@
       "blank",
       "empty",
       "n/a"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1251,7 +1367,8 @@
       "why",
       "document",
       "reason"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1276,7 +1393,9 @@
      "terms": [
       "inconsistent units",
       "inconsistent"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (units of measurement)",
@@ -1284,7 +1403,8 @@
       "million",
       "unit",
       "thousand"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1293,7 +1413,8 @@
       "not comparable",
       "different unit",
       "wrong total"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1317,20 +1438,24 @@
     {
      "label": "Gave the answer (66)",
      "number": 66.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (LEFT)",
      "terms": [
       "left"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (COUNTIF)",
      "terms": [
       "countif",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1340,7 +1465,8 @@
       "japan",
       "us",
       "different"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1365,13 +1491,16 @@
     {
      "label": "Gave the answer (37.3%)",
      "number": 37.3,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (RIGHT)",
      "terms": [
       "right"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (COUNTIFS)",
@@ -1379,7 +1508,8 @@
       "countifs",
       "count ifs",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1388,7 +1518,8 @@
       "narrow",
       "population",
       "outside"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1411,14 +1542,17 @@
     {
      "label": "Gave the answer (1080)",
      "number": 1080.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (MID)",
      "terms": [
       "mid",
       "middle"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1429,7 +1563,8 @@
       "spot check",
       "spot-check",
       "unusual"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1454,21 +1589,25 @@
     {
      "label": "Gave the answer (26)",
      "number": 26.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (MID)",
      "terms": [
       "mid",
       "middle"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (FIND)",
      "terms": [
       "find",
       "position of the hyphen"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1479,7 +1618,8 @@
       "spot check",
       "spot-check",
       "unusual"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1503,7 +1643,9 @@
     {
      "label": "Gave the answer (133)",
      "number": 133.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (concatenation)",
@@ -1511,14 +1653,16 @@
       "concatenat",
       "ampersand",
       "combine"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (UNIQUE)",
      "terms": [
       "unique",
       "distinct"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1527,7 +1671,8 @@
       "countif",
       "more than once",
       "count each"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1551,13 +1696,16 @@
      "label": "Gave the answer (ARG-15)",
      "terms": [
       "arg-15"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (PivotTable)",
      "terms": [
       "pivot"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1567,7 +1715,8 @@
       "refresh",
       "source data",
       "review"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1593,7 +1742,9 @@
      "label": "Gave the answer (Unique)",
      "terms": [
       "unique"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (unique identifiers)",
@@ -1601,14 +1752,16 @@
       "unique",
       "identifier",
       " id"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (UNIQUE)",
      "terms": [
       "unique",
       "distinct"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1618,7 +1771,8 @@
       "unique",
       "count the rows",
       "number of rows"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1643,19 +1797,23 @@
      "label": "Gave the answer (GER)",
      "terms": [
       "ger"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (LEFT)",
      "terms": [
       "left"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (PivotTable)",
      "terms": [
       "pivot"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1665,7 +1823,8 @@
       "refresh",
       "source data",
       "review"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1690,13 +1849,16 @@
     {
      "label": "Gave the answer (81)",
      "number": 81.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (LEFT)",
      "terms": [
       "left"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (MIN)",
@@ -1705,7 +1867,8 @@
       "oldest",
       "earliest",
       "smallest"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1714,7 +1877,8 @@
       "moves",
       "different length",
       "position"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1739,20 +1903,24 @@
     {
      "label": "Gave the answer (152)",
      "number": 152.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (LEFT)",
      "terms": [
       "left"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (FIND)",
      "terms": [
       "find",
       "position of the hyphen"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1761,7 +1929,8 @@
       "moves",
       "different length",
       "position"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1785,21 +1954,25 @@
     {
      "label": "Gave the answer (177)",
      "number": 177.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (MID)",
      "terms": [
       "mid",
       "middle"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (FIND)",
      "terms": [
       "find",
       "position of the hyphen"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1810,7 +1983,8 @@
       "spot check",
       "spot-check",
       "unusual"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1835,7 +2009,9 @@
     {
      "label": "Gave the answer (0)",
      "number": 0.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (unique identifiers)",
@@ -1843,14 +2019,16 @@
       "unique",
       "identifier",
       " id"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (MID)",
      "terms": [
       "mid",
       "middle"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1860,7 +2038,8 @@
       "unique",
       "count the rows",
       "number of rows"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1884,14 +2063,17 @@
     {
      "label": "Gave the answer (178,503)",
      "number": 178503.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (VALUE)",
      "terms": [
       "value",
       "convert to a number"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (control totals)",
@@ -1900,7 +2082,8 @@
       "reconcil",
       "balance",
       "check"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1911,7 +2094,8 @@
       "tie",
       "debits equal",
       "zero"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1939,21 +2123,25 @@
      "terms": [
       "plant 17",
       "plant"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (MID)",
      "terms": [
       "mid",
       "middle"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (FIND)",
      "terms": [
       "find",
       "position of the hyphen"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -1964,7 +2152,8 @@
       "spot check",
       "spot-check",
       "unusual"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -1989,14 +2178,17 @@
     {
      "label": "Gave the answer (14 characters, 5 codes)",
      "number": 14.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (LEN)",
      "terms": [
       "len",
       "length"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (MAX)",
@@ -2005,7 +2197,8 @@
       "newest",
       "latest",
       "largest"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2014,7 +2207,8 @@
       "trim",
       "capital",
       "case"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2039,13 +2233,16 @@
     {
      "label": "Gave the answer (7)",
      "number": 7.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (PivotTable)",
      "terms": [
       "pivot"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (concatenation)",
@@ -2053,7 +2250,8 @@
       "concatenat",
       "ampersand",
       "combine"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2063,7 +2261,8 @@
       "refresh",
       "source data",
       "review"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2087,20 +2286,24 @@
     {
      "label": "Gave the answer (17)",
      "number": 17.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (UNIQUE)",
      "terms": [
       "unique",
       "distinct"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (filtering)",
      "terms": [
       "filter"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2109,7 +2312,8 @@
       "countif",
       "more than once",
       "count each"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2133,7 +2337,9 @@
     {
      "label": "Gave the answer (73)",
      "number": 73.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (COUNTIFS)",
@@ -2141,14 +2347,16 @@
       "countifs",
       "count ifs",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (VALUE)",
      "terms": [
       "value",
       "convert to a number"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2157,7 +2365,8 @@
       "narrow",
       "population",
       "outside"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2181,20 +2390,24 @@
     {
      "label": "Gave the answer (789 line items, 394 journal entries)",
      "number": 789.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (UNIQUE)",
      "terms": [
       "unique",
       "distinct"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (counting)",
      "terms": [
       "count"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2203,7 +2416,8 @@
       "countif",
       "more than once",
       "count each"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2226,7 +2440,9 @@
     {
      "label": "Gave the answer (0.00)",
      "number": 0.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (control totals)",
@@ -2235,7 +2451,8 @@
       "reconcil",
       "balance",
       "check"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2246,7 +2463,8 @@
       "tie",
       "debits equal",
       "zero"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2271,7 +2489,9 @@
     {
      "label": "Gave the answer (0)",
      "number": 0.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (control totals)",
@@ -2280,14 +2500,16 @@
       "reconcil",
       "balance",
       "check"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (SUMIF)",
      "terms": [
       "sumif",
       "sum if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2298,7 +2520,8 @@
       "tie",
       "debits equal",
       "zero"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2324,13 +2547,16 @@
      "terms": [
       "je 2033591",
       "2033591"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (PivotTable)",
      "terms": [
       "pivot"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (XLOOKUP)",
@@ -2338,7 +2564,8 @@
       "xlookup",
       "x lookup",
       "lookup"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2347,7 +2574,8 @@
       "not found",
       "error",
       "default"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2373,7 +2601,9 @@
      "terms": [
       "telecommunications - other",
       "telecommunications"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (XLOOKUP)",
@@ -2381,7 +2611,8 @@
       "xlookup",
       "x lookup",
       "lookup"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (INDEX/MATCH)",
@@ -2389,7 +2620,8 @@
       "index",
       "match",
       "lookup"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2399,7 +2631,8 @@
       "direction",
       "column moves",
       "breaks"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2423,7 +2656,9 @@
     {
      "label": "Gave the answer (-398,321.61)",
      "number": -398321.61,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (INDEX/MATCH)",
@@ -2431,14 +2666,16 @@
       "index",
       "match",
       "lookup"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (SUMIF)",
      "terms": [
       "sumif",
       "sum if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2448,7 +2685,8 @@
       "direction",
       "column moves",
       "breaks"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2473,7 +2711,9 @@
     {
      "label": "Gave the answer (138)",
      "number": 138.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (array formulas)",
@@ -2481,7 +2721,8 @@
       "two conditions",
       "both",
       "array"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (INDEX/MATCH)",
@@ -2489,7 +2730,8 @@
       "index",
       "match",
       "lookup"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2499,7 +2741,8 @@
       "direction",
       "column moves",
       "breaks"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2523,19 +2766,23 @@
     {
      "label": "Gave the answer (288)",
      "number": 288.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (WEEKDAY)",
      "terms": [
       "weekday"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (dates)",
      "terms": [
       "date"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2544,7 +2791,8 @@
       "number of days",
       "text",
       "stored"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2568,14 +2816,17 @@
     {
      "label": "Gave the answer (40)",
      "number": 40.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (COUNTIF)",
      "terms": [
       "countif",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (control totals)",
@@ -2584,7 +2835,8 @@
       "reconcil",
       "balance",
       "check"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2595,7 +2847,8 @@
       "tie",
       "debits equal",
       "zero"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2619,20 +2872,24 @@
     {
      "label": "Gave the answer (10)",
      "number": 10.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (UNIQUE)",
      "terms": [
       "unique",
       "distinct"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (dates)",
      "terms": [
       "date"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2641,7 +2898,8 @@
       "number of days",
       "text",
       "stored"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2665,7 +2923,9 @@
     {
      "label": "Gave the answer (0)",
      "number": 0.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (data quality)",
@@ -2673,7 +2933,8 @@
       "invalid",
       "quality",
       "wrong"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (COUNTIFS)",
@@ -2681,7 +2942,8 @@
       "countifs",
       "count ifs",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2690,7 +2952,8 @@
       "narrow",
       "population",
       "outside"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2716,7 +2979,9 @@
      "terms": [
       "the pipe character |",
       "character"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (delimiters)",
@@ -2724,7 +2989,8 @@
       "delimiter",
       "pipe",
       "separator"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (import)",
@@ -2732,7 +2998,8 @@
       "import",
       "delimiter",
       "open"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2741,7 +3008,8 @@
       "single column",
       "delimiter",
       "pipe"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2765,14 +3033,17 @@
     {
      "label": "Gave the answer (266,055.56)",
      "number": 266055.56,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (aggregation)",
      "terms": [
       "level",
       "aggregat"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (comparability)",
@@ -2781,7 +3052,8 @@
       "same",
       "align",
       "combine"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2791,7 +3063,8 @@
       "reg pay",
       "gross wages",
       "same way"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2816,7 +3089,9 @@
     {
      "label": "Gave the answer (68 rows, 32,951.29)",
      "number": 68.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (missing data)",
@@ -2825,7 +3100,8 @@
       "blank",
       "empty",
       "n/a"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (COUNTBLANK)",
@@ -2833,7 +3109,8 @@
       "countblank",
       "count blank",
       "blank"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2842,7 +3119,8 @@
       "why",
       "document",
       "reason"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2868,13 +3146,16 @@
      "terms": [
       "cindy lunt",
       "cindy"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (PivotTable)",
      "terms": [
       "pivot"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (unique identifiers)",
@@ -2882,7 +3163,8 @@
       "unique",
       "identifier",
       " id"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2892,7 +3174,8 @@
       "unique",
       "count the rows",
       "number of rows"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2916,13 +3199,16 @@
     {
      "label": "Gave the answer (103)",
      "number": 103.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (PivotTable)",
      "terms": [
       "pivot"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (internal controls)",
@@ -2930,7 +3216,8 @@
       "control",
       "limit",
       "policy"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2944,7 +3231,8 @@
       "investigat",
       "receipt",
       "approv"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -2970,20 +3258,24 @@
     {
      "label": "Gave the answer (14S1440)",
      "number": 14.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (MID)",
      "terms": [
       "mid",
       "middle"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (MATCH)",
      "terms": [
       "match"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -2994,7 +3286,8 @@
       "lookup fail",
       "won't match",
       "will not match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3021,14 +3314,17 @@
       "converts",
       "leading",
       "number"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (text vs number)",
      "terms": [
       "text",
       "leading zero"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (import)",
@@ -3036,7 +3332,8 @@
       "import",
       "delimiter",
       "open"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3047,7 +3344,8 @@
       "lookup fail",
       "won't match",
       "will not match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3071,14 +3369,17 @@
     {
      "label": "Gave the answer (14 left, 7 new)",
      "number": 14.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (COUNTIF)",
      "terms": [
       "countif",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (comparability)",
@@ -3087,7 +3388,8 @@
       "same",
       "align",
       "combine"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3097,7 +3399,8 @@
       "reg pay",
       "gross wages",
       "same way"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3121,7 +3424,9 @@
     {
      "label": "Gave the answer (52)",
      "number": 52.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (import)",
@@ -3129,14 +3434,16 @@
       "import",
       "delimiter",
       "open"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (COUNTIF)",
      "terms": [
       "countif",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3146,7 +3453,8 @@
       "type",
       "count",
       "split"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3171,7 +3479,9 @@
     {
      "label": "Gave the answer (0)",
      "number": 0.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (XLOOKUP)",
@@ -3179,14 +3489,16 @@
       "xlookup",
       "x lookup",
       "lookup"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (ISNA)",
      "terms": [
       "isna",
       "not found"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3195,7 +3507,8 @@
       "not found",
       "error",
       "default"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3222,7 +3535,9 @@
      "terms": [
       "location 1",
       "location"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (XLOOKUP)",
@@ -3230,14 +3545,16 @@
       "xlookup",
       "x lookup",
       "lookup"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (SUMIF)",
      "terms": [
       "sumif",
       "sum if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3247,7 +3564,8 @@
       "reg pay",
       "gross wages",
       "same way"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3271,7 +3589,9 @@
     {
      "label": "Gave the answer (26)",
      "number": 26.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (COUNTIFS)",
@@ -3279,7 +3599,8 @@
       "countifs",
       "count ifs",
       "count if"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Explained the method (data quality)",
@@ -3287,7 +3608,8 @@
       "invalid",
       "quality",
       "wrong"
-     ]
+     ],
+     "probe": "Which Excel formula or feature would you use for that, and why?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3296,7 +3618,8 @@
       "narrow",
       "population",
       "outside"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3322,13 +3645,16 @@
      "terms": [
       "nancy edwards",
       "edwards"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3338,7 +3664,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3364,20 +3691,24 @@
      "terms": [
       "jane peacock",
       "peacock"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3387,7 +3718,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3412,7 +3744,9 @@
     {
      "label": "Gave the answer (0)",
      "number": 0.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (control totals)",
@@ -3421,13 +3755,15 @@
       "reconcil",
       "balance",
       "check"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3438,7 +3774,8 @@
       "tie",
       "debits equal",
       "zero"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3462,20 +3799,24 @@
     {
      "label": "Gave the answer (1,519)",
      "number": 1519.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (NULL)",
      "terms": [
       "null",
       "empty"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3483,7 +3824,8 @@
       "null",
       "skip",
       "ignore"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3509,20 +3851,24 @@
      "terms": [
       "mpeg audio file",
       "audio"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3532,7 +3878,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3557,20 +3904,24 @@
      "label": "Gave the answer (Music)",
      "terms": [
       "music"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3580,7 +3931,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3606,20 +3958,24 @@
      "terms": [
       "iron maiden",
       "maiden"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3629,7 +3985,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3654,7 +4011,9 @@
     {
      "label": "Gave the answer (2010)",
      "number": 2010.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (strftime)",
@@ -3662,13 +4021,15 @@
       "strftime",
       "weekday",
       "day of the week"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (dates)",
      "terms": [
       "date"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3677,7 +4038,8 @@
       "number of days",
       "text",
       "stored"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3701,14 +4063,17 @@
     {
      "label": "Gave the answer (260)",
      "number": 260.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (WHERE)",
      "terms": [
       "where",
       "filter"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (units of measurement)",
@@ -3716,7 +4081,8 @@
       "million",
       "unit",
       "thousand"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3725,7 +4091,8 @@
       "not comparable",
       "different unit",
       "wrong total"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3751,21 +4118,25 @@
      "terms": [
       "steve harris",
       "harris"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (NULL)",
      "terms": [
       "null",
       "empty"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3773,7 +4144,8 @@
       "null",
       "skip",
       "ignore"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3797,14 +4169,17 @@
     {
      "label": "Gave the answer (978)",
      "number": 978.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (NULL)",
      "terms": [
       "null",
       "empty"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (missing data)",
@@ -3813,7 +4188,8 @@
       "blank",
       "empty",
       "n/a"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3822,7 +4198,8 @@
       "why",
       "document",
       "reason"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3846,20 +4223,24 @@
     {
      "label": "Gave the answer (6)",
      "number": 6.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3868,7 +4249,8 @@
       "after",
       "group",
       "aggregat"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3892,21 +4274,25 @@
     {
      "label": "Gave the answer (0)",
      "number": 0.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (NULL)",
      "terms": [
       "null",
       "empty"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (WHERE)",
      "terms": [
       "where",
       "filter"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3914,7 +4300,8 @@
       "null",
       "skip",
       "ignore"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3938,20 +4325,24 @@
     {
      "label": "Gave the answer (5.44)",
      "number": 5.44,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (COUNT)",
      "terms": [
       "count"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (DISTINCT)",
      "terms": [
       "distinct",
       "unique"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -3961,7 +4352,8 @@
       "twice",
       "duplicate",
       "double"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -3987,20 +4379,24 @@
      "terms": [
       "jane peacock",
       "peacock"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (ORDER BY)",
      "terms": [
       "order by",
       "sort"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (dates)",
      "terms": [
       "date"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4009,7 +4405,8 @@
       "number of days",
       "text",
       "stored"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4034,20 +4431,24 @@
      "label": "Gave the answer (FRIENDS)",
      "terms": [
       "friends"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (ORDER BY)",
      "terms": [
       "order by",
       "sort"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (LIMIT)",
      "terms": [
       "limit"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4057,7 +4458,8 @@
       "second",
       "tie-break",
       "tiebreak"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4081,14 +4483,17 @@
      "label": "Gave the answer (Key 1)",
      "terms": [
       "key 1"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4098,7 +4503,8 @@
       "per cardholder",
       "per group",
       "aggregat"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4122,14 +4528,17 @@
     {
      "label": "Gave the answer (8)",
      "number": 8.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (WHERE)",
      "terms": [
       "where",
       "filter"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (units of measurement)",
@@ -4137,7 +4546,8 @@
       "million",
       "unit",
       "thousand"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4146,7 +4556,8 @@
       "not comparable",
       "different unit",
       "wrong total"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4170,7 +4581,9 @@
     {
      "label": "Gave the answer (342.0)",
      "number": 342.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (SUM)",
@@ -4178,7 +4591,8 @@
       "sum",
       "total",
       "add"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (units of measurement)",
@@ -4186,7 +4600,8 @@
       "million",
       "unit",
       "thousand"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4195,7 +4610,8 @@
       "not comparable",
       "different unit",
       "wrong total"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4219,20 +4635,24 @@
     {
      "label": "Gave the answer (0)",
      "number": 0.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (NULL)",
      "terms": [
       "null",
       "empty"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4240,7 +4660,8 @@
       "null",
       "skip",
       "ignore"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4265,7 +4686,9 @@
      "label": "Gave the answer (Youngblood)",
      "terms": [
       "youngblood"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (calculated fields)",
@@ -4273,14 +4696,16 @@
       "multiply",
       "times",
       "4.5"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (ORDER BY)",
      "terms": [
       "order by",
       "sort"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4290,7 +4715,8 @@
       "second",
       "tie-break",
       "tiebreak"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4314,20 +4740,24 @@
     {
      "label": "Gave the answer (0.559)",
      "number": 0.559,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (ORDER BY)",
      "terms": [
       "order by",
       "sort"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (LIMIT)",
      "terms": [
       "limit"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4337,7 +4767,8 @@
       "second",
       "tie-break",
       "tiebreak"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4362,20 +4793,24 @@
      "label": "Gave the answer (XXXTENTACION)",
      "terms": [
       "xxxtentacion"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4385,7 +4820,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4408,14 +4844,17 @@
     {
      "label": "Gave the answer (6)",
      "number": 6.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (WHERE)",
      "terms": [
       "where",
       "filter"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4424,7 +4863,8 @@
       "equal",
       "inclusive",
       "exactly"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4450,20 +4890,24 @@
      "label": "Gave the answer (XXXTENTACION)",
      "terms": [
       "xxxtentacion"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (ORDER BY)",
      "terms": [
       "order by",
       "sort"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4472,7 +4916,8 @@
       "not comparable",
       "different unit",
       "wrong total"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4498,20 +4943,24 @@
      "terms": [
       "the shawshank redemption",
       "redemption"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (ORDER BY)",
      "terms": [
       "order by",
       "sort"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4521,7 +4970,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4545,14 +4995,17 @@
     {
      "label": "Gave the answer (7,007)",
      "number": 7007.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (NULL)",
      "terms": [
       "null",
       "empty"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (missing data)",
@@ -4561,7 +5014,8 @@
       "blank",
       "empty",
       "n/a"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4570,7 +5024,8 @@
       "why",
       "document",
       "reason"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4596,20 +5051,24 @@
      "terms": [
       "steven spielberg",
       "spielberg"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4619,7 +5078,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4643,20 +5103,24 @@
     {
      "label": "Gave the answer (28)",
      "number": 28.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4665,7 +5129,8 @@
       "after",
       "group",
       "aggregat"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4690,20 +5155,24 @@
     {
      "label": "Gave the answer (328)",
      "number": 328.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4713,7 +5182,8 @@
       "unique",
       "count the rows",
       "number of rows"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4737,20 +5207,24 @@
     {
      "label": "Gave the answer (746)",
      "number": 746.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4759,7 +5233,8 @@
       "after",
       "group",
       "aggregat"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4786,20 +5261,24 @@
      "terms": [
       "kristen stewart",
       "kristen"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (WHERE)",
      "terms": [
       "where",
       "filter"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4809,7 +5288,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4833,7 +5313,9 @@
     {
      "label": "Gave the answer (232,986)",
      "number": 232986.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (AVG)",
@@ -4841,14 +5323,16 @@
       "average",
       "avg",
       "mean"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (WHERE)",
      "terms": [
       "where",
       "filter"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4856,7 +5340,8 @@
       "outlier",
       "median",
       "skew"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4880,7 +5365,9 @@
     {
      "label": "Gave the answer (1970)",
      "number": 1970.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (subqueries)",
@@ -4889,7 +5376,8 @@
       "sub query",
       "nested",
       "inner query"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (MIN)",
@@ -4898,7 +5386,8 @@
       "oldest",
       "earliest",
       "smallest"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4909,7 +5398,8 @@
       "fragile",
       "look it up",
       "find the id"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4935,20 +5425,24 @@
      "terms": [
       "david attenborough",
       "attenborough"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (ORDER BY)",
      "terms": [
       "order by",
       "sort"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -4958,7 +5452,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -4982,20 +5477,24 @@
     {
      "label": "Gave the answer (486)",
      "number": 486.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (NULL)",
      "terms": [
       "null",
       "empty"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5003,7 +5502,8 @@
       "null",
       "skip",
       "ignore"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5026,14 +5526,17 @@
     {
      "label": "Gave the answer (5)",
      "number": 5.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (WHERE)",
      "terms": [
       "where",
       "filter"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5042,7 +5545,8 @@
       "equal",
       "inclusive",
       "exactly"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5066,20 +5570,24 @@
     {
      "label": "Gave the answer (8)",
      "number": 8.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (WHERE)",
      "terms": [
       "where",
       "filter"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (BETWEEN)",
      "terms": [
       "between"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5088,7 +5596,8 @@
       "equal",
       "inclusive",
       "exactly"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5112,14 +5621,17 @@
     {
      "label": "Gave the answer (8 withdrawals, 343 in total)",
      "number": 8.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (WHERE)",
      "terms": [
       "where",
       "filter"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (SUM)",
@@ -5127,7 +5639,8 @@
       "sum",
       "total",
       "add"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5137,7 +5650,8 @@
       "negative",
       "total row",
       "unit"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5160,14 +5674,17 @@
     {
      "label": "Gave the answer (9)",
      "number": 9.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (WHERE)",
      "terms": [
       "where",
       "filter"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5176,7 +5693,8 @@
       "equal",
       "inclusive",
       "exactly"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5201,13 +5719,16 @@
     {
      "label": "Gave the answer (8:20 to London)",
      "number": 8.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (JOIN)",
      "terms": [
       "join"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (subqueries)",
@@ -5216,7 +5737,8 @@
       "sub query",
       "nested",
       "inner query"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5226,7 +5748,8 @@
       "all rows",
       "null",
       "match"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5251,7 +5774,9 @@
     {
      "label": "Gave the answer (2)",
      "number": 2.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (subqueries)",
@@ -5260,14 +5785,16 @@
       "sub query",
       "nested",
       "inner query"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (IN)",
      "terms": [
       " in ",
       "list of"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5278,7 +5805,8 @@
       "fragile",
       "look it up",
       "find the id"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5304,21 +5832,25 @@
      "terms": [
       "g hines",
       "hines"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (ORDER BY)",
      "terms": [
       "order by",
       "sort"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5328,7 +5860,8 @@
       "per cardholder",
       "per group",
       "aggregat"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5352,20 +5885,24 @@
     {
      "label": "Gave the answer (1,515)",
      "number": 1515.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5374,7 +5911,8 @@
       "after",
       "group",
       "aggregat"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5399,20 +5937,24 @@
     {
      "label": "Gave the answer (38)",
      "number": 38.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5421,7 +5963,8 @@
       "after",
       "group",
       "aggregat"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5447,21 +5990,25 @@
      "terms": [
       "staples       00105288",
       "00105288"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (DISTINCT)",
      "terms": [
       "distinct",
       "unique"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5471,7 +6018,8 @@
       "twice",
       "duplicate",
       "double"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5496,13 +6044,16 @@
     {
      "label": "Gave the answer (3.27%)",
      "number": 3.27,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (CASE WHEN)",
      "terms": [
       "case"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (returns)",
@@ -5510,7 +6061,8 @@
       "negative",
       "return",
       "refund"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5519,7 +6071,8 @@
       "less than zero",
       "most negative",
       "minus"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5542,7 +6095,9 @@
     {
      "label": "Gave the answer (1,507,686.68)",
      "number": 1507686.68,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (calculated fields)",
@@ -5550,7 +6105,8 @@
       "multiply",
       "times",
       "4.5"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5562,7 +6118,8 @@
       "by hand",
       "second way",
       "compare"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5586,20 +6143,24 @@
     {
      "label": "Gave the answer (2,593.74)",
      "number": 2593.74,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (CASE WHEN)",
      "terms": [
       "case"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (UPPER)",
      "terms": [
       "upper",
       "capital"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5609,7 +6170,8 @@
       "greater than or equal",
       "500",
       "each side"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5632,7 +6194,9 @@
     {
      "label": "Gave the answer (288.75)",
      "number": 288.75,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (AVG)",
@@ -5640,7 +6204,8 @@
       "average",
       "avg",
       "mean"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5648,7 +6213,8 @@
       "outlier",
       "median",
       "skew"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5673,20 +6239,24 @@
     {
      "label": "Gave the answer (457)",
      "number": 457.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5700,7 +6270,8 @@
       "investigat",
       "receipt",
       "approv"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5725,13 +6296,16 @@
     {
      "label": "Gave the answer (93 versus 51)",
      "number": 93.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (BETWEEN)",
      "terms": [
       "between"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (fraud tests)",
@@ -5740,7 +6314,8 @@
       "benford",
       "duplicate",
       "round"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5754,7 +6329,8 @@
       "investigat",
       "receipt",
       "approv"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5779,20 +6355,24 @@
     {
      "label": "Gave the answer (66)",
      "number": 66.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5806,7 +6386,8 @@
       "investigat",
       "receipt",
       "approv"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5832,20 +6413,24 @@
     {
      "label": "Gave the answer (50)",
      "number": 50.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5859,7 +6444,8 @@
       "investigat",
       "receipt",
       "approv"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5884,7 +6470,9 @@
     {
      "label": "Gave the answer (29.528%)",
      "number": 29.528,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (SUBSTR)",
@@ -5892,13 +6480,15 @@
       "substr",
       "first digit",
       "first character"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (CASE WHEN)",
      "terms": [
       "case"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5910,7 +6500,8 @@
       "further",
       "evidence",
       "red flag"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5935,20 +6526,24 @@
     {
      "label": "Gave the answer (1,732)",
      "number": 1732.0,
-     "tol": 0.01
+     "tol": 0.01,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -5960,7 +6555,8 @@
       "further",
       "evidence",
       "red flag"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -5984,7 +6580,9 @@
     {
      "label": "Gave the answer (160)",
      "number": 160.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (modulo)",
@@ -5992,7 +6590,8 @@
       "modulo",
       "remainder",
       "divisible"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (fraud tests)",
@@ -6001,7 +6600,8 @@
       "benford",
       "duplicate",
       "round"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -6013,7 +6613,8 @@
       "further",
       "evidence",
       "red flag"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -6037,14 +6638,17 @@
      "label": "Gave the answer (DENTAL/LABORATORY/MEDICAL/OPHTHALMIC HOSP EQIP AND SUP.)",
      "terms": [
       "dental/laboratory/medical/ophthalmic"
-     ]
+     ],
+     "answer": true,
+     "probe": "So what is your answer, in one sentence?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -6054,7 +6658,8 @@
       "per cardholder",
       "per group",
       "aggregat"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -6078,20 +6683,24 @@
     {
      "label": "Gave the answer (9/9/2014 0:00:00)",
      "number": 9.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (dates)",
      "terms": [
       "date"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (data types)",
      "terms": [
       "text",
       "string"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -6101,7 +6710,8 @@
       "year",
       "month",
       "convert"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -6125,14 +6735,17 @@
     {
      "label": "Gave the answer (99)",
      "number": 99.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (NULL)",
      "terms": [
       "null",
       "empty"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (missing data)",
@@ -6141,7 +6754,8 @@
       "blank",
       "empty",
       "n/a"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -6150,7 +6764,8 @@
       "why",
       "document",
       "reason"
-     ]
+     ],
+     "followup": true
     }
    ]
   },
@@ -6176,20 +6791,24 @@
     {
      "label": "Gave the answer (37)",
      "number": 37.0,
-     "tol": 0
+     "tol": 0,
+     "answer": true,
+     "probe": "What number did you actually get?"
     },
     {
      "label": "Explained the method (GROUP BY)",
      "terms": [
       "group by",
       "group"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Explained the method (HAVING)",
      "terms": [
       "having"
-     ]
+     ],
+     "probe": "Which part of the SQL query does that, and why that clause?"
     },
     {
      "label": "Answered the follow-up (see what the examiner listens for)",
@@ -6203,7 +6822,8 @@
       "investigat",
       "receipt",
       "approv"
-     ]
+     ],
+     "followup": true
     }
    ]
   }
@@ -8186,14 +8806,16 @@
       {
        "label": "Gave the prediction (4,654.16)",
        "number": 4654.16,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (USD)",
        "terms": [
         "dollar",
         "usd"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -8203,7 +8825,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8215,7 +8838,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8231,7 +8855,8 @@
       {
        "label": "Gave the size of the gap (1,421.34)",
        "number": 1421.34,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (days without a home-town football game)",
@@ -8242,7 +8867,8 @@
         "than ",
         "without",
         "home-town"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -8251,7 +8877,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8263,7 +8890,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8285,7 +8913,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose to keep all variables",
@@ -8293,7 +8922,8 @@
         "keep",
         "all of them",
         "none"
-       ]
+       ],
+       "probe": "Is there any variable you would remove, and why or why not?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -8303,7 +8933,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8316,7 +8947,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8337,10 +8969,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -8356,7 +8990,8 @@
        "label": "Mentioned the observed range (29–104)",
        "number": 104,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8369,7 +9004,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8441,14 +9077,16 @@
       {
        "label": "Gave the prediction (3,955.45)",
        "number": 3955.45,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (USD)",
        "terms": [
         "dollar",
         "usd"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -8458,7 +9096,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8470,7 +9109,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8486,7 +9126,8 @@
       {
        "label": "Gave the size of the gap (442.03)",
        "number": 442.03,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (days without a home-town football game)",
@@ -8497,7 +9138,8 @@
         "than ",
         "without",
         "home-town"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -8505,7 +9147,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8517,7 +9160,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8539,7 +9183,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Sales one year ago×Game day",
@@ -8547,7 +9192,8 @@
         "sales",
         "year",
         "interaction"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -8557,7 +9203,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8570,7 +9217,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8591,10 +9239,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -8610,7 +9260,8 @@
        "label": "Mentioned the observed range (0–7,600)",
        "number": 7600.0,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8623,7 +9274,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8690,13 +9342,15 @@
       {
        "label": "Gave the prediction (6.7)",
        "number": 6.700000000000001,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (working days)",
        "terms": [
         "working"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -8706,7 +9360,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8718,7 +9373,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8734,7 +9390,8 @@
       {
        "label": "Gave the size of the gap (-1.5)",
        "number": -1.5,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (months on the old system)",
@@ -8745,7 +9402,8 @@
         "than ",
         "months",
         "system"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -8754,7 +9412,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8766,7 +9425,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8788,13 +9448,15 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose New ERP system",
        "terms": [
         "system"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -8804,7 +9466,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8817,7 +9480,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8838,10 +9502,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -8859,7 +9525,8 @@
        "alt": [
         20
        ],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8872,7 +9539,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8945,13 +9613,15 @@
       {
        "label": "Gave the prediction (5.94)",
        "number": 5.9399999999999995,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (working days)",
        "terms": [
         "working"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -8961,7 +9631,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -8973,7 +9644,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -8989,7 +9661,8 @@
       {
        "label": "Gave the size of the gap (-1.86)",
        "number": -1.8599999999999999,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (months on the old system)",
@@ -9000,7 +9673,8 @@
         "than ",
         "months",
         "system"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -9008,7 +9682,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9020,7 +9695,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9042,7 +9718,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Journal entries×New ERP system",
@@ -9050,7 +9727,8 @@
         "journal",
         "entries",
         "interaction"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -9060,7 +9738,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9073,7 +9752,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9094,10 +9774,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -9115,7 +9797,8 @@
        "alt": [
         20
        ],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9128,7 +9811,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9195,14 +9879,16 @@
       {
        "label": "Gave the prediction (303)",
        "number": 303.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (USD per month)",
        "terms": [
         "dollar",
         "usd"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -9212,7 +9898,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9224,7 +9911,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9240,7 +9928,8 @@
       {
        "label": "Gave the size of the gap (80)",
        "number": 80.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (employees in office roles)",
@@ -9251,7 +9940,8 @@
         "than ",
         "employees",
         "office"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -9260,7 +9950,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9272,7 +9963,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9294,13 +9986,15 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Installation job",
        "terms": [
         "installation"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -9310,7 +10004,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9323,7 +10018,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9344,10 +10040,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -9363,7 +10061,8 @@
        "label": "Mentioned the observed range (1–8)",
        "number": 8,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9376,7 +10075,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9449,14 +10149,16 @@
       {
        "label": "Gave the prediction (339)",
        "number": 339.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (USD per month)",
        "terms": [
         "dollar",
         "usd"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -9466,7 +10168,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9478,7 +10181,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9494,7 +10198,8 @@
       {
        "label": "Gave the size of the gap (125)",
        "number": 125.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (employees in office roles)",
@@ -9505,7 +10210,8 @@
         "than ",
         "employees",
         "office"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -9513,7 +10219,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9525,7 +10232,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9547,7 +10255,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Projects assigned×Installation job",
@@ -9555,7 +10264,8 @@
         "projects",
         "assigned",
         "interaction"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -9565,7 +10275,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9578,7 +10289,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9599,10 +10311,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -9618,7 +10332,8 @@
        "label": "Mentioned the observed range (1–8)",
        "number": 8,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9631,7 +10346,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9698,14 +10414,16 @@
       {
        "label": "Gave the prediction (5,615)",
        "number": 5615.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (USD)",
        "terms": [
         "dollar",
         "usd"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -9715,7 +10433,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9727,7 +10446,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9743,7 +10463,8 @@
       {
        "label": "Gave the size of the gap (-298)",
        "number": -298.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (staff cardholders)",
@@ -9753,7 +10474,8 @@
         "compared to",
         "than ",
         "cardholders"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -9762,7 +10484,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9774,7 +10497,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9796,14 +10520,16 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Student employee",
        "terms": [
         "student",
         "employee"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -9813,7 +10539,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9826,7 +10553,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9847,10 +10575,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -9866,7 +10596,8 @@
        "label": "Mentioned the observed range (2–60)",
        "number": 60,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9879,7 +10610,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9952,14 +10684,16 @@
       {
        "label": "Gave the prediction (11,752)",
        "number": 11752.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (USD)",
        "terms": [
         "dollar",
         "usd"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -9969,7 +10703,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -9981,7 +10716,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -9997,7 +10733,8 @@
       {
        "label": "Gave the size of the gap (-613)",
        "number": -613.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (staff cardholders)",
@@ -10007,7 +10744,8 @@
         "compared to",
         "than ",
         "cardholders"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -10015,7 +10753,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10027,7 +10766,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10049,14 +10789,16 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Student employee",
        "terms": [
         "student",
         "employee"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -10066,7 +10808,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10079,7 +10822,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10100,10 +10844,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -10119,7 +10865,8 @@
        "label": "Mentioned the observed range (2–60)",
        "number": 60,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10132,7 +10879,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10199,13 +10947,15 @@
       {
        "label": "Gave the prediction (24.5)",
        "number": 24.5,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (minutes per entry)",
        "terms": [
         "minutes"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -10215,7 +10965,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10227,7 +10978,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10243,7 +10995,8 @@
       {
        "label": "Gave the size of the gap (11)",
        "number": 11.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (system-generated entries)",
@@ -10254,7 +11007,8 @@
         "than ",
         "system-generated",
         "entries"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -10263,7 +11017,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10275,7 +11030,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10297,14 +11053,16 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Manual entry",
        "terms": [
         "manual",
         "entry"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -10314,7 +11072,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10327,7 +11086,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10348,10 +11108,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -10367,7 +11129,8 @@
        "label": "Mentioned the observed range (2–30)",
        "number": 30,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10380,7 +11143,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10453,13 +11217,15 @@
       {
        "label": "Gave the prediction (22.96)",
        "number": 22.96,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (minutes per entry)",
        "terms": [
         "minutes"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -10469,7 +11235,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10481,7 +11248,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10497,7 +11265,8 @@
       {
        "label": "Gave the size of the gap (9.24)",
        "number": 9.24,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (system-generated entries)",
@@ -10508,7 +11277,8 @@
         "than ",
         "system-generated",
         "entries"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -10516,7 +11286,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10528,7 +11299,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10550,7 +11322,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Line items×Manual entry",
@@ -10558,7 +11331,8 @@
         "line",
         "items",
         "interaction"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -10568,7 +11342,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10581,7 +11356,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10602,10 +11378,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -10621,7 +11399,8 @@
        "label": "Mentioned the observed range (2–30)",
        "number": 30,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10634,7 +11413,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10701,13 +11481,15 @@
       {
        "label": "Gave the prediction (9.38)",
        "number": 9.379999999999999,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (days)",
        "terms": [
         "days"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -10717,7 +11499,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10729,7 +11512,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10745,7 +11529,8 @@
       {
        "label": "Gave the size of the gap (-1.8)",
        "number": -1.8,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (film shoots)",
@@ -10755,7 +11540,8 @@
         "compared to",
         "than ",
         "shoots"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -10764,7 +11550,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10776,7 +11563,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10798,14 +11586,16 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Television shoot",
        "terms": [
         "television",
         "shoot"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -10815,7 +11605,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10828,7 +11619,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10849,10 +11641,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -10868,7 +11662,8 @@
        "label": "Mentioned the observed range (1–12)",
        "number": 12,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10881,7 +11676,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10954,13 +11750,15 @@
       {
        "label": "Gave the prediction (9.94)",
        "number": 9.940000000000001,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (days)",
        "terms": [
         "days"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -10970,7 +11768,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -10982,7 +11781,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -10998,7 +11798,8 @@
       {
        "label": "Gave the size of the gap (0.98)",
        "number": 0.98,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (film shoots)",
@@ -11008,7 +11809,8 @@
         "compared to",
         "than ",
         "shoots"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -11016,7 +11818,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11028,7 +11831,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11050,14 +11854,16 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Television shoot",
        "terms": [
         "television",
         "shoot"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -11067,7 +11873,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11080,7 +11887,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11101,10 +11909,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -11120,7 +11930,8 @@
        "label": "Mentioned the observed range (1–12)",
        "number": 12,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11133,7 +11944,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11200,13 +12012,15 @@
       {
        "label": "Gave the prediction (87.5)",
        "number": 87.5,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (errors per month)",
        "terms": [
         "errors"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -11216,7 +12030,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11228,7 +12043,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11244,7 +12060,8 @@
       {
        "label": "Gave the size of the gap (-1.2)",
        "number": -1.2,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (months with manual matching)",
@@ -11255,7 +12072,8 @@
         "than ",
         "months",
         "manual"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -11264,7 +12082,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11276,7 +12095,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11298,7 +12118,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose to keep all variables",
@@ -11306,7 +12127,8 @@
         "keep",
         "all of them",
         "none"
-       ]
+       ],
+       "probe": "Is there any variable you would remove, and why or why not?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -11316,7 +12138,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11329,7 +12152,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11350,10 +12174,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -11371,7 +12197,8 @@
        "alt": [
         60
        ],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11384,7 +12211,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11457,13 +12285,15 @@
       {
        "label": "Gave the prediction (46.1)",
        "number": 46.1,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (errors per month)",
        "terms": [
         "errors"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -11473,7 +12303,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11485,7 +12316,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11501,7 +12333,8 @@
       {
        "label": "Gave the size of the gap (-15.5)",
        "number": -15.5,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (months with manual matching)",
@@ -11512,7 +12345,8 @@
         "than ",
         "months",
         "manual"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -11520,7 +12354,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11532,7 +12367,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11554,7 +12390,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose to keep all variables",
@@ -11562,7 +12399,8 @@
         "keep",
         "all of them",
         "none"
-       ]
+       ],
+       "probe": "Is there any variable you would remove, and why or why not?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -11572,7 +12410,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11585,7 +12424,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11606,10 +12446,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -11627,7 +12469,8 @@
        "alt": [
         60
        ],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11640,7 +12483,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11707,13 +12551,15 @@
       {
        "label": "Gave the prediction (55.6)",
        "number": 55.6,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (days)",
        "terms": [
         "days"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -11723,7 +12569,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11735,7 +12582,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11751,7 +12599,8 @@
       {
        "label": "Gave the size of the gap (12)",
        "number": 12.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (existing customers)",
@@ -11762,7 +12611,8 @@
         "than ",
         "existing",
         "customers"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -11771,7 +12621,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11783,7 +12634,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11805,7 +12657,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose to keep all variables",
@@ -11813,7 +12666,8 @@
         "keep",
         "all of them",
         "none"
-       ]
+       ],
+       "probe": "Is there any variable you would remove, and why or why not?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -11823,7 +12677,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11836,7 +12691,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11857,10 +12713,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -11878,7 +12736,8 @@
        "alt": [
         50
        ],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11891,7 +12750,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -11964,13 +12824,15 @@
       {
        "label": "Gave the prediction (41.18)",
        "number": 41.18,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (days)",
        "terms": [
         "days"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -11980,7 +12842,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -11992,7 +12855,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12008,7 +12872,8 @@
       {
        "label": "Gave the size of the gap (16.99)",
        "number": 16.990000000000002,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (existing customers)",
@@ -12019,7 +12884,8 @@
         "than ",
         "existing",
         "customers"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -12027,7 +12893,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12039,7 +12906,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12061,13 +12929,15 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose New customer",
        "terms": [
         "customer"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -12077,7 +12947,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12090,7 +12961,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12111,10 +12983,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -12132,7 +13006,8 @@
        "alt": [
         50
        ],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12145,7 +13020,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12212,13 +13088,15 @@
       {
        "label": "Gave the prediction (15.3)",
        "number": 15.299999999999999,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (tracks per month)",
        "terms": [
         "tracks"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -12228,7 +13106,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12240,7 +13119,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12256,7 +13136,8 @@
       {
        "label": "Gave the size of the gap (3.5)",
        "number": 3.5,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (standard customers)",
@@ -12267,7 +13148,8 @@
         "than ",
         "standard",
         "customers"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -12276,7 +13158,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12288,7 +13171,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12310,7 +13194,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose to keep all variables",
@@ -12318,7 +13203,8 @@
         "keep",
         "all of them",
         "none"
-       ]
+       ],
+       "probe": "Is there any variable you would remove, and why or why not?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -12328,7 +13214,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12341,7 +13228,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12362,10 +13250,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -12381,7 +13271,8 @@
        "label": "Mentioned the observed range (0–12)",
        "number": 12,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12394,7 +13285,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12467,13 +13359,15 @@
       {
        "label": "Gave the prediction (12.35)",
        "number": 12.350000000000001,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (tracks per month)",
        "terms": [
         "tracks"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -12483,7 +13377,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12495,7 +13390,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12511,7 +13407,8 @@
       {
        "label": "Gave the size of the gap (0.55)",
        "number": 0.5499999999999998,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (standard customers)",
@@ -12522,7 +13419,8 @@
         "than ",
         "standard",
         "customers"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -12530,7 +13428,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12542,7 +13441,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12564,7 +13464,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Marketing emails×Premium member",
@@ -12572,7 +13473,8 @@
         "marketing",
         "emails",
         "interaction"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -12582,7 +13484,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12595,7 +13498,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12616,10 +13520,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -12635,7 +13541,8 @@
        "label": "Mentioned the observed range (0–12)",
        "number": 12,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12648,7 +13555,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12715,13 +13623,15 @@
       {
        "label": "Gave the prediction (1,003)",
        "number": 1003.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (hours)",
        "terms": [
         "hours"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -12731,7 +13641,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12743,7 +13654,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12759,7 +13671,8 @@
       {
        "label": "Gave the size of the gap (105)",
        "number": 105.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (returning clients)",
@@ -12770,7 +13683,8 @@
         "than ",
         "returning",
         "clients"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -12779,7 +13693,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12791,7 +13706,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12813,14 +13729,16 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose First-year client",
        "terms": [
         "first-year",
         "client"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -12830,7 +13748,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12843,7 +13762,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12864,10 +13784,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -12883,7 +13805,8 @@
        "label": "Mentioned the observed range (1–25)",
        "number": 25,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12896,7 +13819,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -12969,13 +13893,15 @@
       {
        "label": "Gave the prediction (439)",
        "number": 439.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (hours)",
        "terms": [
         "hours"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -12985,7 +13911,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -12997,7 +13924,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13013,7 +13941,8 @@
       {
        "label": "Gave the size of the gap (205)",
        "number": 205.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (returning clients)",
@@ -13024,7 +13953,8 @@
         "than ",
         "returning",
         "clients"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -13032,7 +13962,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13044,7 +13975,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13066,7 +13998,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose to keep all variables",
@@ -13074,7 +14007,8 @@
         "keep",
         "all of them",
         "none"
-       ]
+       ],
+       "probe": "Is there any variable you would remove, and why or why not?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -13084,7 +14018,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13097,7 +14032,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13118,10 +14054,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -13137,7 +14075,8 @@
        "label": "Mentioned the observed range (1–25)",
        "number": 25,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13150,7 +14089,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13217,14 +14157,16 @@
       {
        "label": "Gave the prediction (263.56)",
        "number": 263.56,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (thousand DKK)",
        "terms": [
         "kroner",
         "dkk"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -13234,7 +14176,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13246,7 +14189,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13262,7 +14206,8 @@
       {
        "label": "Gave the size of the gap (96)",
        "number": 96.0,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (private clients)",
@@ -13273,7 +14218,8 @@
         "than ",
         "private",
         "clients"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s)",
@@ -13282,7 +14228,8 @@
         "b₂",
         "dummy",
         "constant"
-       ]
+       ],
+       "probe": "Which number in the regression table gives you that difference?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13294,7 +14241,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13316,14 +14264,16 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose Listed client",
        "terms": [
         "listed",
         "client"
-       ]
+       ],
+       "probe": "Look at the p-values again: which variable has the weakest evidence?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -13333,7 +14283,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13346,7 +14297,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13367,10 +14319,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -13386,7 +14340,8 @@
        "label": "Mentioned the observed range (10–500)",
        "number": 500,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13399,7 +14354,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13472,14 +14428,16 @@
       {
        "label": "Gave the prediction (429.9)",
        "number": 429.90000000000003,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So what is the figure? Give me the actual number you would plan for."
       },
       {
        "label": "Stated the unit (thousand DKK)",
        "terms": [
         "kroner",
         "dkk"
-       ]
+       ],
+       "probe": "In what unit is that number?"
       },
       {
        "label": "Showed how the values go into the equation",
@@ -13489,7 +14447,8 @@
         "multipl",
         "+",
         "×"
-       ]
+       ],
+       "probe": "How did you get there? Which values go into the equation?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13501,7 +14460,8 @@
         "times zero",
         "disappear",
         "plug"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13517,7 +14477,8 @@
       {
        "label": "Gave the size of the gap (142.36)",
        "number": 142.36,
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "So how big is the difference, as a number?"
       },
       {
        "label": "Named the comparison group (private clients)",
@@ -13528,7 +14489,8 @@
         "than ",
         "private",
         "clients"
-       ]
+       ],
+       "probe": "More or less compared with which group, exactly?"
       },
       {
        "label": "Pointed to the right coefficient(s) — including the interaction",
@@ -13536,7 +14498,8 @@
         "interaction",
         "slope",
         "depends"
-       ]
+       ],
+       "probe": "Does that gap stay the same for every value, or does it change?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13548,7 +14511,8 @@
         "same",
         "all else",
         "other things"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13570,7 +14534,8 @@
         "five percent",
         "p-value",
         "p value"
-       ]
+       ],
+       "probe": "What in the regression output are you basing that on?"
       },
       {
        "label": "Chose to keep all variables",
@@ -13578,7 +14543,8 @@
         "keep",
         "all of them",
         "none"
-       ]
+       ],
+       "probe": "Is there any variable you would remove, and why or why not?"
       },
       {
        "label": "Explained what a high/low p-value means",
@@ -13588,7 +14554,8 @@
         "chance",
         "rule out",
         "evidence"
-       ]
+       ],
+       "probe": "What does a p-value above 0.05 actually tell you about that variable?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13601,7 +14568,8 @@
         "not necessarily",
         "doesn't mean",
         "does not mean"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {
@@ -13622,10 +14590,12 @@
         "beyond",
         "higher than",
         "above"
-       ]
+       ],
+       "probe": "What range of values was the model actually estimated on?"
       },
       {
        "label": "Called it extrapolation / unreliable",
+       "probe": "What is the risk of using the model for a value like that?",
        "terms": [
         "extrapolat",
         "unreliable",
@@ -13641,7 +14611,8 @@
        "label": "Mentioned the observed range (10–500)",
        "number": 500,
        "alt": [],
-       "tol": 0.01
+       "tol": 0.01,
+       "probe": "Can you tell me the range the data covers?"
       },
       {
        "label": "Answered the follow-up (see what the examiner listens for)",
@@ -13654,7 +14625,8 @@
         "warn",
         "careful",
         "caution"
-       ]
+       ],
+       "followup": true
       }
      ],
      "followup": {

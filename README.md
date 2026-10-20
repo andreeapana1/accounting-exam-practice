@@ -7,8 +7,10 @@ A practice website for the oral exam in *Data Analytics in Accounting*. Students
 - **Data interpretation exams**: regression output with four questions (predict, interpret, significance, reliability) in five minutes.
 
 - **Examiner mode** 🎙: the browser reads each question aloud, the student answers out loud against a countdown,
-  and the "examiner" interrupts once per question with a follow-up (*why that join? is that significant? say it
-  to the CFO*). The review page shows **what the student said, written down** (browser speech recognition, or
+  and the "examiner" interrupts once per question with a follow-up **chosen from what the student has said so far**:
+  it quotes a wrong number back (*"You said 120 — can you check that?"*), asks for a missing unit or key point,
+  catches classic misconceptions (*"significant means important"*, *"this proves fraud"*), or challenges a method the
+  student named (*"You said VLOOKUP — what if the column is to the left?"*). The review page shows **what the student said, written down** (browser speech recognition, or
   typed), a **checklist of the key points they mentioned or missed**, what the examiner listens for, the model
   answer and, optionally, their own recording. Attempts are saved in the browser under *My attempts*. No AI
   service is involved.

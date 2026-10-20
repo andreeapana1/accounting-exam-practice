@@ -99,21 +99,25 @@ def answer_point(answer):
     if m:
         value = float(m.group().replace(",", ""))
         tol = 0 if value.is_integer() and abs(value) < 1000 else 0.01
-        return {"label": f"Gave the answer ({head})", "number": value, "tol": tol}
+        return {"label": f"Gave the answer ({head})", "number": value, "tol": tol, "answer": True,
+                "probe": "What number did you actually get?"}
     if len(head) <= 32:
         longest = max(head.lower().split(), key=len)
         terms = [head.lower()] + ([longest] if len(longest) > 3 and longest != head.lower() else [])
     else:
         words = [w.strip(".,'\"").lower() for w in head.split()]
         terms = sorted({w for w in words if len(w) > 5}, key=len, reverse=True)[:3]
-    return {"label": f"Gave the answer ({head})", "terms": terms}
+    return {"label": f"Gave the answer ({head})", "terms": terms, "answer": True,
+            "probe": "So what is your answer, in one sentence?"}
 
 
 def manipulation_points(q, followup_skill):
     points = [answer_point(q["answer"])]
     named = [s for s in q["skills"] if s in SKILL_TERMS][:2]
     for s in named:
-        points.append({"label": f"Explained the method ({s})", "terms": SKILL_TERMS[s]})
+        points.append({"label": f"Explained the method ({s})", "terms": SKILL_TERMS[s],
+                       "probe": "Which Excel formula or feature would you use for that, and why?" if q["tool"] == "Excel"
+                       else "Which part of the SQL query does that, and why that clause?"})
     fu_terms = FOLLOWUP_TERMS.get(followup_skill, FOLLOWUP_TERMS[None])
-    points.append({"label": "Answered the follow-up (see what the examiner listens for)", "terms": fu_terms})
+    points.append({"label": "Answered the follow-up (see what the examiner listens for)", "terms": fu_terms, "followup": True})
     return points

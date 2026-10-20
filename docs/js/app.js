@@ -440,6 +440,7 @@
     const watchdog = setInterval(start, 1500);
     const listener = {
       failed: false,
+      interim: "",
       listen(res, part) { target = { res, part }; capturing = true; start(); },
       pause() { if (capturing) { capturing = false; pausedAt = Date.now(); } },
       stop() { keepAlive = false; capturing = false; target = null; clearInterval(watchdog); try { rec.abort(); } catch { /* ignore */ } },
@@ -457,6 +458,7 @@
         if (r.isFinal) { if (accept && target) target.res.text[target.part] += r[0].transcript.trim() + " "; }
         else if (capturing) interim += r[0].transcript;
       }
+      listener.interim = capturing ? interim : "";
       if (capturing) onText(target, interim);
     };
     start();
@@ -496,6 +498,116 @@
   const score = (items) => items.reduce((s, it) => s + it.keypoints.filter((kp) => it.text.trim() && pointMet(kp, it.text)).length, 0);
   const maxScore = (items) => items.reduce((s, it) => s + it.keypoints.length, 0);
 
+  // ---- adaptive follow-ups: the examiner reacts to what the student has said so far.
+  // Order: almost silent → a classic misconception → a wrong number or a missing unit → a key point not
+  // yet mentioned → a challenge to a method the student named → the question's standard follow-up.
+  const MISCONCEPTIONS = [
+    { when: (t, it) => /significan/.test(t) && /\b(important|matters|big|strong|large)\b/.test(t) && !/(not necessarily|doesn'?t mean|does not mean|not the same)/.test(t),
+      re: /significan\w*/, ask: "You linked 'significant' with 'important'. Does a small p-value tell you the effect is big enough to matter for the business?",
+      listen: "No: significance says the effect is unlikely to be zero; whether it matters depends on its size.",
+      terms: ["size", "not necessarily", "doesn't mean", "does not mean", "practical", "economic", "how big", "small"] },
+    { when: (t, it) => /(high|large|big) p.?value/.test(t) && /significan/.test(t) && !/not significan/.test(t),
+      re: /(high|large|big) p.?value/, ask: "You said a high p-value means significant. Which way round is it?",
+      listen: "A low p-value (below 0.05) indicates significance; a high p-value means we cannot rule out zero.",
+      terms: ["low", "small", "below 0.05", "less than", "under"] },
+    { when: (t, it) => it.kind && /\b(causes?|caused|leads? to)\b/.test(t),
+      re: /\b(causes?|caused|leads? to)\b/, ask: "You said one thing causes the other. Can a regression like this prove cause and effect?",
+      listen: "No: it shows an association; other factors could explain it.",
+      terms: ["association", "correlat", "not prove", "doesn't prove", "cannot", "other factors", "can't"] },
+    { when: (t, it) => (it.skills || []).some((s) => /internal controls|fraud tests/.test(s)) && /\b(prove|proof|definitely|is fraud|committed fraud|stealing|guilty)\b/.test(t),
+      re: /\b(prove\w*|proof|definitely|fraud|stealing|guilty)\b/, ask: "You said this shows fraud. Does a result like this prove it?",
+      listen: "No: it flags higher-risk transactions; it needs follow-up evidence (receipts, approvals, an explanation).",
+      terms: ["not prove", "doesn't prove", "indicat", "follow", "evidence", "exception", "risk", "investigat"] },
+    { when: (t, it) => it.kind === "R" && /\b(yes|reliable|rely|trust|fine|accurate)\b/.test(t) && !/(outside|range|extrapolat|not reliable|unreliable|careful|caution)/.test(t),
+      re: /\b(yes|reliable|rely|trust|fine|accurate)\b/, ask: "You would rely on it. Over what range of values was the model actually estimated?",
+      listen: "The value is outside the observed range, so this is extrapolation and the number is unreliable.",
+      terms: ["outside", "range", "extrapolat", "beyond"] },
+  ];
+  const CHALLENGES = [
+    { re: /v ?lookup/, ask: "You mentioned VLOOKUP. What happens if the column you need is to the left of the lookup column?",
+      listen: "VLOOKUP only returns columns to the right; INDEX/MATCH or XLOOKUP work in any direction.", terms: ["left", "index", "match", "xlookup", "direction"] },
+    { re: /inner join/, ask: "You said inner join. Which rows disappear with an inner join, and would a LEFT JOIN change your answer?",
+      listen: "An inner join drops rows without a match; a left join keeps all rows of the left table with NULLs.", terms: ["unmatched", "disappear", "drop", "left join", "keep", "null", "no match"] },
+    { re: /\bjoin/, ask: "You would join the tables. On which column do you join, and is it unique in that table?",
+      listen: "Names the key column and checks it is unique, otherwise rows get duplicated.", terms: [" on ", "key", " id", "unique", "primary", "duplicat"] },
+    { re: /pivot/, ask: "You would use a PivotTable. How would someone reviewing your work check that it is right?",
+      listen: "Keep the source data intact, reconcile the pivot's grand total to the data, make it refreshable.", terms: ["total", "source", "refresh", "check", "reconcil", "count"] },
+    { re: /count ?ifs?/, ask: "You would use COUNTIF. Would it still count correctly if some cells had extra spaces or different spelling?",
+      listen: "No: COUNTIF needs exact text (it ignores case, not spaces); clean the data first or check distinct values.", terms: ["trim", "space", "clean", "exact", "spelling", "distinct"] },
+    { re: /\b(left|mid|right)\b/, tool: "Excel", ask: "You would extract it with LEFT, MID or RIGHT. What if the codes do not all have the same length?",
+      listen: "Fixed positions break when lengths differ; use FIND to locate the separator.", terms: ["find", "length", "len", "different", "position", "hyphen"] },
+    { re: /\b(average|mean|avg)\b/, ask: "You would use the average. Could a few extreme values distort it here?",
+      listen: "Yes: averages are pulled by outliers; the median can describe the data better.", terms: ["outlier", "median", "extreme", "skew"] },
+    { re: /group by|\bgroup\b/, ask: "You would group the data. What exactly does each row of your result represent?",
+      listen: "One row per group (e.g. per cardholder); every other column must be aggregated.", terms: ["each row", "per ", "one row", "for each"] },
+    { re: /\b(sum|total)\b/, ask: "You would total it up. Could anything in the data make that total misleading?",
+      listen: "Duplicates, returns (negative amounts), blank rows, total rows or mixed units.", terms: ["duplicate", "return", "negative", "blank", "unit", "total row", "refund"] },
+    { re: /\b(where|filter)\b/, ask: "You would filter the data. Is your condition inclusive or exclusive at the boundary, and is that what the question asks?",
+      listen: "Checks > versus >= at the limit value.", terms: ["equal", "inclusive", "exclusive", "or equal", "boundary", "exactly"] },
+    { re: /intercept/, ask: "You mentioned the intercept. Does it make sense on its own in this situation?",
+      listen: "Often not: it is the prediction at zero, which may lie outside the observed range.", terms: ["zero", "outside", "range", "no meaning", "not meaningful", "doesn't make sense"] },
+    { re: /interaction/, ask: "You mentioned the interaction. What does it change about the effect?",
+      listen: "With an interaction the effect of one variable depends on the other: the slope differs between the groups.", terms: ["depends", "slope", "different", "changes", "varies"] },
+  ];
+  // A few words around a match, to quote the student back to themselves.
+  function quote(text, re) {
+    const m = text.toLowerCase().match(re);
+    if (!m) return "";
+    const words = text.split(/\s+/);
+    let pos = 0, at = 0;
+    for (let k = 0; k < words.length; k++) { if (pos + words[k].length >= m.index) { at = k; break; } pos += words[k].length + 1; }
+    return words.slice(Math.max(0, at - 4), at + 5).join(" ");
+  }
+  const lastNumber = (text) => {
+    let s = text;
+    while (/\d,\d{3}/.test(s)) s = s.replace(/(\d),(\d{3})/g, "$1$2");
+    const m = s.match(/\d+(?:\.\d+)?/g);
+    return m ? m[m.length - 1] : null;
+  };
+
+  function chooseFollowup(it, raw, adaptive) {
+    const std = it.keypoints.find((k) => k.followup);
+    const standard = { ask: it.followup.ask, listen: it.followup.listen, check: { terms: std ? std.terms : [] }, why: "" };
+    if (!adaptive) return standard;
+    const text = raw.trim();
+    const t = ` ${text.toLowerCase()} `;
+    if (text.split(/\s+/).filter(Boolean).length < 4) {
+      return {
+        ask: it.kind ? "You haven't said much yet. Which numbers from the regression output would you use first?"
+          : "You haven't said much yet. Where would you start: which file, table or columns would you use?",
+        listen: "A concrete first step: name the data and the first operation.",
+        check: { terms: it.kind ? ["coefficient", "estimate", "intercept", "p-value", "table", "equation"] : ["column", "table", "sheet", "file", "filter", "formula", "select", "count"] },
+        why: "You had said almost nothing when the examiner stepped in.",
+      };
+    }
+    for (const m of MISCONCEPTIONS) {
+      if (m.when(t, it)) return { ask: m.ask, listen: m.listen, check: { terms: m.terms }, why: `Because you said: “…${quote(text, m.re)}…”` };
+    }
+    const numKp = it.keypoints.find((k) => k.number != null && !k.followup);
+    const n = lastNumber(text);
+    if (numKp && n && !pointMet(numKp, text)) {
+      return { ask: `You said ${n}. Can you check that number? Talk me through how you got it.`,
+        listen: `Recomputes step by step and arrives at the right figure: ${numKp.label.replace(/^Gave the /, "")}.`,
+        check: numKp, why: `Because the number you gave (${n}) did not match the expected answer.` };
+    }
+    const unitKp = it.keypoints.find((k) => /unit/i.test(k.label) && !k.followup);
+    if (numKp && n && unitKp && !pointMet(unitKp, text)) {
+      return { ask: `You said ${n}. ${n} what?`, listen: unitKp.label, check: unitKp, why: `Because you gave ${n} without a unit.` };
+    }
+    const probe = (k) => ({ ask: k.probe, listen: k.label, check: k, why: `Because you had not yet mentioned: ${k.label.toLowerCase()}.` });
+    const missing = it.keypoints.filter((k) => !k.followup && k.probe && !pointMet(k, text));
+    // Regression key points are all about content, so a missing one always comes first. For Excel/SQL, a missing
+    // answer comes first; if the student has named a method, challenging that method beats asking for "a method".
+    const missingContent = it.kind ? missing[0] : missing.find((k) => k.answer || k.number != null);
+    if (missingContent) return probe(missingContent);
+    for (const c of CHALLENGES) {
+      if (c.tool && c.tool !== it.label) continue;
+      if (c.re.test(t)) return { ask: c.ask, listen: c.listen, check: { terms: c.terms }, why: `Because you mentioned “${quote(text, c.re)}”.` };
+    }
+    if (missing.length) return probe(missing[0]);
+    return { ...standard, why: "You had covered the key points, so the examiner asked a harder standard follow-up." };
+  }
+
   function loadAttempts() { try { return JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || "[]"); } catch { return []; } }
   function saveAttempts(list) { try { localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(list.slice(0, 20))); } catch { /* ignore */ } }
 
@@ -518,6 +630,7 @@
           </div>
           <p><strong>${esc(it.prompt)}</strong></p>
           ${it.asked ? `<div class="followup"><div class="eyebrow">Follow-up${it.askedAt != null ? ` · after ${mmss(it.askedAt)}` : ""}</div><p>${esc(it.followupAsk)}</p>
+            ${it.why ? `<p class="small why">Why the examiner asked this: ${esc(it.why)}</p>` : ""}
             <div class="eyebrow">The examiner listens for</div><p>${esc(it.listen)}</p></div>` : ""}
           ${it.audio ? `<audio controls src="${it.audio}" style="width:100%"></audio>` : ""}
           <label class="small muted" for="said-${i}">What you said</label>
@@ -749,9 +862,13 @@
         const interrupt = async (lead) => {
           stop();
           res.asked = true; res.askedAt = it.seconds - left;
+          // Decide the follow-up from what the student has said so far (finished words plus words in progress).
+          const heard = res.text.main + " " + (listener ? listener.interim : "");
+          res.followup = chooseFollowup(it, heard, !!listener && !listener.failed);
+          $("[data-fu] .question-text").textContent = res.followup.ask;
           phase = "speaking"; draw();
           $("[data-fu]").hidden = false;
-          await say(lead + it.followup.ask);
+          await say(lead + res.followup.ask);
           if (finished) return;
           phase = "followup"; draw(); startTick();
         };
@@ -788,7 +905,7 @@
         $('[data-act="repeat"]').onclick = async () => {
           if (phase === "speaking") return;
           const prev = phase; stop(); phase = "speaking"; draw();
-          await say(prev === "followup" ? it.followup.ask : it.prompt);
+          await say(prev === "followup" ? res.followup.ask : it.prompt);
           if (finished) return;
           phase = prev === "intro" ? "main" : prev; draw(); startTick();
         };
@@ -805,8 +922,14 @@
       const review = {
         when: new Date().toISOString(), title: meta.title, id: meta.id, back: meta.back, again: location.hash,
         items: results.map((r) => ({
-          label: r.item.label, prompt: r.item.prompt, followupAsk: r.item.followup.ask, listen: r.item.followup.listen,
-          answerHtml: r.item.answerHtml, keypoints: r.item.keypoints, asked: r.asked, askedAt: r.askedAt,
+          label: r.item.label, prompt: r.item.prompt,
+          followupAsk: (r.followup || r.item.followup).ask, listen: (r.followup || r.item.followup).listen,
+          why: r.followup ? r.followup.why : "",
+          answerHtml: r.item.answerHtml, asked: r.asked, askedAt: r.askedAt,
+          // The follow-up item in the checklist checks the answer to the follow-up that was actually asked.
+          keypoints: r.item.keypoints.map((k) => (k.followup && r.followup
+            ? { ...r.followup.check, label: "Answered the follow-up (see what the examiner listens for)", followup: true }
+            : k)),
           mainUsed: r.mainUsed, seconds: r.item.seconds,
           text: (r.text.main.trim() + (r.text.fu.trim() ? `\n\n[Follow-up] ${r.text.fu.trim()}` : "")).trim(),
         })),
@@ -860,6 +983,7 @@
       const q = Q[qid];
       return {
         label: q.tool, prompt: q.prompt, seconds: Math.round(q.minutes * 60) + 30, followup: q.followup, keypoints: q.keypoints,
+        skills: q.skills,
         answerHtml: `<p><strong>${esc(q.answer)}</strong></p>${q.tool === "SQL" ? `<pre><code>${esc(q.solution)}</code></pre>` : `<p>${esc(q.solution)}</p>`}`,
       };
     }));
@@ -871,7 +995,7 @@
     examinerMode({
       id: r.id, title: r.title, back: `#/regression/${r.id}`, section: "interpretation", intro: r.intro,
       reference: regressionReference(r),
-    }, r.questions.map((q) => ({ label: "", prompt: q.prompt, seconds: 75, followup: q.followup, keypoints: q.keypoints, answerHtml: paras(q.answer) })));
+    }, r.questions.map((q) => ({ label: "", kind: q.kind, prompt: q.prompt, seconds: 75, followup: q.followup, keypoints: q.keypoints, answerHtml: paras(q.answer) })));
   }
 
   function notFound() {
