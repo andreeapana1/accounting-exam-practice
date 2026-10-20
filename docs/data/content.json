@@ -1,0 +1,5351 @@
+{
+ "datasets": {
+  "nyc": {
+   "name": "NYC film permits",
+   "tool": "Excel",
+   "file": "NYC_Film_Permits.csv",
+   "case": "PwC Excel assignment",
+   "about": "33,502 film permits issued by New York City (2011–2018): event type, start and end date/time, borough, community boards, category and zip code. Comma-separated with quoted text fields.",
+   "size": 11120891,
+   "questions": 20
+  },
+  "etl1": {
+   "name": "Balance sheet extract (messy)",
+   "tool": "Excel",
+   "file": "ETL_Case1_balance_sheets.csv",
+   "case": "ETL Case 1 – Identifying data problems",
+   "about": "Balance sheet data for several companies (2016–2018). Contains duplicates, unquoted commas, K/M suffixes, numbers in parentheses and inconsistent units.",
+   "size": 1779,
+   "questions": 10
+  },
+  "etl2": {
+   "name": "Employee codes",
+   "tool": "Excel",
+   "file": "ETL_Case2_employee_codes.xlsx",
+   "case": "ETL Case 2 – Text extraction",
+   "about": "597 employees. EmployeeCode combines Location (3 letters), EmpID (4 digits), PlantID (after the hyphen) and PayPeriod (W/M), e.g. JAP1080-19M.",
+   "size": 48845,
+   "questions": 8
+  },
+  "etl3": {
+   "name": "Employee codes (messy)",
+   "tool": "Excel",
+   "file": "ETL_Case3_employee_codes_messy.xlsx",
+   "case": "ETL Case 3 – Advanced text extraction",
+   "about": "Same idea as Case 2 but messier: location codes of different lengths (US, ARG, Japan), 1–3 digit EmpIDs, 1–2 digit PlantIDs and pay periods recorded as W, M or Mo.",
+   "size": 48671,
+   "questions": 8
+  },
+  "etl4": {
+   "name": "Hotel journal entries",
+   "tool": "Excel",
+   "file": "ETL_Case4_journal_entries.xlsx",
+   "case": "ETL Case 4 – Joining data",
+   "about": "789 journal-entry lines for a hotel and conference center with lookup tabs: BusinessUnits, ChartOfAccounts, PreparerInfo (PreparerID unique only within a business unit) and Source.",
+   "size": 112325,
+   "questions": 9
+  },
+  "integrateco": {
+   "name": "IntegrateCo payroll",
+   "tool": "Excel",
+   "file": "IntegrateCo_payroll.zip",
+   "case": "IntegrateCo case",
+   "about": "Pipe-delimited (|) .csv files: 2015 payroll (one row per employee, job and pay date), 2016 payroll from a new system (no dates, Gross_Wages combined), job codes (001–012, stored as text) and employee locations.",
+   "size": 74565,
+   "questions": 15
+  },
+  "chinook": {
+   "name": "Chinook music store",
+   "tool": "SQL",
+   "file": "Chinook_Sqlite.sqlite",
+   "case": "PwC SQL assignment",
+   "about": "A digital music store: Customer, Invoice, InvoiceLine, Track, Album, Artist, Genre, Employee, MediaType and Playlist tables.",
+   "size": 1067008,
+   "questions": 22
+  },
+  "songs": {
+   "name": "Spotify top songs",
+   "tool": "SQL",
+   "file": "songs.db",
+   "case": "CS50 songs",
+   "about": "Tables songs (name, artist_id, danceability, energy, valence, tempo, duration_ms, …) and artists (id, name).",
+   "size": 24576,
+   "questions": 8
+  },
+  "movies": {
+   "name": "IMDb movies · practice subset",
+   "tool": "SQL",
+   "file": "movies_subset.db",
+   "case": "CS50 movies",
+   "about": "Movies with at least 5,000 IMDb votes. Tables movies, people, stars, directors and ratings. Answers on this site are computed on this subset.",
+   "size": 2031616,
+   "questions": 13
+  },
+  "fiftyville": {
+   "name": "Fiftyville mystery",
+   "tool": "SQL",
+   "file": "fiftyville.db",
+   "case": "CS50 Fiftyville",
+   "about": "Town records: crime_scene_reports, interviews, courthouse_security_logs, atm_transactions, bank_accounts, phone_calls, flights, airports, passengers, people.",
+   "size": 270336,
+   "questions": 4
+  },
+  "pcards": {
+   "name": "OSU purchasing cards · 2014",
+   "tool": "SQL",
+   "file": "pcards_2014.db",
+   "case": "P-card case",
+   "about": "All 116,031 Oklahoma State University P-card transactions in calendar year 2014 (table pcards). Negative amounts are returns. TransactionDate is stored as text (M/D/YYYY).",
+   "size": 22179840,
+   "questions": 20
+  }
+ },
+ "questions": [
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "How many records does the NYC film permit table have (excluding the header)?",
+   "answer": "33,502",
+   "solution": "Import the file, then =COUNTA(A:A)-1 or check the row number of the last record.",
+   "minutes": 1,
+   "skills": [
+    "import",
+    "counting"
+   ],
+   "id": "Q001"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "How many columns does the table have?",
+   "answer": "14",
+   "solution": "=COUNTA(1:1) on the header row, or =COLUMNS(Table1).",
+   "minutes": 0.5,
+   "skills": [
+    "import"
+   ],
+   "id": "Q002"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "How many records have a missing value for ZipCode?",
+   "answer": "11",
+   "solution": "Missing zip codes are stored as the text \"N/A\", not as blanks: =COUNTIF(N:N,\"N/A\").",
+   "minutes": 1.5,
+   "skills": [
+    "missing data",
+    "COUNTIF"
+   ],
+   "id": "Q003"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "How many records have an invalid value for ZipCode (not a 5-digit code)?",
+   "answer": "2",
+   "solution": "Add a helper column =LEN(N2) and filter for lengths other than 5, excluding \"N/A\" (two records have zip code 83).",
+   "minutes": 2,
+   "skills": [
+    "data quality",
+    "LEN"
+   ],
+   "id": "Q004"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "Which column has the same value for every record? Give the exact column name.",
+   "answer": "EventAgency",
+   "solution": "Use a PivotTable or =COUNTA(UNIQUE(F2:F33503)) per column; EventAgency has only one value.",
+   "minutes": 1.5,
+   "skills": [
+    "UNIQUE",
+    "PivotTable"
+   ],
+   "id": "Q005"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "What is the oldest EnteredOn value? Give the complete date and time.",
+   "answer": "12/7/2011 16:38",
+   "solution": "=MIN(E2:E33503) formatted as date/time.",
+   "minutes": 1,
+   "skills": [
+    "dates",
+    "MIN"
+   ],
+   "id": "Q006"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "What is the newest EnteredOn value? Give the complete date and time.",
+   "answer": "2/9/2018 12:46",
+   "solution": "=MAX(E2:E33503) formatted as date/time.",
+   "minutes": 1,
+   "skills": [
+    "dates",
+    "MAX"
+   ],
+   "id": "Q007"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "How many different event types are there?",
+   "answer": "4",
+   "solution": "=COUNTA(UNIQUE(B2:B33503)), or put EventType in PivotTable rows.",
+   "minutes": 1,
+   "skills": [
+    "UNIQUE",
+    "PivotTable"
+   ],
+   "id": "Q008"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "What is the most common event type?",
+   "answer": "Shooting Permit",
+   "solution": "PivotTable: EventType in Rows, Count of EventID in Values, sort descending.",
+   "minutes": 1,
+   "skills": [
+    "PivotTable"
+   ],
+   "id": "Q009"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "Considering only shooting permits, what is the most common Category?",
+   "answer": "Television",
+   "solution": "PivotTable filtered on EventType = Shooting Permit; Category in Rows, count, sort descending.",
+   "minutes": 1.5,
+   "skills": [
+    "PivotTable",
+    "filtering"
+   ],
+   "id": "Q010"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "How many shooting permits have been granted for student films?",
+   "answer": "193",
+   "solution": "=COUNTIFS(B:B,\"Shooting Permit\",K:K,\"Student\")",
+   "minutes": 1,
+   "skills": [
+    "COUNTIFS"
+   ],
+   "id": "Q011"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "What percentage of shooting permits required approval by more than one Community Board? (2 decimals)",
+   "answer": "7.84%",
+   "solution": "Count shooting permits whose CommunityBoard(s) contains a comma: =COUNTIFS(B:B,\"Shooting Permit\",I:I,\"*,*\")/COUNTIF(B:B,\"Shooting Permit\")",
+   "minutes": 2.5,
+   "skills": [
+    "COUNTIFS",
+    "wildcards",
+    "percentages"
+   ],
+   "id": "Q012"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "In which year did the number of shoots in Brooklyn first outnumber the shoots in Manhattan?",
+   "answer": "2017",
+   "solution": "Add a helper column =YEAR(C2); PivotTable with Year in Rows, Borough in Columns, count of EventID.",
+   "minutes": 2.5,
+   "skills": [
+    "YEAR",
+    "PivotTable"
+   ],
+   "id": "Q013"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "What percentage of shoots in Manhattan take place on or near Broadway? Round to the nearest percent.",
+   "answer": "20%",
+   "solution": "Filter Borough = Manhattan and EventType = Shooting Permit, then =COUNTIFS(...,G:G,\"*BROADWAY*\")/COUNTIFS(...)",
+   "minutes": 2.5,
+   "skills": [
+    "wildcards",
+    "COUNTIFS"
+   ],
+   "id": "Q014"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "How many shooting permit applications since 2013 have been submitted from a foreign country?",
+   "answer": "7",
+   "solution": "Filter EventType = Shooting Permit, EnteredOn >= 1/1/2013 and Country <> \"United States of America\".",
+   "minutes": 2,
+   "skills": [
+    "filtering",
+    "dates"
+   ],
+   "id": "Q015"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "What is the average duration of a shooting permit in hours, rounded to the nearest half hour?",
+   "answer": "17 hours",
+   "solution": "Helper column =(D2-C2)*24, then =MROUND(AVERAGEIF(B:B,\"Shooting Permit\",O:O),0.5).",
+   "minutes": 2.5,
+   "skills": [
+    "date arithmetic",
+    "AVERAGEIF"
+   ],
+   "id": "Q016"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "What was the duration of the shortest shoot, in minutes?",
+   "answer": "1 minute",
+   "solution": "Helper column =(D2-C2)*24*60, then =MINIFS(...) for shooting permits.",
+   "minutes": 2,
+   "skills": [
+    "date arithmetic",
+    "MINIFS"
+   ],
+   "id": "Q017"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "What is the average lead time in days between EnteredOn and StartDateTime for shooting permits? Round to the nearest day.",
+   "answer": "5 days",
+   "solution": "Helper column =C2-E2, then =ROUND(AVERAGEIF(B:B,\"Shooting Permit\",P:P),0).",
+   "minutes": 2,
+   "skills": [
+    "date arithmetic"
+   ],
+   "id": "Q018"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "On which day of the week do shooting permits most often start? Give the full day name.",
+   "answer": "Thursday",
+   "solution": "=TEXT(C2,\"dddd\") in a helper column, then a PivotTable count.",
+   "minutes": 2,
+   "skills": [
+    "TEXT",
+    "PivotTable"
+   ],
+   "id": "Q019"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "nyc",
+   "prompt": "What percentage of shooting permits include at least part of a day on a Friday? (2 decimals)",
+   "answer": "23.65%",
+   "solution": "A permit touches Friday if any date from INT(start) to INT(end) is a Friday. Helper: =SUMPRODUCT(--(WEEKDAY(ROW(INDIRECT(INT(C2)&\":\"&INT(D2))))=6))>0",
+   "minutes": 3.5,
+   "skills": [
+    "WEEKDAY",
+    "date arithmetic"
+   ],
+   "id": "Q020"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl1",
+   "prompt": "How many data rows (excluding the header) does the ETL Case 1 balance sheet file contain, including any duplicates?",
+   "answer": "22",
+   "solution": "Open the .csv in a text editor or import it; count the rows below the header.",
+   "minutes": 1,
+   "skills": [
+    "import"
+   ],
+   "id": "Q021"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl1",
+   "prompt": "How many rows are exact duplicates of a row above them?",
+   "answer": "1",
+   "solution": "Data > Remove Duplicates (all columns) reports how many duplicate rows were removed.",
+   "minutes": 1.5,
+   "skills": [
+    "duplicates"
+   ],
+   "id": "Q022"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl1",
+   "prompt": "How many rows have a blank Ticker?",
+   "answer": "3",
+   "solution": "=COUNTBLANK(A2:A23) or filter Ticker on (Blanks). These rows have no unique identifier.",
+   "minutes": 1,
+   "skills": [
+    "missing data",
+    "unique identifiers"
+   ],
+   "id": "Q023"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl1",
+   "prompt": "How many rows have a Ticker containing spaces (e.g. 'A M Z N')?",
+   "answer": "2",
+   "solution": "=SUMPRODUCT(--ISNUMBER(SEARCH(\" \",A2:A23))) — fix with =SUBSTITUTE(A2,\" \",\"\").",
+   "minutes": 1.5,
+   "skills": [
+    "SUBSTITUTE",
+    "text cleaning"
+   ],
+   "id": "Q024"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl1",
+   "prompt": "Which company's rows split into one column too many when the file is imported, and why?",
+   "answer": "Apple, Inc. — the comma in the name is not enclosed in a text qualifier (quotes)",
+   "solution": "Look for rows whose last column is filled when others are empty; the unquoted comma in 'Apple, Inc.' is read as a delimiter.",
+   "minutes": 2,
+   "skills": [
+    "delimiters",
+    "text qualifiers"
+   ],
+   "id": "Q025"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl1",
+   "prompt": "How many Cash values are written with a K or M suffix instead of a full number?",
+   "answer": "10",
+   "solution": "=COUNTIF(D2:D23,\"* K\")+COUNTIF(D2:D23,\"* M\") (after fixing the Apple rows).",
+   "minutes": 1.5,
+   "skills": [
+    "units of measurement",
+    "COUNTIF"
+   ],
+   "id": "Q026"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl1",
+   "prompt": "After cleaning, what is Apple's 2018 Cash in dollars?",
+   "answer": "25,900,000,000",
+   "solution": "\"25900 M\" means 25,900 million: =VALUE(LEFT(D2,LEN(D2)-2))*1000000.",
+   "minutes": 1.5,
+   "skills": [
+    "units of measurement",
+    "LEFT",
+    "VALUE"
+   ],
+   "id": "Q027"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl1",
+   "prompt": "How many Total Depreciation values are written as negatives in parentheses, e.g. (14200000000)?",
+   "answer": "13",
+   "solution": "=COUNTIF(H2:H23,\"(*\")  — convert with =-VALUE(SUBSTITUTE(SUBSTITUTE(H2,\"(\",\"\"),\")\",\"\")).",
+   "minutes": 1.5,
+   "skills": [
+    "number formats",
+    "SUBSTITUTE"
+   ],
+   "id": "Q028"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl1",
+   "prompt": "How many Inventories values are missing (blank or a dash)?",
+   "answer": "4",
+   "solution": "Filter Inventories for blanks, spaces and '-' entries; decide whether they mean zero or unknown.",
+   "minutes": 1.5,
+   "skills": [
+    "missing data"
+   ],
+   "id": "Q029"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl1",
+   "prompt": "Total Current Assets for American Airlines 2016 is 10300 while Cash is 3220000000. What problem does this show?",
+   "answer": "Inconsistent units — Total Current Assets is stated in millions, the other columns in dollars",
+   "solution": "Compare magnitudes across columns: 10,300 million = 10.3 billion, so multiply that column by 1,000,000.",
+   "minutes": 1.5,
+   "skills": [
+    "units of measurement"
+   ],
+   "id": "Q030"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl2",
+   "prompt": "How many employees work in Germany (GER)?",
+   "answer": "66",
+   "solution": "=LEFT(A2,3) in a helper column, then =COUNTIF(D:D,\"GER\").",
+   "minutes": 1.5,
+   "skills": [
+    "LEFT",
+    "COUNTIF"
+   ],
+   "id": "Q031"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl2",
+   "prompt": "How many employees are paid weekly?",
+   "answer": "258",
+   "solution": "=RIGHT(A2,1), then =COUNTIF(G:G,\"W\").",
+   "minutes": 1.5,
+   "skills": [
+    "RIGHT",
+    "COUNTIF"
+   ],
+   "id": "Q032"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl2",
+   "prompt": "Extract the EmpID from EmployeeCode. What is the EmpID of the first employee (Carl Rodriguez)?",
+   "answer": "1080",
+   "solution": "=MID(A2,4,4) — the EmpID is always four digits starting at position 4.",
+   "minutes": 1.5,
+   "skills": [
+    "MID"
+   ],
+   "id": "Q033"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl2",
+   "prompt": "Extract the PlantID (the digits after the hyphen). What is the highest PlantID used in Australia?",
+   "answer": "26",
+   "solution": "=MID(A2,FIND(\"-\",A2)+1,2) then =MAXIFS(F:F,D:D,\"AUS\").",
+   "minutes": 2.5,
+   "skills": [
+    "MID",
+    "FIND",
+    "MAXIFS"
+   ],
+   "id": "Q034"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl2",
+   "prompt": "Create LocationPlantID in the form USA-12. How many distinct LocationPlantID values are there?",
+   "answer": "133",
+   "solution": "=LEFT(A2,3)&\"-\"&MID(A2,FIND(\"-\",A2)+1,2), then =COUNTA(UNIQUE(H2:H598)).",
+   "minutes": 2.5,
+   "skills": [
+    "concatenation",
+    "UNIQUE"
+   ],
+   "id": "Q035"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl2",
+   "prompt": "Which LocationPlantID has the most employees?",
+   "answer": "ARG-15 (11 employees)",
+   "solution": "PivotTable on LocationPlantID with a count, sorted descending.",
+   "minutes": 2.5,
+   "skills": [
+    "PivotTable"
+   ],
+   "id": "Q036"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl2",
+   "prompt": "Which country has the most employees, and how many?",
+   "answer": "USA (86)",
+   "solution": "LEFT(A2,3) helper column, then PivotTable count by location.",
+   "minutes": 1.5,
+   "skills": [
+    "LEFT",
+    "PivotTable"
+   ],
+   "id": "Q037"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl2",
+   "prompt": "How many employees are paid monthly at plant JAP-19?",
+   "answer": "5",
+   "solution": "=COUNTIFS(H:H,\"JAP-19\",G:G,\"M\")",
+   "minutes": 2,
+   "skills": [
+    "COUNTIFS"
+   ],
+   "id": "Q038"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl3",
+   "prompt": "Location codes have different lengths (e.g. US, ARG, Japan). How many employees work in Japan?",
+   "answer": "81",
+   "solution": "Location = letters before the first digit: =LEFT(A2,MIN(FIND({0,1,2,3,4,5,6,7,8,9},A2&\"0123456789\"))-1), then =COUNTIF(D:D,\"Japan\").",
+   "minutes": 2.5,
+   "skills": [
+    "LEFT",
+    "MIN",
+    "FIND"
+   ],
+   "id": "Q039"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl3",
+   "prompt": "How many employees are paid monthly? (The pay period is recorded as M or Mo.)",
+   "answer": "339",
+   "solution": "Pay period = text after the plant digits; =COUNTIF(G:G,\"M\")+COUNTIF(G:G,\"Mo\"), or normalise with =IF(LEFT(G2,1)=\"M\",\"M\",\"W\").",
+   "minutes": 2,
+   "skills": [
+    "IF",
+    "COUNTIF"
+   ],
+   "id": "Q040"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl3",
+   "prompt": "How many employees have a two-digit PlantID?",
+   "answer": "266",
+   "solution": "PlantID = digits after the hyphen: =IF(ISNUMBER(--MID(A2,FIND(\"-\",A2)+2,1)),MID(A2,FIND(\"-\",A2)+1,2),MID(A2,FIND(\"-\",A2)+1,1)), then count values >= 10.",
+   "minutes": 3,
+   "skills": [
+    "MID",
+    "FIND",
+    "ISNUMBER",
+    "VALUE"
+   ],
+   "id": "Q041"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl3",
+   "prompt": "What is the EmpID of Carl Rodriguez (EmployeeCode Japan177-3Mo)?",
+   "answer": "177",
+   "solution": "MID from the end of the location code up to the hyphen: =MID(A2,LEN(D2)+1,FIND(\"-\",A2)-LEN(D2)-1).",
+   "minutes": 1.5,
+   "skills": [
+    "MID",
+    "FIND"
+   ],
+   "id": "Q042"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl3",
+   "prompt": "Create LocationPlantID (e.g. US-8). How many distinct LocationPlantID values are there?",
+   "answer": "133",
+   "solution": "=D2&\"-\"&F2, then =COUNTA(UNIQUE(H2:H598)).",
+   "minutes": 3,
+   "skills": [
+    "concatenation",
+    "UNIQUE"
+   ],
+   "id": "Q043"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl3",
+   "prompt": "Which plant number in Canada has the most employees?",
+   "answer": "Plant 4 (9 employees)",
+   "solution": "=COUNTIFS(D:D,\"Canada\",F:F,n) for each plant, or a PivotTable filtered on Canada.",
+   "minutes": 2.5,
+   "skills": [
+    "COUNTIFS"
+   ],
+   "id": "Q044"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl3",
+   "prompt": "What is the sum of all extracted EmpID values? (A quick check that your extraction is correct.)",
+   "answer": "178,503",
+   "solution": "=SUM(E2:E598) — EmpID must be converted to a number with VALUE() first.",
+   "minutes": 2.5,
+   "skills": [
+    "VALUE",
+    "control totals"
+   ],
+   "id": "Q045"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl3",
+   "prompt": "How many EmployeeCodes record the monthly pay period as Mo rather than M?",
+   "answer": "181",
+   "solution": "=SUMPRODUCT(--(RIGHT(A2:A598,2)=\"Mo\")), or =COUNTIF(A:A,\"*Mo\").",
+   "minutes": 2,
+   "skills": [
+    "RIGHT",
+    "data quality"
+   ],
+   "id": "Q046"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl4",
+   "prompt": "How many journal-entry line items are there, and how many distinct journal entries (JENumber)?",
+   "answer": "789 line items, 394 journal entries",
+   "solution": "=COUNTA(A2:A790) and =COUNTA(UNIQUE(A2:A790)).",
+   "minutes": 1.5,
+   "skills": [
+    "UNIQUE",
+    "counting"
+   ],
+   "id": "Q047"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl4",
+   "prompt": "What is the sum of the Amount column? What does this tell you?",
+   "answer": "0.00 — debits equal credits, so the journal is balanced",
+   "solution": "=SUM(J2:J790). Debits are positive and credits negative, so a balanced ledger sums to zero.",
+   "minutes": 1.5,
+   "skills": [
+    "control totals"
+   ],
+   "id": "Q048"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl4",
+   "prompt": "What is the total of the Debit column?",
+   "answer": "1,130,428.13",
+   "solution": "=SUM(H2:H790)",
+   "minutes": 1,
+   "skills": [
+    "SUM"
+   ],
+   "id": "Q049"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl4",
+   "prompt": "What is the GLAccountName for GL account 76930?",
+   "answer": "Telecommunications - Other",
+   "solution": "=XLOOKUP(76930,ChartOfAccounts!B:B,ChartOfAccounts!A:A) — VLOOKUP fails because the name is left of the number.",
+   "minutes": 1.5,
+   "skills": [
+    "XLOOKUP",
+    "INDEX/MATCH"
+   ],
+   "id": "Q050"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl4",
+   "prompt": "How many line items belong to the HOTEL business unit?",
+   "answer": "189",
+   "solution": "Look up BusinessUnit with =INDEX(BusinessUnits!B:B,MATCH(C2,BusinessUnits!A:A,0)), then COUNTIF.",
+   "minutes": 2,
+   "skills": [
+    "INDEX/MATCH",
+    "COUNTIF"
+   ],
+   "id": "Q051"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl4",
+   "prompt": "What is the total Amount posted to accounts with AccountType = Revenue?",
+   "answer": "-398,321.61",
+   "solution": "Look up AccountType from ChartOfAccounts, then =SUMIF(N:N,\"Revenue\",J:J). Revenue is a credit, so it is negative.",
+   "minutes": 2.5,
+   "skills": [
+    "INDEX/MATCH",
+    "SUMIF"
+   ],
+   "id": "Q052"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl4",
+   "prompt": "PreparerID is only unique within a business unit. Which preparer recorded the most line items?",
+   "answer": "Carolyn Slater (182 line items)",
+   "solution": "Match on both PreparerID and BusinessUnitID: =INDEX(PreparerInfo!A:A,MATCH(1,(PreparerInfo!B:B=D2)*(PreparerInfo!C:C=C2),0)), then a PivotTable count.",
+   "minutes": 3.5,
+   "skills": [
+    "INDEX/MATCH",
+    "array formulas",
+    "unique identifiers"
+   ],
+   "id": "Q053"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl4",
+   "prompt": "What is the total debit amount for line items whose Source is PURCHASE CARD?",
+   "answer": "29,577.97",
+   "solution": "Look up Source from the Source tab with XLOOKUP on SourceID, then SUMIF.",
+   "minutes": 2,
+   "skills": [
+    "XLOOKUP",
+    "SUMIF"
+   ],
+   "id": "Q054"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "etl4",
+   "prompt": "What is the net Amount posted to accounts whose AccountClass contains 'Payroll'?",
+   "answer": "258,062.68",
+   "solution": "=SUMIF(O:O,\"*Payroll*\",J:J) after looking up AccountClass.",
+   "minutes": 2.5,
+   "skills": [
+    "SUMIF",
+    "wildcards"
+   ],
+   "id": "Q055"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "The IntegrateCo files are .csv files. Which delimiter do they actually use?",
+   "answer": "The pipe character |",
+   "solution": "Open the file in a text editor first. Import with Data > From Text/CSV and choose the | delimiter (or Text to Columns > Delimited > Other: |).",
+   "minutes": 1,
+   "skills": [
+    "delimiters",
+    "import"
+   ],
+   "id": "Q056"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "How many data rows does the 2015 payroll file contain?",
+   "answer": "4,981",
+   "solution": "Import with the | delimiter, then =COUNTA(A:A)-1.",
+   "minutes": 1,
+   "skills": [
+    "import",
+    "counting"
+   ],
+   "id": "Q057"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "What is total gross pay (Reg_Pay + OT_Pay) in the first six months of 2015?",
+   "answer": "1,086,734.19",
+   "solution": "=SUM(K:K)+SUM(L:L) on the 2015 data.",
+   "minutes": 1.5,
+   "skills": [
+    "SUM"
+   ],
+   "id": "Q058"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "What is the difference between 2016 Gross_Wages and 2015 gross pay (2016 minus 2015)?",
+   "answer": "266,055.56",
+   "solution": "2016: =SUM(Gross_Wages). 2015: Reg_Pay + OT_Pay. In 2016 Gross_Wages already combines both, so the definitions must be aligned before comparing.",
+   "minutes": 2.5,
+   "skills": [
+    "aggregation",
+    "comparability"
+   ],
+   "id": "Q059"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "How many 2016 transactions have no Employee_Number ('phantom' entries)?",
+   "answer": "68",
+   "solution": "=COUNTBLANK(C2:C805) on the 2016 data.",
+   "minutes": 1.5,
+   "skills": [
+    "missing data",
+    "COUNTBLANK"
+   ],
+   "id": "Q060"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "What is the total Gross_Wages of the 2016 entries without an Employee_Number?",
+   "answer": "32,951.29",
+   "solution": "=SUMIF(C:C,\"\",G:G)",
+   "minutes": 2,
+   "skills": [
+    "SUMIF",
+    "missing data"
+   ],
+   "id": "Q061"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "What was the total employee cost in 2016 (gross wages + SocSec_Medicare + FUTA + SUTA + Work_Comp)?",
+   "answer": "1,486,454.83",
+   "solution": "=SUM(G:K) on the 2016 data.",
+   "minutes": 1.5,
+   "skills": [
+    "SUM"
+   ],
+   "id": "Q062"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "Which employee earned the most overtime pay in 2015, and how much?",
+   "answer": "Cindy Lunt (Emp_No 27): 4,186.24",
+   "solution": "PivotTable on 2015 data: Emp_No and name in Rows, Sum of OT_Pay in Values, sort descending.",
+   "minutes": 2.5,
+   "skills": [
+    "PivotTable"
+   ],
+   "id": "Q063"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "Extract the three-digit job code from the Job field (e.g. 14S001SG → 001). Which job code had the most overtime pay in 2015?",
+   "answer": "006 Service (6,007.52)",
+   "solution": "Job code = the three digits after the 2-digit year and optional H/S: =IF(ISNUMBER(--MID(H2,3,1)),MID(H2,3,3),MID(H2,4,3)), then a PivotTable on OT_Pay.",
+   "minutes": 3.5,
+   "skills": [
+    "MID",
+    "IF",
+    "ISNUMBER",
+    "PivotTable"
+   ],
+   "id": "Q064"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "In which month of 2015 was gross pay highest, and how much was it?",
+   "answer": "May (221,517.17)",
+   "solution": "Helper column =MONTH(A2) and gross pay =K2+L2, then a PivotTable by month.",
+   "minutes": 2.5,
+   "skills": [
+    "MONTH",
+    "PivotTable"
+   ],
+   "id": "Q065"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "Job codes must be 001–012. Which Job value in the 2015 data contains an invalid job code?",
+   "answer": "14S1440 (job code 144, employee Preston Robinson)",
+   "solution": "Extract the job code from Job, then =ISNA(MATCH(L2,JobCodes!A:A,0)) and count TRUE. Keep job codes as text so 001 is not turned into 1.",
+   "minutes": 3,
+   "skills": [
+    "MATCH",
+    "ISNA",
+    "text vs number"
+   ],
+   "id": "Q066"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "Why does a lookup from payroll job codes to jobcodes.csv fail when the job code file is opened directly in Excel?",
+   "answer": "Excel converts 001 to the number 1, losing the leading zeros, so text '001' does not match number 1",
+   "solution": "Import Job_Code as Text in the import wizard (or Power Query), keeping the three-digit code.",
+   "minutes": 1.5,
+   "skills": [
+    "text vs number",
+    "import"
+   ],
+   "id": "Q067"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "What are total gross wages for job code 005 (Installation) in 2015 and in 2016?",
+   "answer": "2015: 8,947.52; 2016: 24,682.20",
+   "solution": "Extract job code in both years, then SUMIF on 005.",
+   "minutes": 3,
+   "skills": [
+    "SUMIF",
+    "MID"
+   ],
+   "id": "Q068"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "Using the locations file, how many employees work at location 2?",
+   "answer": "52",
+   "solution": "Import with the | delimiter, then =COUNTIF(B:B,2).",
+   "minutes": 1,
+   "skills": [
+    "import",
+    "COUNTIF"
+   ],
+   "id": "Q069"
+  },
+  {
+   "tool": "Excel",
+   "dataset": "integrateco",
+   "prompt": "How many different pay dates (payroll runs) are in the 2015 data?",
+   "answer": "37",
+   "solution": "=COUNTA(UNIQUE(A2:A4982))",
+   "minutes": 1,
+   "skills": [
+    "UNIQUE"
+   ],
+   "id": "Q070"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many columns does the Customer table have?",
+   "answer": "13",
+   "solution": "PRAGMA table_info(Customer);\n-- or: SELECT * FROM Customer LIMIT 1; and count the columns",
+   "minutes": 1,
+   "skills": [
+    "schema"
+   ],
+   "id": "Q071"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "If you select only the first 5 rows of Customer, what is the Country in the last row?",
+   "answer": "Czech Republic",
+   "solution": "SELECT Country FROM Customer LIMIT 1 OFFSET 4;",
+   "minutes": 1,
+   "skills": [
+    "LIMIT"
+   ],
+   "id": "Q072"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "If you sort Customer by LastName, what is the last name in the third row?",
+   "answer": "Bernard",
+   "solution": "SELECT LastName FROM Customer ORDER BY LastName LIMIT 1 OFFSET 2;",
+   "minutes": 1,
+   "skills": [
+    "ORDER BY",
+    "LIMIT"
+   ],
+   "id": "Q073"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many rows are in the Invoice table?",
+   "answer": "412",
+   "solution": "SELECT COUNT(*) FROM Invoice;",
+   "minutes": 0.5,
+   "skills": [
+    "COUNT"
+   ],
+   "id": "Q074"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many invoices have totals greater than $20?",
+   "answer": "4",
+   "solution": "SELECT COUNT(*) FROM Invoice WHERE Total > 20;",
+   "minutes": 1,
+   "skills": [
+    "WHERE"
+   ],
+   "id": "Q075"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many invoices have totals greater than $10 and less than $20?",
+   "answer": "60",
+   "solution": "SELECT COUNT(*) FROM Invoice WHERE Total > 10 AND Total < 20;",
+   "minutes": 1,
+   "skills": [
+    "WHERE",
+    "AND"
+   ],
+   "id": "Q076"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many invoices are from customers in Brazil, Argentina or Chile?",
+   "answer": "49",
+   "solution": "SELECT COUNT(*)\nFROM Invoice i JOIN Customer c ON c.CustomerId = i.CustomerId\nWHERE c.Country IN ('Brazil', 'Argentina', 'Chile');",
+   "minutes": 1.5,
+   "skills": [
+    "JOIN",
+    "IN"
+   ],
+   "id": "Q077"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many invoices have a billing country that starts with “C”?",
+   "answer": "77",
+   "solution": "SELECT COUNT(*) FROM Invoice WHERE BillingCountry LIKE 'C%';",
+   "minutes": 1,
+   "skills": [
+    "LIKE"
+   ],
+   "id": "Q078"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many customers list their company?",
+   "answer": "10",
+   "solution": "SELECT COUNT(Company) FROM Customer;",
+   "minutes": 1,
+   "skills": [
+    "COUNT",
+    "NULL"
+   ],
+   "id": "Q079"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many employees does Chinook have?",
+   "answer": "8",
+   "solution": "SELECT COUNT(*) FROM Employee;",
+   "minutes": 0.5,
+   "skills": [
+    "COUNT"
+   ],
+   "id": "Q080"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How long is the longest employee last name?",
+   "answer": "8",
+   "solution": "SELECT MAX(LENGTH(LastName)) FROM Employee;",
+   "minutes": 1,
+   "skills": [
+    "LENGTH",
+    "MAX"
+   ],
+   "id": "Q081"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many employees were born on a Sunday?",
+   "answer": "2",
+   "solution": "SELECT COUNT(*) FROM Employee WHERE strftime('%w', BirthDate) = '0';",
+   "minutes": 2,
+   "skills": [
+    "dates",
+    "strftime"
+   ],
+   "id": "Q082"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How old was the oldest employee when they were hired? (years, 1 decimal)",
+   "answer": "55.6 years (about 55.5, depending on how you count a year)",
+   "solution": "SELECT ROUND(MAX((julianday(HireDate) - julianday(BirthDate)) / 365.25), 1) FROM Employee;",
+   "minutes": 2.5,
+   "skills": [
+    "dates",
+    "julianday"
+   ],
+   "id": "Q083"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "Which billing country has the highest total invoice value, and how much is it?",
+   "answer": "USA (523.06)",
+   "solution": "SELECT BillingCountry, ROUND(SUM(Total), 2) AS TotalValue\nFROM Invoice\nGROUP BY BillingCountry\nORDER BY TotalValue DESC\nLIMIT 1;",
+   "minutes": 2,
+   "skills": [
+    "GROUP BY",
+    "SUM",
+    "ORDER BY"
+   ],
+   "id": "Q084"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many invoice line items are there?",
+   "answer": "2,240",
+   "solution": "SELECT COUNT(*) FROM InvoiceLine;",
+   "minutes": 0.5,
+   "skills": [
+    "COUNT"
+   ],
+   "id": "Q085"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many distinct unit prices are there in InvoiceLine?",
+   "answer": "2",
+   "solution": "SELECT COUNT(DISTINCT UnitPrice) FROM InvoiceLine;",
+   "minutes": 1,
+   "skills": [
+    "DISTINCT"
+   ],
+   "id": "Q086"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many downloads (invoice lines) happened at each price? Give the count for $0.99.",
+   "answer": "$0.99: 2,129; $1.99: 111",
+   "solution": "SELECT UnitPrice, COUNT(*) AS Downloads\nFROM InvoiceLine\nGROUP BY UnitPrice;",
+   "minutes": 1.5,
+   "skills": [
+    "GROUP BY"
+   ],
+   "id": "Q087"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "What is the range of invoice dates in the database (first and last date)?",
+   "answer": "2009-01-01 to 2013-12-22 (about 5 years)",
+   "solution": "SELECT MIN(InvoiceDate), MAX(InvoiceDate) FROM Invoice;",
+   "minutes": 1,
+   "skills": [
+    "MIN",
+    "MAX"
+   ],
+   "id": "Q088"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "What is the maximum number of times any single track has been downloaded, and how many tracks share it?",
+   "answer": "2 downloads, shared by 256 tracks",
+   "solution": "SELECT Downloads, COUNT(*) AS Tracks FROM (\n  SELECT TrackId, COUNT(*) AS Downloads\n  FROM InvoiceLine GROUP BY TrackId\n)\nGROUP BY Downloads\nORDER BY Downloads DESC\nLIMIT 1;",
+   "minutes": 3,
+   "skills": [
+    "subqueries",
+    "GROUP BY"
+   ],
+   "id": "Q089"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "What is the most popular genre by number of tracks sold?",
+   "answer": "Rock (835 tracks sold)",
+   "solution": "SELECT g.Name, COUNT(*) AS Sold\nFROM InvoiceLine il\nJOIN Track t ON t.TrackId = il.TrackId\nJOIN Genre g ON g.GenreId = t.GenreId\nGROUP BY g.Name\nORDER BY Sold DESC\nLIMIT 1;",
+   "minutes": 2.5,
+   "skills": [
+    "JOIN",
+    "GROUP BY"
+   ],
+   "id": "Q090"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "How many distinct albums have at least one track that was downloaded?",
+   "answer": "304",
+   "solution": "SELECT COUNT(DISTINCT t.AlbumId)\nFROM InvoiceLine il JOIN Track t ON t.TrackId = il.TrackId;",
+   "minutes": 2,
+   "skills": [
+    "JOIN",
+    "DISTINCT"
+   ],
+   "id": "Q091"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "chinook",
+   "prompt": "Which customer has spent the most in total? Give the full name and amount.",
+   "answer": "Helena Holý (49.62)",
+   "solution": "SELECT c.FirstName || ' ' || c.LastName AS Customer, ROUND(SUM(i.Total), 2) AS Spent\nFROM Invoice i JOIN Customer c ON c.CustomerId = i.CustomerId\nGROUP BY c.CustomerId\nORDER BY Spent DESC\nLIMIT 1;",
+   "minutes": 2.5,
+   "skills": [
+    "JOIN",
+    "GROUP BY",
+    "concatenation"
+   ],
+   "id": "Q092"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "songs",
+   "prompt": "List the names of all songs in decreasing order of tempo. Which song is first?",
+   "answer": "100 rows; first: Corazon (feat. Nego do Borel)",
+   "solution": "SELECT name FROM songs ORDER BY tempo DESC;",
+   "minutes": 1,
+   "skills": [
+    "ORDER BY"
+   ],
+   "id": "Q093"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "songs",
+   "prompt": "List the names of the top 3 longest songs, longest first.",
+   "answer": "Te Bote - Remix, SICKO MODE, Walk It Talk It",
+   "solution": "SELECT name FROM songs ORDER BY duration_ms DESC LIMIT 3;",
+   "minutes": 1,
+   "skills": [
+    "ORDER BY",
+    "LIMIT"
+   ],
+   "id": "Q094"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "songs",
+   "prompt": "How many songs have danceability, energy and valence all greater than 0.6?",
+   "answer": "23",
+   "solution": "SELECT COUNT(*) FROM songs\nWHERE danceability > 0.6 AND energy > 0.6 AND valence > 0.6;",
+   "minutes": 1,
+   "skills": [
+    "WHERE",
+    "AND"
+   ],
+   "id": "Q095"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "songs",
+   "prompt": "What is the average tempo of all songs? (2 decimals)",
+   "answer": "119.9",
+   "solution": "SELECT ROUND(AVG(tempo), 2) FROM songs;",
+   "minutes": 1,
+   "skills": [
+    "AVG"
+   ],
+   "id": "Q096"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "songs",
+   "prompt": "How many songs are by Drake? (Do not assume Drake's artist_id.)",
+   "answer": "4",
+   "solution": "SELECT COUNT(*) FROM songs\nWHERE artist_id = (SELECT id FROM artists WHERE name = 'Drake');",
+   "minutes": 1.5,
+   "skills": [
+    "subqueries"
+   ],
+   "id": "Q097"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "songs",
+   "prompt": "What is the average energy of songs by Post Malone? (3 decimals)",
+   "answer": "0.609",
+   "solution": "SELECT ROUND(AVG(energy), 3)\nFROM songs s JOIN artists a ON a.id = s.artist_id\nWHERE a.name = 'Post Malone';",
+   "minutes": 1.5,
+   "skills": [
+    "JOIN",
+    "AVG"
+   ],
+   "id": "Q098"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "songs",
+   "prompt": "How many songs feature other artists (the name contains “feat.”)?",
+   "answer": "18",
+   "solution": "SELECT COUNT(*) FROM songs WHERE name LIKE '%feat.%';",
+   "minutes": 1,
+   "skills": [
+    "LIKE"
+   ],
+   "id": "Q099"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "songs",
+   "prompt": "Which artist has the most songs in the database?",
+   "answer": "XXXTENTACION (6 songs)",
+   "solution": "SELECT a.name, COUNT(*) AS n\nFROM songs s JOIN artists a ON a.id = s.artist_id\nGROUP BY a.name ORDER BY n DESC LIMIT 1;",
+   "minutes": 2,
+   "skills": [
+    "JOIN",
+    "GROUP BY"
+   ],
+   "id": "Q100"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "How many movies in the database were released in 2007?",
+   "answer": "409",
+   "solution": "SELECT COUNT(*) FROM movies WHERE year = 2007;",
+   "minutes": 0.5,
+   "skills": [
+    "WHERE"
+   ],
+   "id": "Q101"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "What is Johnny Depp's birth year?",
+   "answer": "1963",
+   "solution": "SELECT birth FROM people WHERE name = 'Johnny Depp';",
+   "minutes": 0.5,
+   "skills": [
+    "WHERE"
+   ],
+   "id": "Q102"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "List the titles of all movies released in 2017 or later, alphabetically. How many are there, and which is first?",
+   "answer": "1420 rows; first: #Alive",
+   "solution": "SELECT title FROM movies WHERE year >= 2017 ORDER BY title;",
+   "minutes": 1.5,
+   "skills": [
+    "WHERE",
+    "ORDER BY"
+   ],
+   "id": "Q103"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "How many movies have an IMDb rating greater than 9.0?",
+   "answer": "7",
+   "solution": "SELECT COUNT(*) FROM ratings WHERE rating > 9.0;",
+   "minutes": 0.5,
+   "skills": [
+    "WHERE"
+   ],
+   "id": "Q104"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "List all Toy Story movies in chronological order with their release year.",
+   "answer": "Toy Story (1995); Toy Story 2 (1999); Toy Story 3 (2010); Toy Story 4 (2019)",
+   "solution": "SELECT title, year FROM movies WHERE title LIKE 'Toy Story%' ORDER BY year;",
+   "minutes": 1.5,
+   "skills": [
+    "LIKE",
+    "ORDER BY"
+   ],
+   "id": "Q105"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "What is the average rating of all movies released in 2013? (2 decimals)",
+   "answer": "6.47",
+   "solution": "SELECT ROUND(AVG(rating), 2)\nFROM ratings r JOIN movies m ON m.id = r.movie_id\nWHERE m.year = 2013;",
+   "minutes": 1.5,
+   "skills": [
+    "JOIN",
+    "AVG"
+   ],
+   "id": "Q106"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "List all 2011 movies with their ratings, highest rating first (ties alphabetically). Which movie is first?",
+   "answer": "446 rows; first: Love on a Leash (9.2)",
+   "solution": "SELECT m.title, r.rating\nFROM movies m JOIN ratings r ON r.movie_id = m.id\nWHERE m.year = 2011\nORDER BY r.rating DESC, m.title;",
+   "minutes": 2,
+   "skills": [
+    "JOIN",
+    "ORDER BY"
+   ],
+   "id": "Q107"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "How many people starred in Harry Potter and the Sorcerer's Stone?",
+   "answer": "4",
+   "solution": "SELECT COUNT(*) FROM stars\nWHERE movie_id = (SELECT id FROM movies\n                  WHERE title = 'Harry Potter and the Sorcerer''s Stone');",
+   "minutes": 1.5,
+   "skills": [
+    "subqueries",
+    "escaping quotes"
+   ],
+   "id": "Q108"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "How many different people starred in a movie released in 2003? (Count each person once.)",
+   "answer": "938",
+   "solution": "SELECT COUNT(DISTINCT s.person_id)\nFROM stars s JOIN movies m ON m.id = s.movie_id\nWHERE m.year = 2003;",
+   "minutes": 2,
+   "skills": [
+    "JOIN",
+    "DISTINCT"
+   ],
+   "id": "Q109"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "How many different people have directed a movie with a rating of at least 8.0?",
+   "answer": "492",
+   "solution": "SELECT COUNT(DISTINCT d.person_id)\nFROM directors d JOIN ratings r ON r.movie_id = d.movie_id\nWHERE r.rating >= 8.0;",
+   "minutes": 2,
+   "skills": [
+    "JOIN",
+    "DISTINCT"
+   ],
+   "id": "Q110"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "List the five highest-rated movies starring Helena Bonham Carter, highest first.",
+   "answer": "The King's Speech, Howards End, Wallace & Gromit: The Curse of the Were-Rabbit, A Room with a View, Corpse Bride",
+   "solution": "SELECT m.title\nFROM movies m\nJOIN stars s ON s.movie_id = m.id\nJOIN people p ON p.id = s.person_id\nJOIN ratings r ON r.movie_id = m.id\nWHERE p.name = 'Helena Bonham Carter'\nORDER BY r.rating DESC\nLIMIT 5;",
+   "minutes": 2.5,
+   "skills": [
+    "JOIN",
+    "ORDER BY",
+    "LIMIT"
+   ],
+   "id": "Q111"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "List the titles of all movies in which both Johnny Depp and Helena Bonham Carter starred.",
+   "answer": "Alice Through the Looking Glass, Alice in Wonderland, Charlie and the Chocolate Factory, Corpse Bride, Dark Shadows, Sweeney Todd: The Demon Barber of Fleet Street",
+   "solution": "SELECT title FROM movies WHERE id IN (\n  SELECT movie_id FROM stars JOIN people ON people.id = person_id\n  WHERE name = 'Johnny Depp'\n  INTERSECT\n  SELECT movie_id FROM stars JOIN people ON people.id = person_id\n  WHERE name = 'Helena Bonham Carter'\n) ORDER BY title;",
+   "minutes": 3,
+   "skills": [
+    "subqueries",
+    "INTERSECT"
+   ],
+   "id": "Q112"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "movies",
+   "prompt": "How many different people starred in a movie with Kevin Bacon (born 1958), excluding Kevin Bacon himself?",
+   "answer": "99",
+   "solution": "SELECT COUNT(DISTINCT person_id) FROM stars\nWHERE movie_id IN (\n  SELECT movie_id FROM stars\n  WHERE person_id = (SELECT id FROM people WHERE name = 'Kevin Bacon' AND birth = 1958)\n)\nAND person_id <> (SELECT id FROM people WHERE name = 'Kevin Bacon' AND birth = 1958);",
+   "minutes": 3,
+   "skills": [
+    "subqueries"
+   ],
+   "id": "Q113"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "fiftyville",
+   "prompt": "Start with the crime scene report for July 28, 2020 on Chamberlin Street. At what time and where did the theft happen?",
+   "answer": "10:15am at the Chamberlin Street courthouse",
+   "solution": "SELECT description FROM crime_scene_reports\nWHERE year = 2020 AND month = 7 AND day = 28\n  AND street = 'Chamberlin Street';",
+   "minutes": 1.5,
+   "skills": [
+    "WHERE"
+   ],
+   "id": "Q114"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "fiftyville",
+   "prompt": "Use the witness interviews, courthouse logs, ATM withdrawals, phone calls and the first flight out the next morning. Who is the thief?",
+   "answer": "Ernest",
+   "solution": "SELECT p.name\nFROM people p\nWHERE p.license_plate IN (\n    SELECT license_plate FROM courthouse_security_logs\n    WHERE year = 2020 AND month = 7 AND day = 28 AND hour = 10\n      AND minute BETWEEN 15 AND 25 AND activity = 'exit')\n  AND p.id IN (\n    SELECT person_id FROM bank_accounts WHERE account_number IN (\n        SELECT account_number FROM atm_transactions\n        WHERE year = 2020 AND month = 7 AND day = 28\n          AND atm_location = 'Fifer Street' AND transaction_type = 'withdraw'))\n  AND p.phone_number IN (\n    SELECT caller FROM phone_calls\n    WHERE year = 2020 AND month = 7 AND day = 28 AND duration < 60)\n  AND p.passport_number IN (\n    SELECT passport_number FROM passengers WHERE flight_id = (\n        SELECT id FROM flights\n        WHERE year = 2020 AND month = 7 AND day = 29\n          AND origin_airport_id = (SELECT id FROM airports WHERE city = 'Fiftyville')\n        ORDER BY hour, minute LIMIT 1));",
+   "minutes": 6,
+   "skills": [
+    "subqueries",
+    "IN",
+    "investigation"
+   ],
+   "id": "Q115"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "fiftyville",
+   "prompt": "Which city did the thief escape to?",
+   "answer": "London",
+   "solution": "SELECT a.city FROM flights f JOIN airports a ON a.id = f.destination_airport_id\nWHERE f.year = 2020 AND f.month = 7 AND f.day = 29\n  AND f.origin_airport_id = (SELECT id FROM airports WHERE city = 'Fiftyville')\nORDER BY f.hour, f.minute LIMIT 1;",
+   "minutes": 2,
+   "skills": [
+    "JOIN",
+    "ORDER BY"
+   ],
+   "id": "Q116"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "fiftyville",
+   "prompt": "Who is the accomplice (the person the thief called for less than a minute)?",
+   "answer": "Berthold",
+   "solution": "SELECT name FROM people WHERE phone_number = (\n  SELECT receiver FROM phone_calls\n  WHERE year = 2020 AND month = 7 AND day = 28 AND duration < 60\n    AND caller = (SELECT phone_number FROM people WHERE name = 'Ernest'));",
+   "minutes": 2,
+   "skills": [
+    "subqueries"
+   ],
+   "id": "Q117"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "What is the total number of P-card transactions in the database? Label the column TotalTrans.",
+   "answer": "116,031",
+   "solution": "SELECT COUNT(*) AS TotalTrans FROM pcards;",
+   "minutes": 0.5,
+   "skills": [
+    "COUNT",
+    "aliases"
+   ],
+   "id": "Q118"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "How many transactions are for $5,000 or more? Label the column TotalTransGT5k.",
+   "answer": "53",
+   "solution": "SELECT COUNT(*) AS TotalTransGT5k FROM pcards WHERE Amount >= 5000;",
+   "minutes": 1,
+   "skills": [
+    "WHERE"
+   ],
+   "id": "Q119"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "What is the total dollar amount of returns (negative amounts) from January to March 2014?",
+   "answer": "-157,882.08",
+   "solution": "SELECT ROUND(SUM(Amount), 2) AS TotalReturns2014Q1\nFROM pcards\nWHERE Amount < 0 AND Month BETWEEN 1 AND 3;",
+   "minutes": 1.5,
+   "skills": [
+    "SUM",
+    "BETWEEN",
+    "returns"
+   ],
+   "id": "Q120"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Which cardholder had the most transactions in 2014, and how many?",
+   "answer": "G Hines (3,510)",
+   "solution": "SELECT FullName, COUNT(*) AS NumTrans\nFROM pcards\nGROUP BY FullName\nORDER BY NumTrans DESC\nLIMIT 1;",
+   "minutes": 1.5,
+   "skills": [
+    "GROUP BY",
+    "ORDER BY"
+   ],
+   "id": "Q121"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "How many cardholders had more than 10 transactions in 2014?",
+   "answer": "1,515",
+   "solution": "SELECT COUNT(*) FROM (\n  SELECT FullName FROM pcards\n  GROUP BY FullName\n  HAVING COUNT(*) > 10\n);",
+   "minutes": 2,
+   "skills": [
+    "GROUP BY",
+    "HAVING"
+   ],
+   "id": "Q122"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Who returned the greatest dollar amount of goods in 2014? Give the name and the returned value.",
+   "answer": "J Heusel (-21,898.28, 126 returns)",
+   "solution": "SELECT FullName, ROUND(SUM(Amount), 2) AS ReturnedGoodsValue, COUNT(*) AS ReturnedGoodsCount\nFROM pcards\nWHERE Amount < 0\nGROUP BY FullName\nORDER BY ReturnedGoodsValue\nLIMIT 1;",
+   "minutes": 2.5,
+   "skills": [
+    "GROUP BY",
+    "returns",
+    "ORDER BY"
+   ],
+   "id": "Q123"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "How many 2014 transactions over $3,000 came from a vendor with Amazon somewhere in the name?",
+   "answer": "7",
+   "solution": "SELECT COUNT(*) FROM pcards\nWHERE Vendor LIKE '%amazon%' AND Amount > 3000;",
+   "minutes": 1.5,
+   "skills": [
+    "LIKE",
+    "WHERE"
+   ],
+   "id": "Q124"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "If OSU had to pay 4.5% state sales tax on all 2014 P-card purchases, how much sales tax did it save?",
+   "answer": "1,507,686.68",
+   "solution": "SELECT ROUND(SUM(Amount) * 0.045, 2) AS SalesTaxSaved FROM pcards;",
+   "minutes": 1.5,
+   "skills": [
+    "calculated fields"
+   ],
+   "id": "Q125"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "OSU would earn 0.75% on Amazon.com transactions of $500 or more and 0.50% on smaller ones (vendor exactly 'Amazon.com', any capitalisation). What would OSU have earned in 2014?",
+   "answer": "2,593.74",
+   "solution": "SELECT ROUND(SUM(CASE WHEN Amount >= 500 THEN Amount * 0.0075\n                      ELSE Amount * 0.005 END), 2) AS AmazonEarnings\nFROM pcards\nWHERE UPPER(Vendor) = 'AMAZON.COM';",
+   "minutes": 2.5,
+   "skills": [
+    "CASE WHEN",
+    "UPPER"
+   ],
+   "id": "Q126"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "What is the average transaction amount in 2014? (2 decimals)",
+   "answer": "288.75",
+   "solution": "SELECT ROUND(AVG(Amount), 2) FROM pcards;",
+   "minutes": 0.5,
+   "skills": [
+    "AVG"
+   ],
+   "id": "Q127"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Control test: which employees spent more than $50,000 in 2014? How many are there, and who spent the most?",
+   "answer": "127 employees; highest: G Hines (1,595,302.32)",
+   "solution": "SELECT FullName, ROUND(SUM(Amount), 2) AS TotalSpent\nFROM pcards\nGROUP BY FullName\nHAVING SUM(Amount) > 50000\nORDER BY TotalSpent DESC;",
+   "minutes": 2,
+   "skills": [
+    "GROUP BY",
+    "HAVING",
+    "internal controls"
+   ],
+   "id": "Q128"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Control test: how many employee-months in 2014 exceeded $10,000 of spending?",
+   "answer": "457",
+   "solution": "SELECT COUNT(*) FROM (\n  SELECT FullName, Month FROM pcards\n  GROUP BY FullName, Month\n  HAVING SUM(Amount) > 10000\n);",
+   "minutes": 2.5,
+   "skills": [
+    "GROUP BY",
+    "HAVING",
+    "internal controls"
+   ],
+   "id": "Q129"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Control test: how many single transactions in 2014 were for more than $5,000?",
+   "answer": "33",
+   "solution": "SELECT COUNT(*) FROM pcards WHERE Amount > 5000;",
+   "minutes": 1,
+   "skills": [
+    "WHERE",
+    "internal controls"
+   ],
+   "id": "Q130"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Split purchases: how many cases are there where the same cardholder made more than one purchase from the same vendor on the same day and the combined total was more than $5,000?",
+   "answer": "66",
+   "solution": "SELECT COUNT(*) FROM (\n  SELECT FullName, Vendor, TransactionDate\n  FROM pcards\n  GROUP BY FullName, Vendor, TransactionDate\n  HAVING COUNT(*) > 1 AND SUM(Amount) > 5000\n);",
+   "minutes": 3,
+   "skills": [
+    "GROUP BY",
+    "HAVING",
+    "internal controls"
+   ],
+   "id": "Q131"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Benford's law: what percentage of 2014 transactions of $1.00 or more start with the digit 1? (3 decimals)",
+   "answer": "29.528% (Benford expects 30.103%)",
+   "solution": "SELECT ROUND(100.0 * SUM(CASE WHEN SUBSTR(CAST(Amount AS TEXT), 1, 1) = '1' THEN 1 ELSE 0 END)\n             / COUNT(*), 3) AS PctDigit1\nFROM pcards\nWHERE Amount >= 1;",
+   "minutes": 3,
+   "skills": [
+    "SUBSTR",
+    "CASE WHEN",
+    "fraud tests"
+   ],
+   "id": "Q132"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Duplicate payments: how many groups of charges have the same date, vendor, cardholder and amount (excluding returns)?",
+   "answer": "1,732",
+   "solution": "SELECT COUNT(*) FROM (\n  SELECT TransactionDate, Vendor, FullName, Amount\n  FROM pcards\n  WHERE Amount > 0\n  GROUP BY TransactionDate, Vendor, FullName, Amount\n  HAVING COUNT(*) > 1\n);",
+   "minutes": 3,
+   "skills": [
+    "GROUP BY",
+    "HAVING",
+    "fraud tests"
+   ],
+   "id": "Q133"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Round-number test: how many 2014 transactions are four-digit whole amounts ending in 000 (e.g. 2000.00)?",
+   "answer": "160",
+   "solution": "SELECT COUNT(*) FROM pcards\nWHERE Amount BETWEEN 1000 AND 9999 AND Amount % 1000 = 0;",
+   "minutes": 2,
+   "skills": [
+    "modulo",
+    "fraud tests"
+   ],
+   "id": "Q134"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Which merchant category (MCC) had the highest total spending in 2014?",
+   "answer": "DENTAL/LABORATORY/MEDICAL/OPHTHALMIC HOSP EQIP AND SUP. (2,475,758.68)",
+   "solution": "SELECT MCC, ROUND(SUM(Amount), 2) AS Spent\nFROM pcards\nGROUP BY MCC\nORDER BY Spent DESC\nLIMIT 1;",
+   "minutes": 1.5,
+   "skills": [
+    "GROUP BY"
+   ],
+   "id": "Q135"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "TransactionDate is stored as text like '7/26/2014 0:00:00'. If you sort by TransactionDate descending, which value comes first, and why is this misleading?",
+   "answer": "9/9/2014 0:00:00 — text sorts character by character, so '9/…' comes after '12/…'; the real last date is in December. Sort by Year, Month and the day instead",
+   "solution": "SELECT TransactionDate FROM pcards ORDER BY TransactionDate DESC LIMIT 1;",
+   "minutes": 2,
+   "skills": [
+    "dates",
+    "data types"
+   ],
+   "id": "Q136"
+  },
+  {
+   "tool": "SQL",
+   "dataset": "pcards",
+   "prompt": "Which month of 2014 had the highest total spending?",
+   "answer": "Month 4 (3,162,984.96)",
+   "solution": "SELECT Month, ROUND(SUM(Amount), 2) AS Spent\nFROM pcards\nGROUP BY Month\nORDER BY Spent DESC\nLIMIT 1;",
+   "minutes": 1.5,
+   "skills": [
+    "GROUP BY"
+   ],
+   "id": "Q137"
+  }
+ ],
+ "exams": [
+  {
+   "datasets": [
+    "etl1",
+    "songs"
+   ],
+   "questions": [
+    "Q023",
+    "Q029",
+    "Q094",
+    "Q096",
+    "Q097"
+   ],
+   "minutes": 8,
+   "estimate": 6.0,
+   "id": "E001"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "movies"
+   ],
+   "questions": [
+    "Q049",
+    "Q054",
+    "Q055",
+    "Q104",
+    "Q105"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E002"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "movies"
+   ],
+   "questions": [
+    "Q067",
+    "Q068",
+    "Q102",
+    "Q104",
+    "Q110"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E003"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "pcards"
+   ],
+   "questions": [
+    "Q042",
+    "Q046",
+    "Q119",
+    "Q120",
+    "Q135"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E004"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "pcards"
+   ],
+   "questions": [
+    "Q024",
+    "Q025",
+    "Q122",
+    "Q125",
+    "Q130"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E005"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "movies"
+   ],
+   "questions": [
+    "Q042",
+    "Q044",
+    "Q046",
+    "Q103",
+    "Q104"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E006"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "pcards"
+   ],
+   "questions": [
+    "Q058",
+    "Q070",
+    "Q118",
+    "Q125",
+    "Q137"
+   ],
+   "minutes": 8,
+   "estimate": 6.0,
+   "id": "E007"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "songs"
+   ],
+   "questions": [
+    "Q058",
+    "Q065",
+    "Q069",
+    "Q095",
+    "Q097"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E008"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "movies"
+   ],
+   "questions": [
+    "Q023",
+    "Q027",
+    "Q106",
+    "Q109",
+    "Q110"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E009"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "pcards"
+   ],
+   "questions": [
+    "Q047",
+    "Q049",
+    "Q050",
+    "Q130",
+    "Q135"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E010"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "songs"
+   ],
+   "questions": [
+    "Q042",
+    "Q045",
+    "Q096",
+    "Q099",
+    "Q100"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E011"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "chinook"
+   ],
+   "questions": [
+    "Q050",
+    "Q054",
+    "Q071",
+    "Q079",
+    "Q082"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E012"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "chinook"
+   ],
+   "questions": [
+    "Q031",
+    "Q033",
+    "Q036",
+    "Q074",
+    "Q078"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E013"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "chinook"
+   ],
+   "questions": [
+    "Q007",
+    "Q016",
+    "Q077",
+    "Q081",
+    "Q086"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E014"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "songs"
+   ],
+   "questions": [
+    "Q032",
+    "Q034",
+    "Q094",
+    "Q096",
+    "Q100"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E015"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "pcards"
+   ],
+   "questions": [
+    "Q033",
+    "Q035",
+    "Q037",
+    "Q118",
+    "Q122"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E016"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "pcards"
+   ],
+   "questions": [
+    "Q001",
+    "Q009",
+    "Q124",
+    "Q127",
+    "Q134"
+   ],
+   "minutes": 8,
+   "estimate": 6.0,
+   "id": "E017"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "songs"
+   ],
+   "questions": [
+    "Q049",
+    "Q055",
+    "Q093",
+    "Q096",
+    "Q099"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E018"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "movies"
+   ],
+   "questions": [
+    "Q002",
+    "Q004",
+    "Q018",
+    "Q104",
+    "Q113"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E019"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "songs"
+   ],
+   "questions": [
+    "Q002",
+    "Q004",
+    "Q017",
+    "Q097",
+    "Q100"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E020"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "chinook"
+   ],
+   "questions": [
+    "Q057",
+    "Q068",
+    "Q081",
+    "Q085",
+    "Q090"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E021"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "chinook"
+   ],
+   "questions": [
+    "Q042",
+    "Q043",
+    "Q086",
+    "Q087",
+    "Q088"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E022"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "chinook"
+   ],
+   "questions": [
+    "Q025",
+    "Q029",
+    "Q077",
+    "Q085",
+    "Q088"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E023"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "movies"
+   ],
+   "questions": [
+    "Q031",
+    "Q037",
+    "Q106",
+    "Q107",
+    "Q108"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E024"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "movies"
+   ],
+   "questions": [
+    "Q023",
+    "Q027",
+    "Q106",
+    "Q107",
+    "Q109"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E025"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "songs"
+   ],
+   "questions": [
+    "Q049",
+    "Q050",
+    "Q052",
+    "Q094",
+    "Q098"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E026"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "movies"
+   ],
+   "questions": [
+    "Q004",
+    "Q008",
+    "Q102",
+    "Q105",
+    "Q113"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E027"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "pcards"
+   ],
+   "questions": [
+    "Q002",
+    "Q006",
+    "Q009",
+    "Q122",
+    "Q131"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E028"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "songs"
+   ],
+   "questions": [
+    "Q023",
+    "Q027",
+    "Q028",
+    "Q093",
+    "Q098"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E029"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "songs"
+   ],
+   "questions": [
+    "Q031",
+    "Q036",
+    "Q037",
+    "Q095",
+    "Q096"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E030"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "movies"
+   ],
+   "questions": [
+    "Q047",
+    "Q051",
+    "Q102",
+    "Q105",
+    "Q111"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E031"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "chinook"
+   ],
+   "questions": [
+    "Q021",
+    "Q026",
+    "Q027",
+    "Q079",
+    "Q090"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E032"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "chinook"
+   ],
+   "questions": [
+    "Q031",
+    "Q035",
+    "Q074",
+    "Q076",
+    "Q078"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E033"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "pcards"
+   ],
+   "questions": [
+    "Q031",
+    "Q032",
+    "Q037",
+    "Q127",
+    "Q137"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E034"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "songs"
+   ],
+   "questions": [
+    "Q010",
+    "Q015",
+    "Q095",
+    "Q099",
+    "Q100"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E035"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "movies"
+   ],
+   "questions": [
+    "Q042",
+    "Q043",
+    "Q101",
+    "Q102",
+    "Q103"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E036"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "chinook"
+   ],
+   "questions": [
+    "Q060",
+    "Q063",
+    "Q071",
+    "Q079",
+    "Q082"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E037"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "songs"
+   ],
+   "questions": [
+    "Q039",
+    "Q045",
+    "Q093",
+    "Q096",
+    "Q099"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E038"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "chinook"
+   ],
+   "questions": [
+    "Q049",
+    "Q052",
+    "Q074",
+    "Q083",
+    "Q085"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E039"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "pcards"
+   ],
+   "questions": [
+    "Q022",
+    "Q028",
+    "Q120",
+    "Q134",
+    "Q135"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E040"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "pcards"
+   ],
+   "questions": [
+    "Q044",
+    "Q046",
+    "Q119",
+    "Q124",
+    "Q127"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E041"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "pcards"
+   ],
+   "questions": [
+    "Q048",
+    "Q051",
+    "Q054",
+    "Q124",
+    "Q127"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E042"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "pcards"
+   ],
+   "questions": [
+    "Q063",
+    "Q070",
+    "Q118",
+    "Q127",
+    "Q132"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E043"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "movies"
+   ],
+   "questions": [
+    "Q031",
+    "Q033",
+    "Q036",
+    "Q101",
+    "Q106"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E044"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "chinook"
+   ],
+   "questions": [
+    "Q004",
+    "Q007",
+    "Q013",
+    "Q071",
+    "Q080"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E045"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "songs"
+   ],
+   "questions": [
+    "Q057",
+    "Q061",
+    "Q062",
+    "Q099",
+    "Q100"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E046"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "chinook"
+   ],
+   "questions": [
+    "Q042",
+    "Q044",
+    "Q072",
+    "Q074",
+    "Q079"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E047"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "movies"
+   ],
+   "questions": [
+    "Q060",
+    "Q062",
+    "Q104",
+    "Q106",
+    "Q109"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E048"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "movies"
+   ],
+   "questions": [
+    "Q032",
+    "Q036",
+    "Q038",
+    "Q102",
+    "Q103"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E049"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "songs"
+   ],
+   "questions": [
+    "Q005",
+    "Q014",
+    "Q018",
+    "Q094",
+    "Q096"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E050"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "pcards"
+   ],
+   "questions": [
+    "Q006",
+    "Q011",
+    "Q120",
+    "Q128",
+    "Q135"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E051"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "songs"
+   ],
+   "questions": [
+    "Q033",
+    "Q036",
+    "Q093",
+    "Q096",
+    "Q098"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E052"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "songs"
+   ],
+   "questions": [
+    "Q047",
+    "Q049",
+    "Q050",
+    "Q094",
+    "Q097"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E053"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "chinook"
+   ],
+   "questions": [
+    "Q031",
+    "Q034",
+    "Q038",
+    "Q085",
+    "Q087"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E054"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "chinook"
+   ],
+   "questions": [
+    "Q048",
+    "Q050",
+    "Q054",
+    "Q075",
+    "Q087"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E055"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "chinook"
+   ],
+   "questions": [
+    "Q039",
+    "Q046",
+    "Q071",
+    "Q072",
+    "Q088"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E056"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "songs"
+   ],
+   "questions": [
+    "Q021",
+    "Q024",
+    "Q094",
+    "Q097",
+    "Q098"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E057"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "pcards"
+   ],
+   "questions": [
+    "Q022",
+    "Q027",
+    "Q029",
+    "Q120",
+    "Q121"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E058"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "pcards"
+   ],
+   "questions": [
+    "Q033",
+    "Q034",
+    "Q038",
+    "Q118",
+    "Q125"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E059"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "chinook"
+   ],
+   "questions": [
+    "Q025",
+    "Q029",
+    "Q079",
+    "Q081",
+    "Q085"
+   ],
+   "minutes": 8,
+   "estimate": 6.0,
+   "id": "E060"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "pcards"
+   ],
+   "questions": [
+    "Q044",
+    "Q045",
+    "Q118",
+    "Q119",
+    "Q127"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E061"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "movies"
+   ],
+   "questions": [
+    "Q058",
+    "Q065",
+    "Q101",
+    "Q104",
+    "Q107"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E062"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "songs"
+   ],
+   "questions": [
+    "Q058",
+    "Q065",
+    "Q093",
+    "Q098",
+    "Q099"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E063"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "movies"
+   ],
+   "questions": [
+    "Q003",
+    "Q006",
+    "Q103",
+    "Q104",
+    "Q106"
+   ],
+   "minutes": 8,
+   "estimate": 6.0,
+   "id": "E064"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "movies"
+   ],
+   "questions": [
+    "Q048",
+    "Q052",
+    "Q054",
+    "Q101",
+    "Q102"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E065"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "pcards"
+   ],
+   "questions": [
+    "Q056",
+    "Q057",
+    "Q063",
+    "Q119",
+    "Q126"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E066"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "pcards"
+   ],
+   "questions": [
+    "Q051",
+    "Q052",
+    "Q118",
+    "Q126",
+    "Q127"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E067"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "chinook"
+   ],
+   "questions": [
+    "Q058",
+    "Q063",
+    "Q070",
+    "Q071",
+    "Q080"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E068"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "chinook"
+   ],
+   "questions": [
+    "Q008",
+    "Q020",
+    "Q081",
+    "Q082",
+    "Q085"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E069"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "movies"
+   ],
+   "questions": [
+    "Q024",
+    "Q029",
+    "Q103",
+    "Q104",
+    "Q107"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E070"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "songs"
+   ],
+   "questions": [
+    "Q039",
+    "Q042",
+    "Q096",
+    "Q098",
+    "Q099"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E071"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "movies"
+   ],
+   "questions": [
+    "Q040",
+    "Q042",
+    "Q045",
+    "Q103",
+    "Q104"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E072"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "songs"
+   ],
+   "questions": [
+    "Q047",
+    "Q048",
+    "Q096",
+    "Q097",
+    "Q099"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E073"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "chinook"
+   ],
+   "questions": [
+    "Q032",
+    "Q033",
+    "Q076",
+    "Q085",
+    "Q087"
+   ],
+   "minutes": 8,
+   "estimate": 6.0,
+   "id": "E074"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "chinook"
+   ],
+   "questions": [
+    "Q021",
+    "Q022",
+    "Q026",
+    "Q072",
+    "Q077"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E075"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "chinook"
+   ],
+   "questions": [
+    "Q056",
+    "Q058",
+    "Q061",
+    "Q077",
+    "Q079"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E076"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "movies"
+   ],
+   "questions": [
+    "Q024",
+    "Q030",
+    "Q101",
+    "Q106",
+    "Q107"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E077"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "pcards"
+   ],
+   "questions": [
+    "Q060",
+    "Q062",
+    "Q066",
+    "Q119",
+    "Q127"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E078"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "songs"
+   ],
+   "questions": [
+    "Q036",
+    "Q037",
+    "Q093",
+    "Q094",
+    "Q099"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E079"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "movies"
+   ],
+   "questions": [
+    "Q041",
+    "Q044",
+    "Q101",
+    "Q103",
+    "Q104"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E080"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "movies"
+   ],
+   "questions": [
+    "Q058",
+    "Q068",
+    "Q069",
+    "Q102",
+    "Q105"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E081"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "movies"
+   ],
+   "questions": [
+    "Q031",
+    "Q036",
+    "Q038",
+    "Q103",
+    "Q104"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E082"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "movies"
+   ],
+   "questions": [
+    "Q005",
+    "Q010",
+    "Q019",
+    "Q104",
+    "Q106"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E083"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "songs"
+   ],
+   "questions": [
+    "Q056",
+    "Q058",
+    "Q070",
+    "Q096",
+    "Q098"
+   ],
+   "minutes": 8,
+   "estimate": 6.0,
+   "id": "E084"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "songs"
+   ],
+   "questions": [
+    "Q001",
+    "Q009",
+    "Q013",
+    "Q093",
+    "Q098"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E085"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "songs"
+   ],
+   "questions": [
+    "Q045",
+    "Q046",
+    "Q096",
+    "Q098",
+    "Q099"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E086"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "chinook"
+   ],
+   "questions": [
+    "Q014",
+    "Q017",
+    "Q018",
+    "Q079",
+    "Q080"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E087"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "movies"
+   ],
+   "questions": [
+    "Q047",
+    "Q048",
+    "Q103",
+    "Q104",
+    "Q105"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E088"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "chinook"
+   ],
+   "questions": [
+    "Q040",
+    "Q041",
+    "Q071",
+    "Q072",
+    "Q074"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E089"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "songs"
+   ],
+   "questions": [
+    "Q023",
+    "Q030",
+    "Q094",
+    "Q098",
+    "Q100"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E090"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "pcards"
+   ],
+   "questions": [
+    "Q042",
+    "Q044",
+    "Q120",
+    "Q127",
+    "Q136"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E091"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "pcards"
+   ],
+   "questions": [
+    "Q001",
+    "Q014",
+    "Q124",
+    "Q127",
+    "Q134"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E092"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "pcards"
+   ],
+   "questions": [
+    "Q032",
+    "Q033",
+    "Q037",
+    "Q121",
+    "Q137"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E093"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "chinook"
+   ],
+   "questions": [
+    "Q050",
+    "Q051",
+    "Q076",
+    "Q077",
+    "Q087"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E094"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "pcards"
+   ],
+   "questions": [
+    "Q050",
+    "Q051",
+    "Q125",
+    "Q130",
+    "Q134"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E095"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "pcards"
+   ],
+   "questions": [
+    "Q023",
+    "Q024",
+    "Q028",
+    "Q120",
+    "Q122"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E096"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "songs"
+   ],
+   "questions": [
+    "Q047",
+    "Q049",
+    "Q054",
+    "Q095",
+    "Q097"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E097"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "chinook"
+   ],
+   "questions": [
+    "Q039",
+    "Q040",
+    "Q073",
+    "Q080",
+    "Q091"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E098"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "chinook"
+   ],
+   "questions": [
+    "Q048",
+    "Q049",
+    "Q053",
+    "Q076",
+    "Q078"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E099"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "chinook"
+   ],
+   "questions": [
+    "Q067",
+    "Q069",
+    "Q074",
+    "Q085",
+    "Q092"
+   ],
+   "minutes": 8,
+   "estimate": 6.0,
+   "id": "E100"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "movies"
+   ],
+   "questions": [
+    "Q033",
+    "Q037",
+    "Q106",
+    "Q108",
+    "Q110"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E101"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "chinook"
+   ],
+   "questions": [
+    "Q034",
+    "Q038",
+    "Q072",
+    "Q075",
+    "Q077"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E102"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "pcards"
+   ],
+   "questions": [
+    "Q047",
+    "Q048",
+    "Q051",
+    "Q119",
+    "Q124"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E103"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "pcards"
+   ],
+   "questions": [
+    "Q056",
+    "Q069",
+    "Q118",
+    "Q121",
+    "Q131"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E104"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "chinook"
+   ],
+   "questions": [
+    "Q005",
+    "Q010",
+    "Q018",
+    "Q079",
+    "Q080"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E105"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "chinook"
+   ],
+   "questions": [
+    "Q021",
+    "Q027",
+    "Q071",
+    "Q081",
+    "Q084"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E106"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "movies"
+   ],
+   "questions": [
+    "Q016",
+    "Q019",
+    "Q101",
+    "Q102",
+    "Q109"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E107"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "movies"
+   ],
+   "questions": [
+    "Q062",
+    "Q065",
+    "Q067",
+    "Q102",
+    "Q108"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E108"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "songs"
+   ],
+   "questions": [
+    "Q013",
+    "Q019",
+    "Q095",
+    "Q096",
+    "Q099"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E109"
+  },
+  {
+   "datasets": [
+    "nyc",
+    "pcards"
+   ],
+   "questions": [
+    "Q003",
+    "Q016",
+    "Q118",
+    "Q122",
+    "Q124"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E110"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "pcards"
+   ],
+   "questions": [
+    "Q040",
+    "Q042",
+    "Q123",
+    "Q127",
+    "Q137"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E111"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "songs"
+   ],
+   "questions": [
+    "Q041",
+    "Q046",
+    "Q093",
+    "Q095",
+    "Q099"
+   ],
+   "minutes": 8,
+   "estimate": 8,
+   "id": "E112"
+  },
+  {
+   "datasets": [
+    "integrateco",
+    "songs"
+   ],
+   "questions": [
+    "Q058",
+    "Q062",
+    "Q065",
+    "Q093",
+    "Q095"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E113"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "movies"
+   ],
+   "questions": [
+    "Q024",
+    "Q027",
+    "Q029",
+    "Q105",
+    "Q110"
+   ],
+   "minutes": 8,
+   "estimate": 8.0,
+   "id": "E114"
+  },
+  {
+   "datasets": [
+    "etl3",
+    "movies"
+   ],
+   "questions": [
+    "Q040",
+    "Q042",
+    "Q102",
+    "Q103",
+    "Q105"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E115"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "songs"
+   ],
+   "questions": [
+    "Q026",
+    "Q027",
+    "Q030",
+    "Q094",
+    "Q095"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E116"
+  },
+  {
+   "datasets": [
+    "etl1",
+    "pcards"
+   ],
+   "questions": [
+    "Q023",
+    "Q026",
+    "Q118",
+    "Q129",
+    "Q137"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E117"
+  },
+  {
+   "datasets": [
+    "etl4",
+    "movies"
+   ],
+   "questions": [
+    "Q047",
+    "Q054",
+    "Q055",
+    "Q101",
+    "Q104"
+   ],
+   "minutes": 8,
+   "estimate": 7.0,
+   "id": "E118"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "songs"
+   ],
+   "questions": [
+    "Q033",
+    "Q034",
+    "Q037",
+    "Q093",
+    "Q099"
+   ],
+   "minutes": 8,
+   "estimate": 7.5,
+   "id": "E119"
+  },
+  {
+   "datasets": [
+    "etl2",
+    "pcards"
+   ],
+   "questions": [
+    "Q031",
+    "Q037",
+    "Q118",
+    "Q119",
+    "Q136"
+   ],
+   "minutes": 8,
+   "estimate": 6.5,
+   "id": "E120"
+  }
+ ],
+ "regression": [
+  {
+   "id": "REG01",
+   "title": "Restaurant sales, weather and game days",
+   "intro": "Larry's Commissary point-of-sale data for 2018, merged with daily weather and university football game days (the restaurant regression case). The regression was estimated on the case data.",
+   "source": "Estimated on the case data: n = 312 days, R² = 0.10",
+   "y": {
+    "name": "Daily sales",
+    "unit": "USD"
+   },
+   "x": {
+    "name": "Max temperature",
+    "unit": "°F",
+    "unit_one": "degree Fahrenheit",
+    "range": [
+     29,
+     104
+    ]
+   },
+   "d": {
+    "name": "Game day",
+    "ref": "days without a home-town football game",
+    "comp": "game days"
+   },
+   "equation": "Predicted daily sales = b₀ + b₁[Max temperature] + b₂[Game day]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "2,684.57",
+     "p": "<0.001"
+    },
+    {
+     "param": "b₁",
+     "term": "Max temperature",
+     "estimate": "7.31",
+     "p": "0.008"
+    },
+    {
+     "param": "b₂",
+     "term": "Game day",
+     "estimate": "1,421.34",
+     "p": "<0.001"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the daily sales for game days with max temperature = 75 °F.",
+     "answer": "Predicted daily sales = 2,684.57 + 7.31 × 75 + 1,421.34 × 1 = 4,654.16 USD."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, max temperature, game day.",
+     "answer": "Intercept (2,684.57): predicted daily sales for days without a home-town football game when max temperature = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nMax temperature (7.31): holding game day constant, each additional degree Fahrenheit changes predicted daily sales by 7.31 USD.\n\nGame day (1,421.34): holding max temperature constant, game days are predicted to have 1,421.34 USD more than days without a home-town football game (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on daily sales at the 5% level? What does that mean for Bob, the restaurant owner?",
+     "answer": "At the 5% level, Max temperature, Game day are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "Bob, the restaurant owner asks for a prediction for days without a home-town football game with max temperature = 110 °F. How confident should they be?",
+     "answer": "The equation gives 3,488.67 USD, but 110 lies outside the observed range (29–104 °F). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG02",
+   "title": "Restaurant sales: last year's sales × game day",
+   "intro": "Larry's Commissary point-of-sale data for 2018, merged with daily weather and university football game days (the restaurant regression case). The regression was estimated on the case data.",
+   "source": "Estimated on the case data: n = 312 days, R² = 0.54",
+   "y": {
+    "name": "Daily sales",
+    "unit": "USD"
+   },
+   "x": {
+    "name": "Sales one year ago",
+    "unit": "USD",
+    "unit_one": "dollar of sales on the same day last year",
+    "range": [
+     0.0,
+     7600.0
+    ]
+   },
+   "d": {
+    "name": "Game day",
+    "ref": "days without a home-town football game",
+    "comp": "game days"
+   },
+   "equation": "Predicted daily sales = d₀ + d₁[Sales one year ago] + d₂[Game day] + d₃([Sales one year ago]×[Game day])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "1,044.42",
+     "p": "<0.001"
+    },
+    {
+     "param": "d₁",
+     "term": "Sales one year ago",
+     "estimate": "0.62",
+     "p": "<0.001"
+    },
+    {
+     "param": "d₂",
+     "term": "Game day",
+     "estimate": "387.03",
+     "p": "0.635"
+    },
+    {
+     "param": "d₃",
+     "term": "Sales one year ago×Game day",
+     "estimate": "0.011",
+     "p": "0.946"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the daily sales for game days with sales one year ago = 4,000 USD.",
+     "answer": "Predicted daily sales = 1,044.42 + 0.62 × 4,000 + 387.03 × 1 + 0.011 × 4,000 × 1 = 3,955.45 USD."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, sales one year ago, game day, sales one year ago×game day.",
+     "answer": "Intercept (1,044.42): predicted daily sales for days without a home-town football game when sales one year ago = 0. \n\nSales one year ago (0.62): for days without a home-town football game, each additional dollar of sales on the same day last year changes predicted daily sales by 0.62 USD.\n\nGame day (387.03): at sales one year ago = 0, game days are predicted to be 387.03 USD higher than days without a home-town football game. Because of the interaction, the gap changes with sales one year ago.\n\nInteraction (0.011): the sales one year ago slope is 0.011 higher for game days, so their slope is 0.62 + (0.011) = 0.631.\n\nGroup equations: days without a home-town football game: 1,044.42 + 0.62 × Sales one year ago; game days: 1,431.45 + 0.631 × Sales one year ago."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on daily sales at the 5% level? What does that mean for Bob, the restaurant owner?",
+     "answer": "At the 5% level, Sales one year ago is statistically significant (p < 0.05). Game day, Sales one year ago×Game day are not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "Bob, the restaurant owner asks for a prediction for game days with sales one year ago = 12,100 USD. How confident should they be?",
+     "answer": "The equation gives 9,066.55 USD, but 12,100 lies outside the observed range (0–7,600 USD). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG03",
+   "title": "Hotel room revenue",
+   "intro": "The hotel and conference center from ETL Case 4 wants to understand daily room revenue.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Room revenue",
+    "unit": "USD"
+   },
+   "x": {
+    "name": "Rooms occupied",
+    "unit": "rooms",
+    "unit_one": "occupied room",
+    "range": [
+     40,
+     180
+    ]
+   },
+   "d": {
+    "name": "Conference day",
+    "ref": "days without a conference",
+    "comp": "conference days"
+   },
+   "equation": "Predicted room revenue = b₀ + b₁[Rooms occupied] + b₂[Conference day]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "1,798",
+     "p": "0.001"
+    },
+    {
+     "param": "b₁",
+     "term": "Rooms occupied",
+     "estimate": "90",
+     "p": "0.003"
+    },
+    {
+     "param": "b₂",
+     "term": "Conference day",
+     "estimate": "1,926",
+     "p": "0.27"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the room revenue for conference days with rooms occupied = 120 rooms.",
+     "answer": "Predicted room revenue = 1,798 + 90 × 120 + 1,926 × 1 = 14,524 USD."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, rooms occupied, conference day.",
+     "answer": "Intercept (1,798): predicted room revenue for days without a conference when rooms occupied = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nRooms occupied (90): holding conference day constant, each additional occupied room changes predicted room revenue by 90 USD.\n\nConference day (1,926): holding rooms occupied constant, conference days are predicted to have 1,926 USD more than days without a conference (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on room revenue at the 5% level? What does that mean for the hotel's controller?",
+     "answer": "At the 5% level, Rooms occupied is statistically significant (p < 0.05). Conference day is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The hotel's controller asks for a prediction for days without a conference with rooms occupied = 360 rooms. How confident should they be?",
+     "answer": "The equation gives 34,198 USD, but 360 lies outside the observed range (40–180 rooms). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG04",
+   "title": "Hotel room revenue",
+   "intro": "The hotel and conference center from ETL Case 4 wants to understand daily room revenue.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Room revenue",
+    "unit": "USD"
+   },
+   "x": {
+    "name": "Rooms occupied",
+    "unit": "rooms",
+    "unit_one": "occupied room",
+    "range": [
+     40,
+     180
+    ]
+   },
+   "d": {
+    "name": "Conference day",
+    "ref": "days without a conference",
+    "comp": "conference days"
+   },
+   "equation": "Predicted room revenue = d₀ + d₁[Rooms occupied] + d₂[Conference day] + d₃([Rooms occupied]×[Conference day])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "3,458",
+     "p": "0.31"
+    },
+    {
+     "param": "d₁",
+     "term": "Rooms occupied",
+     "estimate": "93",
+     "p": "0.02"
+    },
+    {
+     "param": "d₂",
+     "term": "Conference day",
+     "estimate": "2,407",
+     "p": "0.028"
+    },
+    {
+     "param": "d₃",
+     "term": "Rooms occupied×Conference day",
+     "estimate": "-15",
+     "p": "0.006"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the room revenue for days without a conference with rooms occupied = 77 rooms.",
+     "answer": "Predicted room revenue = 3,458 + 93 × 77 + 2,407 × 0 − 15 × 77 × 0 = 10,619 USD."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, rooms occupied, conference day, rooms occupied×conference day.",
+     "answer": "Intercept (3,458): predicted room revenue for days without a conference when rooms occupied = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nRooms occupied (93): for days without a conference, each additional occupied room changes predicted room revenue by 93 USD.\n\nConference day (2,407): at rooms occupied = 0, conference days are predicted to be 2,407 USD higher than days without a conference. Because of the interaction, the gap changes with rooms occupied.\n\nInteraction (-15): the rooms occupied slope is -15 lower for conference days, so their slope is 93 + (-15) = 78.\n\nGroup equations: days without a conference: 3,458 + 93 × Rooms occupied; conference days: 5,865 + 78 × Rooms occupied."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on room revenue at the 5% level? What does that mean for the hotel's controller?",
+     "answer": "At the 5% level, Rooms occupied, Conference day, Rooms occupied×Conference day are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The hotel's controller asks for a prediction for days without a conference with rooms occupied = 360 rooms. How confident should they be?",
+     "answer": "The equation gives 36,938 USD, but 360 lies outside the observed range (40–180 rooms). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG05",
+   "title": "Payroll overtime",
+   "intro": "IntegrateCo (payroll case) wants to explain monthly overtime pay per employee.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Overtime pay",
+    "unit": "USD per month"
+   },
+   "x": {
+    "name": "Projects assigned",
+    "unit": "projects",
+    "unit_one": "project",
+    "range": [
+     1,
+     8
+    ]
+   },
+   "d": {
+    "name": "Installation job",
+    "ref": "employees in office roles",
+    "comp": "employees in installation roles"
+   },
+   "equation": "Predicted overtime pay = b₀ + b₁[Projects assigned] + b₂[Installation job]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "65",
+     "p": "0.02"
+    },
+    {
+     "param": "b₁",
+     "term": "Projects assigned",
+     "estimate": "79",
+     "p": "0.003"
+    },
+    {
+     "param": "b₂",
+     "term": "Installation job",
+     "estimate": "150",
+     "p": "0.12"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the overtime pay for employees in installation roles with projects assigned = 3 projects.",
+     "answer": "Predicted overtime pay = 65 + 79 × 3 + 150 × 1 = 452 USD per month."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, projects assigned, installation job.",
+     "answer": "Intercept (65): predicted overtime pay for employees in office roles when projects assigned = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nProjects assigned (79): holding installation job constant, each additional project changes predicted overtime pay by 79 USD per month.\n\nInstallation job (150): holding projects assigned constant, employees in installation roles are predicted to have 150 USD per month more than employees in office roles (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on overtime pay at the 5% level? What does that mean for Noah, IntegrateCo's CFO?",
+     "answer": "At the 5% level, Projects assigned is statistically significant (p < 0.05). Installation job is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "Noah, IntegrateCo's CFO asks for a prediction for employees in office roles with projects assigned = 16 projects. How confident should they be?",
+     "answer": "The equation gives 1,329 USD per month, but 16 lies outside the observed range (1–8 projects). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG06",
+   "title": "Payroll overtime",
+   "intro": "IntegrateCo (payroll case) wants to explain monthly overtime pay per employee.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Overtime pay",
+    "unit": "USD per month"
+   },
+   "x": {
+    "name": "Projects assigned",
+    "unit": "projects",
+    "unit_one": "project",
+    "range": [
+     1,
+     8
+    ]
+   },
+   "d": {
+    "name": "Installation job",
+    "ref": "employees in office roles",
+    "comp": "employees in installation roles"
+   },
+   "equation": "Predicted overtime pay = d₀ + d₁[Projects assigned] + d₂[Installation job] + d₃([Projects assigned]×[Installation job])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "101",
+     "p": "0.001"
+    },
+    {
+     "param": "d₁",
+     "term": "Projects assigned",
+     "estimate": "90",
+     "p": "0.008"
+    },
+    {
+     "param": "d₂",
+     "term": "Installation job",
+     "estimate": "122",
+     "p": "0.002"
+    },
+    {
+     "param": "d₃",
+     "term": "Projects assigned×Installation job",
+     "estimate": "13",
+     "p": "0.09"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the overtime pay for employees in office roles with projects assigned = 4 projects.",
+     "answer": "Predicted overtime pay = 101 + 90 × 4 + 122 × 0 + 13 × 4 × 0 = 461 USD per month."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, projects assigned, installation job, projects assigned×installation job.",
+     "answer": "Intercept (101): predicted overtime pay for employees in office roles when projects assigned = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nProjects assigned (90): for employees in office roles, each additional project changes predicted overtime pay by 90 USD per month.\n\nInstallation job (122): at projects assigned = 0, employees in installation roles are predicted to be 122 USD per month higher than employees in office roles. Because of the interaction, the gap changes with projects assigned.\n\nInteraction (13): the projects assigned slope is 13 higher for employees in installation roles, so their slope is 90 + (13) = 103.\n\nGroup equations: employees in office roles: 101 + 90 × Projects assigned; employees in installation roles: 223 + 103 × Projects assigned."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on overtime pay at the 5% level? What does that mean for Noah, IntegrateCo's CFO?",
+     "answer": "At the 5% level, Projects assigned, Installation job are statistically significant (p < 0.05). Projects assigned×Installation job is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "Noah, IntegrateCo's CFO asks for a prediction for employees in office roles with projects assigned = 16 projects. How confident should they be?",
+     "answer": "The equation gives 1,541 USD per month, but 16 lies outside the observed range (1–8 projects). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG07",
+   "title": "P-card spending",
+   "intro": "OSU's internal audit team studies monthly P-card spending per cardholder (P-card case).",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Monthly P-card spending",
+    "unit": "USD"
+   },
+   "x": {
+    "name": "Transactions",
+    "unit": "transactions",
+    "unit_one": "transaction",
+    "range": [
+     2,
+     60
+    ]
+   },
+   "d": {
+    "name": "Student employee",
+    "ref": "staff cardholders",
+    "comp": "student-employee cardholders"
+   },
+   "equation": "Predicted monthly p-card spending = b₀ + b₁[Transactions] + b₂[Student employee]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "814",
+     "p": "0.001"
+    },
+    {
+     "param": "b₁",
+     "term": "Transactions",
+     "estimate": "270",
+     "p": "0.008"
+    },
+    {
+     "param": "b₂",
+     "term": "Student employee",
+     "estimate": "-467",
+     "p": "0.041"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the monthly p-card spending for staff cardholders with transactions = 30 transactions.",
+     "answer": "Predicted monthly p-card spending = 814 + 270 × 30 − 467 × 0 = 8,914 USD."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, transactions, student employee.",
+     "answer": "Intercept (814): predicted monthly p-card spending for staff cardholders when transactions = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nTransactions (270): holding student employee constant, each additional transaction changes predicted monthly p-card spending by 270 USD.\n\nStudent employee (-467): holding transactions constant, student-employee cardholders are predicted to have 467 USD less than staff cardholders (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on monthly p-card spending at the 5% level? What does that mean for OSU's internal auditor?",
+     "answer": "At the 5% level, Transactions, Student employee are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "OSU's internal auditor asks for a prediction for staff cardholders with transactions = 120 transactions. How confident should they be?",
+     "answer": "The equation gives 33,214 USD, but 120 lies outside the observed range (2–60 transactions). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG08",
+   "title": "P-card spending",
+   "intro": "OSU's internal audit team studies monthly P-card spending per cardholder (P-card case).",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Monthly P-card spending",
+    "unit": "USD"
+   },
+   "x": {
+    "name": "Transactions",
+    "unit": "transactions",
+    "unit_one": "transaction",
+    "range": [
+     2,
+     60
+    ]
+   },
+   "d": {
+    "name": "Student employee",
+    "ref": "staff cardholders",
+    "comp": "student-employee cardholders"
+   },
+   "equation": "Predicted monthly p-card spending = d₀ + d₁[Transactions] + d₂[Student employee] + d₃([Transactions]×[Student employee])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "479",
+     "p": "0.001"
+    },
+    {
+     "param": "d₁",
+     "term": "Transactions",
+     "estimate": "250",
+     "p": "0.02"
+    },
+    {
+     "param": "d₂",
+     "term": "Student employee",
+     "estimate": "-526",
+     "p": "0.27"
+    },
+    {
+     "param": "d₃",
+     "term": "Transactions×Student employee",
+     "estimate": "-16",
+     "p": "0.34"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the monthly p-card spending for student-employee cardholders with transactions = 27 transactions.",
+     "answer": "Predicted monthly p-card spending = 479 + 250 × 27 − 526 × 1 − 16 × 27 × 1 = 6,271 USD."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, transactions, student employee, transactions×student employee.",
+     "answer": "Intercept (479): predicted monthly p-card spending for staff cardholders when transactions = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nTransactions (250): for staff cardholders, each additional transaction changes predicted monthly p-card spending by 250 USD.\n\nStudent employee (-526): at transactions = 0, student-employee cardholders are predicted to be -526 USD lower than staff cardholders. Because of the interaction, the gap changes with transactions.\n\nInteraction (-16): the transactions slope is -16 lower for student-employee cardholders, so their slope is 250 + (-16) = 234.\n\nGroup equations: staff cardholders: 479 + 250 × Transactions; student-employee cardholders: -47 + 234 × Transactions."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on monthly p-card spending at the 5% level? What does that mean for OSU's internal auditor?",
+     "answer": "At the 5% level, Transactions is statistically significant (p < 0.05). Student employee, Transactions×Student employee are not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "OSU's internal auditor asks for a prediction for staff cardholders with transactions = 120 transactions. How confident should they be?",
+     "answer": "The equation gives 30,479 USD, but 120 lies outside the observed range (2–60 transactions). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG09",
+   "title": "Journal entry review time",
+   "intro": "An audit team measures how long it takes to review journal entries for a client.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Review time",
+    "unit": "minutes per entry"
+   },
+   "x": {
+    "name": "Line items",
+    "unit": "line items",
+    "unit_one": "line item",
+    "range": [
+     2,
+     30
+    ]
+   },
+   "d": {
+    "name": "Manual entry",
+    "ref": "system-generated entries",
+    "comp": "manual entries"
+   },
+   "equation": "Predicted review time = b₀ + b₁[Line items] + b₂[Manual entry]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "5.4",
+     "p": "0.001"
+    },
+    {
+     "param": "b₁",
+     "term": "Line items",
+     "estimate": "1.1",
+     "p": "0.003"
+    },
+    {
+     "param": "b₂",
+     "term": "Manual entry",
+     "estimate": "12",
+     "p": "0.028"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the review time for system-generated entries with line items = 21 line items.",
+     "answer": "Predicted review time = 5.4 + 1.1 × 21 + 12 × 0 = 28.5 minutes per entry."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, line items, manual entry.",
+     "answer": "Intercept (5.4): predicted review time for system-generated entries when line items = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLine items (1.1): holding manual entry constant, each additional line item changes predicted review time by 1.1 minutes per entry.\n\nManual entry (12): holding line items constant, manual entries are predicted to have 12 minutes per entry more than system-generated entries (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on review time at the 5% level? What does that mean for the audit senior?",
+     "answer": "At the 5% level, Line items, Manual entry are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The audit senior asks for a prediction for system-generated entries with line items = 60 line items. How confident should they be?",
+     "answer": "The equation gives 71.4 minutes per entry, but 60 lies outside the observed range (2–30 line items). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG10",
+   "title": "Journal entry review time",
+   "intro": "An audit team measures how long it takes to review journal entries for a client.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Review time",
+    "unit": "minutes per entry"
+   },
+   "x": {
+    "name": "Line items",
+    "unit": "line items",
+    "unit_one": "line item",
+    "range": [
+     2,
+     30
+    ]
+   },
+   "d": {
+    "name": "Manual entry",
+    "ref": "system-generated entries",
+    "comp": "manual entries"
+   },
+   "equation": "Predicted review time = d₀ + d₁[Line items] + d₂[Manual entry] + d₃([Line items]×[Manual entry])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "4.9",
+     "p": "0.004"
+    },
+    {
+     "param": "d₁",
+     "term": "Line items",
+     "estimate": "1",
+     "p": "0.001"
+    },
+    {
+     "param": "d₂",
+     "term": "Manual entry",
+     "estimate": "4",
+     "p": "0.12"
+    },
+    {
+     "param": "d₃",
+     "term": "Line items×Manual entry",
+     "estimate": "0.44",
+     "p": "0.09"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the review time for manual entries with line items = 17 line items.",
+     "answer": "Predicted review time = 4.9 + 1 × 17 + 4 × 1 + 0.44 × 17 × 1 = 33.38 minutes per entry."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, line items, manual entry, line items×manual entry.",
+     "answer": "Intercept (4.9): predicted review time for system-generated entries when line items = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLine items (1): for system-generated entries, each additional line item changes predicted review time by 1 minutes per entry.\n\nManual entry (4): at line items = 0, manual entries are predicted to be 4 minutes per entry higher than system-generated entries. Because of the interaction, the gap changes with line items.\n\nInteraction (0.44): the line items slope is 0.44 higher for manual entries, so their slope is 1 + (0.44) = 1.44.\n\nGroup equations: system-generated entries: 4.9 + 1 × Line items; manual entries: 8.9 + 1.44 × Line items."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on review time at the 5% level? What does that mean for the audit senior?",
+     "answer": "At the 5% level, Line items is statistically significant (p < 0.05). Manual entry, Line items×Manual entry are not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The audit senior asks for a prediction for system-generated entries with line items = 60 line items. How confident should they be?",
+     "answer": "The equation gives 64.9 minutes per entry, but 60 lies outside the observed range (2–30 line items). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG11",
+   "title": "Film permit processing",
+   "intro": "The NYC film office (Excel case) studies the lead time between entering and starting a permit.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Lead time",
+    "unit": "days"
+   },
+   "x": {
+    "name": "Locations on the permit",
+    "unit": "locations",
+    "unit_one": "location",
+    "range": [
+     1,
+     12
+    ]
+   },
+   "d": {
+    "name": "Television shoot",
+    "ref": "film shoots",
+    "comp": "television shoots"
+   },
+   "equation": "Predicted lead time = b₀ + b₁[Locations on the permit] + b₂[Television shoot]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "3.6",
+     "p": "0.31"
+    },
+    {
+     "param": "b₁",
+     "term": "Locations on the permit",
+     "estimate": "0.88",
+     "p": "0.02"
+    },
+    {
+     "param": "b₂",
+     "term": "Television shoot",
+     "estimate": "-1.1",
+     "p": "0.028"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the lead time for television shoots with locations on the permit = 5 locations.",
+     "answer": "Predicted lead time = 3.6 + 0.88 × 5 − 1.1 × 1 = 6.9 days."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, locations on the permit, television shoot.",
+     "answer": "Intercept (3.6): predicted lead time for film shoots when locations on the permit = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLocations on the permit (0.88): holding television shoot constant, each additional location changes predicted lead time by 0.88 days.\n\nTelevision shoot (-1.1): holding locations on the permit constant, television shoots are predicted to have 1.1 days less than film shoots (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on lead time at the 5% level? What does that mean for the NYC film office manager?",
+     "answer": "At the 5% level, Locations on the permit, Television shoot are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The NYC film office manager asks for a prediction for film shoots with locations on the permit = 24 locations. How confident should they be?",
+     "answer": "The equation gives 24.72 days, but 24 lies outside the observed range (1–12 locations). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG12",
+   "title": "Film permit processing",
+   "intro": "The NYC film office (Excel case) studies the lead time between entering and starting a permit.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Lead time",
+    "unit": "days"
+   },
+   "x": {
+    "name": "Locations on the permit",
+    "unit": "locations",
+    "unit_one": "location",
+    "range": [
+     1,
+     12
+    ]
+   },
+   "d": {
+    "name": "Television shoot",
+    "ref": "film shoots",
+    "comp": "television shoots"
+   },
+   "equation": "Predicted lead time = d₀ + d₁[Locations on the permit] + d₂[Television shoot] + d₃([Locations on the permit]×[Television shoot])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "2",
+     "p": "0.31"
+    },
+    {
+     "param": "d₁",
+     "term": "Locations on the permit",
+     "estimate": "0.43",
+     "p": "0.02"
+    },
+    {
+     "param": "d₂",
+     "term": "Television shoot",
+     "estimate": "-0.7",
+     "p": "0.041"
+    },
+    {
+     "param": "d₃",
+     "term": "Locations on the permit×Television shoot",
+     "estimate": "0.25",
+     "p": "0.09"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the lead time for television shoots with locations on the permit = 8 locations.",
+     "answer": "Predicted lead time = 2 + 0.43 × 8 − 0.7 × 1 + 0.25 × 8 × 1 = 6.74 days."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, locations on the permit, television shoot, locations on the permit×television shoot.",
+     "answer": "Intercept (2): predicted lead time for film shoots when locations on the permit = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nLocations on the permit (0.43): for film shoots, each additional location changes predicted lead time by 0.43 days.\n\nTelevision shoot (-0.7): at locations on the permit = 0, television shoots are predicted to be -0.7 days lower than film shoots. Because of the interaction, the gap changes with locations on the permit.\n\nInteraction (0.25): the locations on the permit slope is 0.25 higher for television shoots, so their slope is 0.43 + (0.25) = 0.68.\n\nGroup equations: film shoots: 2 + 0.43 × Locations on the permit; television shoots: 1.3 + 0.68 × Locations on the permit."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on lead time at the 5% level? What does that mean for the NYC film office manager?",
+     "answer": "At the 5% level, Locations on the permit, Television shoot are statistically significant (p < 0.05). Locations on the permit×Television shoot is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The NYC film office manager asks for a prediction for film shoots with locations on the permit = 24 locations. How confident should they be?",
+     "answer": "The equation gives 12.32 days, but 24 lies outside the observed range (1–12 locations). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG13",
+   "title": "Restaurant ingredient costs",
+   "intro": "Larry's Commissary (restaurant case) wants to plan daily ingredient purchases.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Ingredient cost",
+    "unit": "USD per day"
+   },
+   "x": {
+    "name": "Covers served",
+    "unit": "guests",
+    "unit_one": "guest",
+    "range": [
+     80,
+     400
+    ]
+   },
+   "d": {
+    "name": "Weekend",
+    "ref": "weekdays",
+    "comp": "weekend days"
+   },
+   "equation": "Predicted ingredient cost = b₀ + b₁[Covers served] + b₂[Weekend]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "303",
+     "p": "0.001"
+    },
+    {
+     "param": "b₁",
+     "term": "Covers served",
+     "estimate": "6.3",
+     "p": "0.008"
+    },
+    {
+     "param": "b₂",
+     "term": "Weekend",
+     "estimate": "342",
+     "p": "0.041"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the ingredient cost for weekdays with covers served = 232 guests.",
+     "answer": "Predicted ingredient cost = 303 + 6.3 × 232 + 342 × 0 = 1,764.6 USD per day."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, covers served, weekend.",
+     "answer": "Intercept (303): predicted ingredient cost for weekdays when covers served = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nCovers served (6.3): holding weekend constant, each additional guest changes predicted ingredient cost by 6.3 USD per day.\n\nWeekend (342): holding covers served constant, weekend days are predicted to have 342 USD per day more than weekdays (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on ingredient cost at the 5% level? What does that mean for Bob, the restaurant owner?",
+     "answer": "At the 5% level, Covers served, Weekend are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "Bob, the restaurant owner asks for a prediction for weekdays with covers served = 800 guests. How confident should they be?",
+     "answer": "The equation gives 5,343 USD per day, but 800 lies outside the observed range (80–400 guests). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG14",
+   "title": "Restaurant ingredient costs",
+   "intro": "Larry's Commissary (restaurant case) wants to plan daily ingredient purchases.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Ingredient cost",
+    "unit": "USD per day"
+   },
+   "x": {
+    "name": "Covers served",
+    "unit": "guests",
+    "unit_one": "guest",
+    "range": [
+     80,
+     400
+    ]
+   },
+   "d": {
+    "name": "Weekend",
+    "ref": "weekdays",
+    "comp": "weekend days"
+   },
+   "equation": "Predicted ingredient cost = d₀ + d₁[Covers served] + d₂[Weekend] + d₃([Covers served]×[Weekend])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "282",
+     "p": "0.02"
+    },
+    {
+     "param": "d₁",
+     "term": "Covers served",
+     "estimate": "5.9",
+     "p": "0.02"
+    },
+    {
+     "param": "d₂",
+     "term": "Weekend",
+     "estimate": "389",
+     "p": "0.028"
+    },
+    {
+     "param": "d₃",
+     "term": "Covers served×Weekend",
+     "estimate": "1.9",
+     "p": "0.34"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the ingredient cost for weekend days with covers served = 325 guests.",
+     "answer": "Predicted ingredient cost = 282 + 5.9 × 325 + 389 × 1 + 1.9 × 325 × 1 = 3,206 USD per day."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, covers served, weekend, covers served×weekend.",
+     "answer": "Intercept (282): predicted ingredient cost for weekdays when covers served = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nCovers served (5.9): for weekdays, each additional guest changes predicted ingredient cost by 5.9 USD per day.\n\nWeekend (389): at covers served = 0, weekend days are predicted to be 389 USD per day higher than weekdays. Because of the interaction, the gap changes with covers served.\n\nInteraction (1.9): the covers served slope is 1.9 higher for weekend days, so their slope is 5.9 + (1.9) = 7.8.\n\nGroup equations: weekdays: 282 + 5.9 × Covers served; weekend days: 671 + 7.8 × Covers served."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on ingredient cost at the 5% level? What does that mean for Bob, the restaurant owner?",
+     "answer": "At the 5% level, Covers served, Weekend are statistically significant (p < 0.05). Covers served×Weekend is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "Bob, the restaurant owner asks for a prediction for weekdays with covers served = 800 guests. How confident should they be?",
+     "answer": "The equation gives 5,002 USD per day, but 800 lies outside the observed range (80–400 guests). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG15",
+   "title": "Accounts receivable collection",
+   "intro": "A wholesaler studies how many days customers take to pay their invoices.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Days to pay",
+    "unit": "days"
+   },
+   "x": {
+    "name": "Invoice amount",
+    "unit": "thousand USD",
+    "unit_one": "thousand USD of invoice value",
+    "range": [
+     1,
+     50
+    ]
+   },
+   "d": {
+    "name": "New customer",
+    "ref": "existing customers",
+    "comp": "new customers"
+   },
+   "equation": "Predicted days to pay = b₀ + b₁[Invoice amount] + b₂[New customer]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "34",
+     "p": "0.31"
+    },
+    {
+     "param": "b₁",
+     "term": "Invoice amount",
+     "estimate": "0.46",
+     "p": "0.003"
+    },
+    {
+     "param": "b₂",
+     "term": "New customer",
+     "estimate": "5",
+     "p": "0.12"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the days to pay for existing customers with invoice amount = 38 thousand USD.",
+     "answer": "Predicted days to pay = 34 + 0.46 × 38 + 5 × 0 = 51.48 days."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, invoice amount, new customer.",
+     "answer": "Intercept (34): predicted days to pay for existing customers when invoice amount = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nInvoice amount (0.46): holding new customer constant, each additional thousand USD of invoice value changes predicted days to pay by 0.46 days.\n\nNew customer (5): holding invoice amount constant, new customers are predicted to have 5 days more than existing customers (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on days to pay at the 5% level? What does that mean for the credit manager?",
+     "answer": "At the 5% level, Invoice amount is statistically significant (p < 0.05). New customer is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The credit manager asks for a prediction for existing customers with invoice amount = 100 thousand USD. How confident should they be?",
+     "answer": "The equation gives 80 days, but 100 lies outside the observed range (1–50 thousand USD). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG16",
+   "title": "Accounts receivable collection",
+   "intro": "A wholesaler studies how many days customers take to pay their invoices.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Days to pay",
+    "unit": "days"
+   },
+   "x": {
+    "name": "Invoice amount",
+    "unit": "thousand USD",
+    "unit_one": "thousand USD of invoice value",
+    "range": [
+     1,
+     50
+    ]
+   },
+   "d": {
+    "name": "New customer",
+    "ref": "existing customers",
+    "comp": "new customers"
+   },
+   "equation": "Predicted days to pay = d₀ + d₁[Invoice amount] + d₂[New customer] + d₃([Invoice amount]×[New customer])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "20",
+     "p": "0.001"
+    },
+    {
+     "param": "d₁",
+     "term": "Invoice amount",
+     "estimate": "0.61",
+     "p": "0.003"
+    },
+    {
+     "param": "d₂",
+     "term": "New customer",
+     "estimate": "11",
+     "p": "0.028"
+    },
+    {
+     "param": "d₃",
+     "term": "Invoice amount×New customer",
+     "estimate": "-0.22",
+     "p": "0.006"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the days to pay for new customers with invoice amount = 33 thousand USD.",
+     "answer": "Predicted days to pay = 20 + 0.61 × 33 + 11 × 1 − 0.22 × 33 × 1 = 43.87 days."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, invoice amount, new customer, invoice amount×new customer.",
+     "answer": "Intercept (20): predicted days to pay for existing customers when invoice amount = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nInvoice amount (0.61): for existing customers, each additional thousand USD of invoice value changes predicted days to pay by 0.61 days.\n\nNew customer (11): at invoice amount = 0, new customers are predicted to be 11 days higher than existing customers. Because of the interaction, the gap changes with invoice amount.\n\nInteraction (-0.22): the invoice amount slope is -0.22 lower for new customers, so their slope is 0.61 + (-0.22) = 0.39.\n\nGroup equations: existing customers: 20 + 0.61 × Invoice amount; new customers: 31 + 0.39 × Invoice amount."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on days to pay at the 5% level? What does that mean for the credit manager?",
+     "answer": "At the 5% level, Invoice amount, New customer, Invoice amount×New customer are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The credit manager asks for a prediction for existing customers with invoice amount = 100 thousand USD. How confident should they be?",
+     "answer": "The equation gives 81 days, but 100 lies outside the observed range (1–50 thousand USD). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG17",
+   "title": "Music downloads",
+   "intro": "The digital music store from the Chinook database studies monthly downloads per customer.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Downloads",
+    "unit": "tracks per month"
+   },
+   "x": {
+    "name": "Marketing emails",
+    "unit": "emails",
+    "unit_one": "marketing email",
+    "range": [
+     0,
+     12
+    ]
+   },
+   "d": {
+    "name": "Premium member",
+    "ref": "standard customers",
+    "comp": "premium members"
+   },
+   "equation": "Predicted downloads = b₀ + b₁[Marketing emails] + b₂[Premium member]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "6.3",
+     "p": "0.02"
+    },
+    {
+     "param": "b₁",
+     "term": "Marketing emails",
+     "estimate": "1.1",
+     "p": "0.02"
+    },
+    {
+     "param": "b₂",
+     "term": "Premium member",
+     "estimate": "2.8",
+     "p": "0.028"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the downloads for premium members with marketing emails = 6 emails.",
+     "answer": "Predicted downloads = 6.3 + 1.1 × 6 + 2.8 × 1 = 15.7 tracks per month."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, marketing emails, premium member.",
+     "answer": "Intercept (6.3): predicted downloads for standard customers when marketing emails = 0. \n\nMarketing emails (1.1): holding premium member constant, each additional marketing email changes predicted downloads by 1.1 tracks per month.\n\nPremium member (2.8): holding marketing emails constant, premium members are predicted to have 2.8 tracks per month more than standard customers (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on downloads at the 5% level? What does that mean for the Chinook sales manager?",
+     "answer": "At the 5% level, Marketing emails, Premium member are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The Chinook sales manager asks for a prediction for standard customers with marketing emails = 24 emails. How confident should they be?",
+     "answer": "The equation gives 32.7 tracks per month, but 24 lies outside the observed range (0–12 emails). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG18",
+   "title": "Music downloads",
+   "intro": "The digital music store from the Chinook database studies monthly downloads per customer.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Downloads",
+    "unit": "tracks per month"
+   },
+   "x": {
+    "name": "Marketing emails",
+    "unit": "emails",
+    "unit_one": "marketing email",
+    "range": [
+     0,
+     12
+    ]
+   },
+   "d": {
+    "name": "Premium member",
+    "ref": "standard customers",
+    "comp": "premium members"
+   },
+   "equation": "Predicted downloads = d₀ + d₁[Marketing emails] + d₂[Premium member] + d₃([Marketing emails]×[Premium member])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "5.9",
+     "p": "0.02"
+    },
+    {
+     "param": "d₁",
+     "term": "Marketing emails",
+     "estimate": "1.5",
+     "p": "0.001"
+    },
+    {
+     "param": "d₂",
+     "term": "Premium member",
+     "estimate": "6.4",
+     "p": "0.12"
+    },
+    {
+     "param": "d₃",
+     "term": "Marketing emails×Premium member",
+     "estimate": "0.27",
+     "p": "0.015"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the downloads for premium members with marketing emails = 8 emails.",
+     "answer": "Predicted downloads = 5.9 + 1.5 × 8 + 6.4 × 1 + 0.27 × 8 × 1 = 26.46 tracks per month."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, marketing emails, premium member, marketing emails×premium member.",
+     "answer": "Intercept (5.9): predicted downloads for standard customers when marketing emails = 0. \n\nMarketing emails (1.5): for standard customers, each additional marketing email changes predicted downloads by 1.5 tracks per month.\n\nPremium member (6.4): at marketing emails = 0, premium members are predicted to be 6.4 tracks per month higher than standard customers. Because of the interaction, the gap changes with marketing emails.\n\nInteraction (0.27): the marketing emails slope is 0.27 higher for premium members, so their slope is 1.5 + (0.27) = 1.77.\n\nGroup equations: standard customers: 5.9 + 1.5 × Marketing emails; premium members: 12.3 + 1.77 × Marketing emails."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on downloads at the 5% level? What does that mean for the Chinook sales manager?",
+     "answer": "At the 5% level, Marketing emails, Marketing emails×Premium member are statistically significant (p < 0.05). Premium member is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The Chinook sales manager asks for a prediction for standard customers with marketing emails = 24 emails. How confident should they be?",
+     "answer": "The equation gives 41.9 tracks per month, but 24 lies outside the observed range (0–12 emails). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG19",
+   "title": "Holiday-home bookings",
+   "intro": "A holiday-home rental agency studies booked nights per month.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Booked nights",
+    "unit": "nights per month"
+   },
+   "x": {
+    "name": "Nightly price",
+    "unit": "EUR/night",
+    "unit_one": "euro per night",
+    "range": [
+     60,
+     180
+    ]
+   },
+   "d": {
+    "name": "Private pool",
+    "ref": "homes without a private pool",
+    "comp": "homes with a private pool"
+   },
+   "equation": "Predicted booked nights = b₀ + b₁[Nightly price] + b₂[Private pool]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "28",
+     "p": "0.004"
+    },
+    {
+     "param": "b₁",
+     "term": "Nightly price",
+     "estimate": "-0.09",
+     "p": "0.02"
+    },
+    {
+     "param": "b₂",
+     "term": "Private pool",
+     "estimate": "2.9",
+     "p": "0.002"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the booked nights for homes with a private pool with nightly price = 153 EUR/night.",
+     "answer": "Predicted booked nights = 28 − 0.09 × 153 + 2.9 × 1 = 17.13 nights per month."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, nightly price, private pool.",
+     "answer": "Intercept (28): predicted booked nights for homes without a private pool when nightly price = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nNightly price (-0.09): holding private pool constant, each additional euro per night changes predicted booked nights by -0.09 nights per month.\n\nPrivate pool (2.9): holding nightly price constant, homes with a private pool are predicted to have 2.9 nights per month more than homes without a private pool (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on booked nights at the 5% level? What does that mean for the rental agency?",
+     "answer": "At the 5% level, Nightly price, Private pool are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The rental agency asks for a prediction for homes without a private pool with nightly price = 360 EUR/night. How confident should they be?",
+     "answer": "The equation gives -4.4 nights per month, but 360 lies outside the observed range (60–180 EUR/night). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG20",
+   "title": "Holiday-home bookings",
+   "intro": "A holiday-home rental agency studies booked nights per month.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Booked nights",
+    "unit": "nights per month"
+   },
+   "x": {
+    "name": "Nightly price",
+    "unit": "EUR/night",
+    "unit_one": "euro per night",
+    "range": [
+     60,
+     180
+    ]
+   },
+   "d": {
+    "name": "Private pool",
+    "ref": "homes without a private pool",
+    "comp": "homes with a private pool"
+   },
+   "equation": "Predicted booked nights = d₀ + d₁[Nightly price] + d₂[Private pool] + d₃([Nightly price]×[Private pool])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "33",
+     "p": "0.02"
+    },
+    {
+     "param": "d₁",
+     "term": "Nightly price",
+     "estimate": "-0.12",
+     "p": "0.001"
+    },
+    {
+     "param": "d₂",
+     "term": "Private pool",
+     "estimate": "4.1",
+     "p": "0.002"
+    },
+    {
+     "param": "d₃",
+     "term": "Nightly price×Private pool",
+     "estimate": "0.01",
+     "p": "0.09"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the booked nights for homes with a private pool with nightly price = 133 EUR/night.",
+     "answer": "Predicted booked nights = 33 − 0.12 × 133 + 4.1 × 1 + 0.01 × 133 × 1 = 22.47 nights per month."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, nightly price, private pool, nightly price×private pool.",
+     "answer": "Intercept (33): predicted booked nights for homes without a private pool when nightly price = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nNightly price (-0.12): for homes without a private pool, each additional euro per night changes predicted booked nights by -0.12 nights per month.\n\nPrivate pool (4.1): at nightly price = 0, homes with a private pool are predicted to be 4.1 nights per month higher than homes without a private pool. Because of the interaction, the gap changes with nightly price.\n\nInteraction (0.01): the nightly price slope is 0.01 higher for homes with a private pool, so their slope is -0.12 + (0.01) = -0.11.\n\nGroup equations: homes without a private pool: 33 − 0.12 × Nightly price; homes with a private pool: 37.1 − 0.11 × Nightly price."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on booked nights at the 5% level? What does that mean for the rental agency?",
+     "answer": "At the 5% level, Nightly price, Private pool are statistically significant (p < 0.05). Nightly price×Private pool is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The rental agency asks for a prediction for homes without a private pool with nightly price = 360 EUR/night. How confident should they be?",
+     "answer": "The equation gives -10.2 nights per month, but 360 lies outside the observed range (60–180 EUR/night). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG21",
+   "title": "Audit fees",
+   "intro": "An audit firm studies the fees it charges clients.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Audit fee",
+    "unit": "thousand DKK"
+   },
+   "x": {
+    "name": "Client revenue",
+    "unit": "million DKK",
+    "unit_one": "million DKK of client revenue",
+    "range": [
+     10,
+     500
+    ]
+   },
+   "d": {
+    "name": "Listed client",
+    "ref": "private clients",
+    "comp": "listed clients"
+   },
+   "equation": "Predicted audit fee = b₀ + b₁[Client revenue] + b₂[Listed client]",
+   "table": [
+    {
+     "param": "b₀",
+     "term": "Intercept",
+     "estimate": "83",
+     "p": "0.004"
+    },
+    {
+     "param": "b₁",
+     "term": "Client revenue",
+     "estimate": "0.41",
+     "p": "0.003"
+    },
+    {
+     "param": "b₂",
+     "term": "Listed client",
+     "estimate": "240",
+     "p": "0.27"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the audit fee for listed clients with client revenue = 261 million DKK.",
+     "answer": "Predicted audit fee = 83 + 0.41 × 261 + 240 × 1 = 430.01 thousand DKK."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, client revenue, listed client.",
+     "answer": "Intercept (83): predicted audit fee for private clients when client revenue = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nClient revenue (0.41): holding listed client constant, each additional million DKK of client revenue changes predicted audit fee by 0.41 thousand DKK.\n\nListed client (240): holding client revenue constant, listed clients are predicted to have 240 thousand DKK more than private clients (the reference group)."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on audit fee at the 5% level? What does that mean for the audit partner?",
+     "answer": "At the 5% level, Client revenue is statistically significant (p < 0.05). Listed client is not (p ≥ 0.05): we cannot rule out that the true effect is zero, so the estimate should not be relied on. A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The audit partner asks for a prediction for private clients with client revenue = 1,000 million DKK. How confident should they be?",
+     "answer": "The equation gives 493 thousand DKK, but 1,000 lies outside the observed range (10–500 million DKK). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  },
+  {
+   "id": "REG22",
+   "title": "Audit fees",
+   "intro": "An audit firm studies the fees it charges clients.",
+   "source": "Constructed scenario for practice (coefficients are illustrative).",
+   "y": {
+    "name": "Audit fee",
+    "unit": "thousand DKK"
+   },
+   "x": {
+    "name": "Client revenue",
+    "unit": "million DKK",
+    "unit_one": "million DKK of client revenue",
+    "range": [
+     10,
+     500
+    ]
+   },
+   "d": {
+    "name": "Listed client",
+    "ref": "private clients",
+    "comp": "listed clients"
+   },
+   "equation": "Predicted audit fee = d₀ + d₁[Client revenue] + d₂[Listed client] + d₃([Client revenue]×[Listed client])",
+   "table": [
+    {
+     "param": "d₀",
+     "term": "Intercept",
+     "estimate": "112",
+     "p": "0.001"
+    },
+    {
+     "param": "d₁",
+     "term": "Client revenue",
+     "estimate": "0.71",
+     "p": "0.02"
+    },
+    {
+     "param": "d₂",
+     "term": "Listed client",
+     "estimate": "104",
+     "p": "0.002"
+    },
+    {
+     "param": "d₃",
+     "term": "Client revenue×Listed client",
+     "estimate": "-0.12",
+     "p": "0.015"
+    }
+   ],
+   "questions": [
+    {
+     "kind": "P",
+     "prompt": "Predict the audit fee for private clients with client revenue = 121 million DKK.",
+     "answer": "Predicted audit fee = 112 + 0.71 × 121 + 104 × 0 − 0.12 × 121 × 0 = 197.91 thousand DKK."
+    },
+    {
+     "kind": "I",
+     "prompt": "Interpret all coefficients in context: intercept, client revenue, listed client, client revenue×listed client.",
+     "answer": "Intercept (112): predicted audit fee for private clients when client revenue = 0. Zero lies outside the observed range, so it has little practical meaning on its own.\n\nClient revenue (0.71): for private clients, each additional million DKK of client revenue changes predicted audit fee by 0.71 thousand DKK.\n\nListed client (104): at client revenue = 0, listed clients are predicted to be 104 thousand DKK higher than private clients. Because of the interaction, the gap changes with client revenue.\n\nInteraction (-0.12): the client revenue slope is -0.12 lower for listed clients, so their slope is 0.71 + (-0.12) = 0.59.\n\nGroup equations: private clients: 112 + 0.71 × Client revenue; listed clients: 216 + 0.59 × Client revenue."
+    },
+    {
+     "kind": "S",
+     "prompt": "Which predictors have a statistically significant effect on audit fee at the 5% level? What does that mean for the audit partner?",
+     "answer": "At the 5% level, Client revenue, Listed client, Client revenue×Listed client are statistically significant (p < 0.05). A small p-value says the effect is unlikely to be zero; it does not say the effect is large or important."
+    },
+    {
+     "kind": "R",
+     "prompt": "The audit partner asks for a prediction for private clients with client revenue = 1,000 million DKK. How confident should they be?",
+     "answer": "The equation gives 822 thousand DKK, but 1,000 lies outside the observed range (10–500 million DKK). This is extrapolation: the linear relationship may not hold there, so the prediction is unreliable and should be communicated with a clear warning."
+    }
+   ],
+   "minutes": 5
+  }
+ ]
+}
