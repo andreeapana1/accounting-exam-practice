@@ -12,8 +12,10 @@ A practice website for the oral exam in *Data Analytics in Accounting*. Students
   catches classic misconceptions (*"significant means important"*, *"this proves fraud"*), or challenges a method the
   student named (*"You said VLOOKUP — what if the column is to the left?"*). The review page shows **what the student said, written down** (browser speech recognition, or
   typed), a **checklist of the key points they mentioned or missed**, what the examiner listens for, the model
-  answer and, optionally, their own recording. Attempts are saved in the browser under *My attempts*. No AI
-  service is involved.
+  answer and, optionally, their own recording. It also gives feedback on **how they sounded** (pace, filler
+  phrases, time before starting). Students pick a **Friendly, Standard or Strict** examiner (time per question and
+  one or two interruptions), can **retry a single question**, and see their **progress per question type** under
+  *My attempts* (saved in the browser). No AI service is involved.
 
 The site is static (HTML, CSS and JavaScript in `docs/`) and is served by GitHub Pages.
 

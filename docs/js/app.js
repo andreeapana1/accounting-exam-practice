@@ -417,7 +417,6 @@
   // The browser reads each question aloud, the student answers out loud against a countdown, and the
   // examiner interrupts once per question with a follow-up. Optional recordings never leave the device;
   // optional transcripts use the browser's speech recognition and are kept in this browser only.
-  const FOLLOWUP_SECONDS = 45;
   const ATTEMPTS_KEY = "examiner-attempts";
   const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -472,6 +471,13 @@
     };
   }
 
+  // A transcript target is the main answer ("main") or the n-th follow-up answer (0, 1, …).
+  const heardText = (tg) => (tg.part === "main" ? tg.res.text.main : tg.res.text.fu[tg.part] || "");
+  function appendHeard(tg, s) {
+    if (tg.part === "main") tg.res.text.main += s + " ";
+    else tg.res.text.fu[tg.part] = heardText(tg) + s + " ";
+  }
+
   function makeListener(onText, onStatus) {
     if (!SpeechRec) return null;
     const rec = new SpeechRec();
@@ -512,7 +518,7 @@
           // Cut the examiner's phrases out first, then judge only what is left — a segment can be mostly
           // examiner and still end with the student's answer.
           const own = echo.strip(r[0].transcript.trim());
-          if (accept && target && own && !echo.isEcho(own)) target.res.text[target.part] += own + " ";
+          if (accept && target && own && !echo.isEcho(own)) appendHeard(target, own);
         } else if (capturing) {
           const own = echo.strip(r[0].transcript);
           if (own && !echo.isEcho(own)) interim += own + " ";
@@ -626,80 +632,139 @@
     const own = (s.match(/\d+(?:\.\d+)?/g) || []).filter((n) => !known.some((k) => Math.abs(Math.abs(k) - Number(n)) < 1e-9));
     return own.length ? own[own.length - 1] : null;
   };
-  const numbersShown = (...texts) => texts.join(" ").replace(/(\d),(?=\d{3})/g, "$1").match(/\d+(?:\.\d+)?/g)?.map(Number) || [];
+  // Numbers on screen, plus 4,600 → 46 and 12,000 → 12 (variables measured in hundreds or thousands).
+  const numbersShown = (...texts) => (texts.join(" ").replace(/(\d),(?=\d{3})/g, "$1").match(/\d+(?:\.\d+)?/g) || [])
+    .map(Number).flatMap((n) => (n >= 100 ? [n, n / 100, n / 1000] : [n]));
 
-  function chooseFollowup(it, raw, adaptive) {
+  // Candidate follow-ups in priority order; the examiner asks the first one it has not asked yet
+  // (a strict examiner asks two per question).
+  function followupCandidates(it, raw, adaptive) {
     const std = it.keypoints.find((k) => k.followup);
-    const standard = { ask: it.followup.ask, listen: it.followup.listen, check: { terms: std ? std.terms : [] }, why: "" };
-    if (!adaptive) return standard;
+    const standard = { ask: it.followup.ask, listen: it.followup.listen, check: { terms: std ? std.terms : [] } };
+    if (!adaptive) return [{ ...standard, why: "" }];
+    const out = [];
     const text = raw.trim();
     const t = ` ${text.toLowerCase()} `;
     if (text.split(/\s+/).filter(Boolean).length < 4) {
-      return {
+      out.push({
         ask: it.kind ? "You haven't said much yet. Which numbers from the regression output would you use first?"
           : "You haven't said much yet. Where would you start: which file, table or columns would you use?",
         listen: "A concrete first step: name the data and the first operation.",
         check: { terms: it.kind ? ["coefficient", "estimate", "intercept", "p-value", "table", "equation"] : ["column", "table", "sheet", "file", "filter", "formula", "select", "count"] },
         why: "You had said almost nothing when the examiner stepped in.",
-      };
+      });
     }
     for (const m of MISCONCEPTIONS) {
-      if (m.when(t, it)) return { ask: m.ask, listen: m.listen, check: { terms: m.terms }, why: `Because you said: “…${quote(text, m.re)}…”` };
+      if (m.when(t, it)) out.push({ ask: m.ask, listen: m.listen, check: { terms: m.terms }, why: `Because you said: “…${quote(text, m.re)}…”` });
     }
     const numKp = it.keypoints.find((k) => k.number != null && !k.followup);
     const n = lastNumber(text, it.known || []);
     if (numKp && n && !pointMet(numKp, text)) {
-      return { ask: `You said ${n}. Can you check that number? Talk me through how you got it.`,
+      out.push({ ask: `You said ${n}. Can you check that number? Talk me through how you got it.`,
         listen: `Recomputes step by step and arrives at the right figure: ${numKp.label.replace(/^Gave the /, "")}.`,
-        check: numKp, why: `Because the number you gave (${n}) did not match the expected answer.` };
+        check: numKp, why: `Because the number you gave (${n}) did not match the expected answer.` });
     }
     const unitKp = it.keypoints.find((k) => /unit/i.test(k.label) && !k.followup);
     if (numKp && n && unitKp && !pointMet(unitKp, text)) {
-      return { ask: `You said ${n}. ${n} what?`, listen: unitKp.label, check: unitKp, why: `Because you gave ${n} without a unit.` };
+      out.push({ ask: `You said ${n}. ${n} what?`, listen: unitKp.label, check: unitKp, why: `Because you gave ${n} without a unit.` });
     }
     const probe = (k) => ({ ask: k.probe, listen: k.label, check: k, why: `Because you had not yet mentioned: ${k.label.toLowerCase()}.` });
     const missing = it.keypoints.filter((k) => !k.followup && k.probe && !pointMet(k, text));
-    // Regression key points are all about content, so a missing one always comes first. For Excel/SQL, a missing
-    // answer comes first; if the student has named a method, challenging that method beats asking for "a method".
-    const missingContent = it.kind ? missing[0] : missing.find((k) => k.answer || k.number != null);
-    if (missingContent) return probe(missingContent);
+    // Regression key points are all about content, so missing ones come first. For Excel/SQL, a missing answer
+    // comes first; if the student has named a method, challenging that method beats asking for "a method".
+    if (it.kind) missing.forEach((k) => out.push(probe(k)));
+    else missing.filter((k) => k.answer || k.number != null).forEach((k) => out.push(probe(k)));
     for (const c of CHALLENGES) {
       if (c.tool && c.tool !== it.label) continue;
-      if (c.re.test(t)) return { ask: c.ask, listen: c.listen, check: { terms: c.terms }, why: `Because you mentioned “${quote(text, c.re)}”.` };
+      if (c.re.test(t)) out.push({ ask: c.ask, listen: c.listen, check: { terms: c.terms }, why: `Because you mentioned “${quote(text, c.re)}”.` });
     }
-    if (missing.length) return probe(missing[0]);
-    return { ...standard, why: "You had covered the key points, so the examiner asked a harder standard follow-up." };
+    if (!it.kind) missing.filter((k) => !(k.answer || k.number != null)).forEach((k) => out.push(probe(k)));
+    out.push({ ...standard, why: "You had covered the key points, so the examiner asked a harder standard follow-up." });
+    out.push({ ask: "If you had to defend that answer to a sceptical manager, what is the weakest part of it?",
+      listen: "Names a limitation honestly: an assumption, a data problem or a number that could be wrong.",
+      check: { terms: ["assum", "limitation", "data", "could be wrong", "not sure", "weak", "risk"] },
+      why: "You had already answered the other follow-ups, so the examiner pushed on your reasoning." });
+    return out;
+  }
+  function chooseFollowup(it, raw, adaptive, asked = []) {
+    const list = followupCandidates(it, raw, adaptive);
+    return list.find((c) => !asked.includes(c.ask)) || list[list.length - 1];
+  }
+
+  // ---- strictness: time per question, how often the examiner interrupts, and time for each follow-up
+  const LEVELS = {
+    friendly: { name: "Friendly", time: 1.4, fuSeconds: 60, windows: [], about: "More time; one follow-up, asked when you finish." },
+    standard: { name: "Standard", time: 1, fuSeconds: 45, windows: [[0.35, 0.65]], about: "Normal time; one interruption during your answer." },
+    strict: { name: "Strict", time: 0.75, fuSeconds: 30, windows: [[0.25, 0.4], [0.6, 0.75]], about: "Less time; two interruptions and short follow-up answers." },
+  };
+
+  // ---- how the answer sounded: pace, filler phrases, and how quickly the student got started
+  const FILLERS = [["um", /\bu+m+\b/g], ["uh", /\bu+h+\b/g], ["er", /\ber+m*\b/g], ["I don't know", /\bi don'?t know\b/g],
+    ["basically", /\bbasically\b/g], ["you know", /\byou know\b/g], ["sort of / kind of", /\b(sort|kind) of\b/g],
+    ["I guess", /\bi guess\b/g], ["I mean", /\bi mean\b/g]];
+  function soundStats(items) {
+    const words = items.reduce((s, it) => s + (it.text.replace(/\[Follow-up( \d)?\]/g, "").match(/\S+/g) || []).length, 0);
+    const seconds = items.reduce((s, it) => s + (it.spoke || 0), 0);
+    const lower = items.map((it) => it.text.toLowerCase()).join(" ");
+    const fillers = FILLERS.map(([name, re]) => [name, (lower.match(re) || []).length]).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]);
+    const starts = items.map((it) => it.startAfter).filter((v) => v != null);
+    return {
+      words, seconds, wpm: seconds >= 10 && words ? Math.round(words / (seconds / 60)) : null, fillers,
+      startAfter: starts.length ? Math.round(starts.reduce((a, b) => a + b, 0) / starts.length) : null,
+    };
+  }
+  function soundHtml(s, overall) {
+    if (!s.words) return overall ? `<p class="small muted">No transcript, so there is no feedback on how you sounded.</p>` : "";
+    const tips = [];
+    if (s.wpm != null) {
+      tips.push(`<strong>${s.wpm}</strong> words per minute${s.wpm < 100 ? " — quite slow; keep talking through your reasoning" : s.wpm > 170 ? " — fast; slow down so the examiner can follow" : " — a good pace"}`);
+    }
+    if (s.startAfter != null) tips.push(`started speaking after <strong>${s.startAfter} s</strong>${s.startAfter > 6 ? " — try to begin with your first step straight away" : ""}`);
+    tips.push(s.fillers.length ? `fillers: ${s.fillers.map(([n, c]) => `“${esc(n)}” ×${c}`).join(", ")}` : "no filler phrases detected");
+    return `<p class="small sound">🗣 ${tips.join(" · ")}</p>`;
   }
 
   function loadAttempts() { try { return JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || "[]"); } catch { return []; } }
   function saveAttempts(list) { try { localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(list.slice(0, 20))); } catch { /* ignore */ } }
 
-  // Review page: transcript (editable), key-point checklist, follow-up, model answer, recording.
+  // Review page: transcript (editable), key-point checklist, follow-ups, how it sounded, model answer, retry.
   function renderReview(el, review, attemptIndex) {
+    // attempts saved before follow-ups became a list had a single follow-up on the item itself
+    review.items.forEach((it) => {
+      if (!it.followups && it.asked) it.followups = [{ ask: it.followupAsk, listen: it.listen, why: it.why, askedAt: it.askedAt }];
+    });
     const total = () => `${score(review.items)} of ${maxScore(review.items)} key points mentioned`;
+    const itemScore = (it) => `${it.keypoints.filter((kp) => it.text.trim() && pointMet(kp, it.text)).length} / ${it.keypoints.length}`;
     el.innerHTML = `
       <div class="card stack">
         <h2>Your examiner review</h2>
-        <p class="muted">Below each question you can see what you said, which key points you mentioned, what the examiner
-        listened for in the follow-up, and the model answer. The checklist matches words, not meaning — if the speech
-        recognition misheard you or you said it differently, correct the text and the checklist updates.</p>
-        <p><strong data-total>${total()}</strong> · ${esc(new Date(review.when).toLocaleString())}</p>
+        <p class="muted">Below each question you can see what you said, which key points you mentioned, why the examiner
+        asked each follow-up and what it listened for, and the model answer. The checklist matches words, not meaning —
+        if the speech recognition misheard you or you said it differently, correct the text and the checklist updates.</p>
+        <p><strong data-total>${total()}</strong> · ${esc(new Date(review.when).toLocaleString())}${review.level ? ` · ${esc(LEVELS[review.level].name)} examiner` : ""}</p>
+        <div data-sound-all>${soundHtml(soundStats(review.items), true)}</div>
+        ${review.items.some((it) => it.text.trim()) ? `<p class="small muted">Speech recognition often leaves out “um” and “uh”, so the filler count is a minimum.</p>` : ""}
       </div>
       ${review.items.map((it, i) => `
         <div class="card stack" data-item="${i}">
           <div class="split">
-            <div class="eyebrow">Question ${i + 1}${it.label ? " · " + esc(it.label) : ""}${it.mainUsed != null ? ` · answered in ${mmss(it.mainUsed)} of ${mmss(it.seconds)}` : ""}</div>
-            <span class="tag" data-score>${it.keypoints.filter((kp) => it.text.trim() && pointMet(kp, it.text)).length} / ${it.keypoints.length}</span>
+            <div class="eyebrow">Question ${it.n || i + 1}${it.label ? " · " + esc(it.label) : ""}${it.mainUsed != null ? ` · answered in ${mmss(it.mainUsed)} of ${mmss(it.seconds)}` : ""}</div>
+            <span class="tag" data-score>${itemScore(it)}</span>
           </div>
           <p><strong>${esc(it.prompt)}</strong></p>
-          ${it.asked ? `<div class="followup"><div class="eyebrow">Follow-up${it.askedAt != null ? ` · after ${mmss(it.askedAt)}` : ""}</div><p>${esc(it.followupAsk)}</p>
-            ${it.why ? `<p class="small why">Why the examiner asked this: ${esc(it.why)}</p>` : ""}
-            <div class="eyebrow">The examiner listens for</div><p>${esc(it.listen)}</p></div>` : ""}
+          ${(it.followups || []).map((f, k) => `
+            <div class="followup"><div class="eyebrow">Follow-up${it.followups.length > 1 ? ` ${k + 1}` : ""}${f.askedAt != null ? ` · after ${mmss(f.askedAt)}` : ""}</div><p>${esc(f.ask)}</p>
+              ${f.why ? `<p class="small why">Why the examiner asked this: ${esc(f.why)}</p>` : ""}
+              <div class="eyebrow">The examiner listens for</div><p>${esc(f.listen)}</p></div>`).join("")}
           ${it.audio ? `<audio controls src="${it.audio}" style="width:100%"></audio>` : ""}
           <label class="small muted" for="said-${i}">What you said</label>
           <textarea id="said-${i}" rows="4" placeholder="No transcript. Type what you said (or would say) and the checklist will check it.">${esc(it.text)}</textarea>
+          <div data-sound>${soundHtml(soundStats([it]), false)}</div>
           <ul class="checklist" data-check>${checklistHtml(it.keypoints, it.text)}</ul>
-          <div class="row"><button class="btn" data-toggle="answer" aria-expanded="false">Show model answer</button></div>
+          <div class="row">
+            <button class="btn" data-toggle="answer" aria-expanded="false">Show model answer</button>
+            ${it.retry ? `<a class="btn" href="${it.retry}">🔁 Retry this question</a>` : ""}
+          </div>
           <div class="answer" data-answer hidden><div class="eyebrow">Model answer</div>${it.answerHtml}</div>
         </div>`).join("")}
       <div class="row"><button class="btn primary" data-again>Try again</button><a class="btn" href="${review.back}">Back to the exam</a><a class="btn" href="#/attempts">All my attempts</a></div>`;
@@ -711,8 +776,10 @@
       card.querySelector("textarea").oninput = (e) => {
         it.text = e.target.value;
         card.querySelector("[data-check]").innerHTML = checklistHtml(it.keypoints, it.text);
-        card.querySelector("[data-score]").textContent = `${it.keypoints.filter((kp) => it.text.trim() && pointMet(kp, it.text)).length} / ${it.keypoints.length}`;
+        card.querySelector("[data-score]").textContent = itemScore(it);
+        card.querySelector("[data-sound]").innerHTML = soundHtml(soundStats([it]), false);
         el.querySelector("[data-total]").textContent = total();
+        el.querySelector("[data-sound-all]").innerHTML = soundHtml(soundStats(review.items), true);
         clearTimeout(saveTimer);
         saveTimer = setTimeout(() => {
           const list = loadAttempts();
@@ -752,7 +819,10 @@
         || PREFERRED.map((re) => vs.find((v) => re.test(v.name))).find(Boolean)
         || vs.find((v) => /en-GB/i.test(v.lang)) || vs[0] || null;
     };
-    const opts = { speak: canSpeak, record: false, interrupt: true, transcribe: !!SpeechRec };
+    const opts = { speak: canSpeak, record: false, interrupt: true, transcribe: !!SpeechRec,
+      level: LEVELS[localGet("examiner-level")] ? localGet("examiner-level") : "standard" };
+    const L = () => LEVELS[opts.level];
+    const secondsFor = (it) => Math.round(it.seconds * L().time);
     let listener = null, micOn = false;
     // Speak text; resolve when finished (with a time-based fallback because onend is unreliable in some browsers).
     const say = (text) => new Promise((resolve) => {
@@ -781,15 +851,20 @@
     });
 
     // ---- setup screen
+    const timeLine = () => `${items.length} question${items.length === 1 ? "" : "s"} · ${mmss(items.reduce((s, it) => s + secondsFor(it), 0))} answer time plus ${L().fuSeconds} seconds per follow-up.`;
     stage.innerHTML = `
       <div class="card stack">
         <p>${esc(meta.intro)}</p>
         <ol class="small">
           <li>The examiner reads each question aloud. Answer <strong>out loud</strong>, as you would in the oral exam.</li>
-          <li>Somewhere during your answer the examiner <strong>interrupts with a follow-up question</strong>. Answer it, then finish your main answer.</li>
+          <li>The examiner <strong>interrupts with follow-up questions based on what you have said</strong>. Answer them, then finish your main answer.</li>
           <li>At the end you see <strong>what you said, written down</strong>, a checklist of the key points you mentioned or
-          missed, what the examiner was listening for and the model answers. Your attempts are saved in this browser.</li>
+          missed, how you sounded, why each follow-up was asked and the model answers. Your attempts are saved in this browser.</li>
         </ol>
+        <fieldset class="options levels" aria-label="Examiner strictness">
+          <legend class="small">🌶 Examiner strictness</legend>
+          ${Object.entries(LEVELS).map(([k, l]) => `<label><input type="radio" name="o-level" value="${k}" ${k === opts.level ? "checked" : ""}> <strong>${l.name}</strong> <span class="small muted">— ${l.about}</span></label>`).join("")}
+        </fieldset>
         <fieldset class="options">
           <label><input type="checkbox" id="o-speak" ${canSpeak ? "checked" : "disabled"}> Read questions aloud ${canSpeak ? "" : "(not supported in this browser)"}</label>
           <label><input type="checkbox" id="o-int" checked> Interrupt me with follow-up questions</label>
@@ -805,9 +880,12 @@
         </div>` : ""}
         ${SpeechRec ? `<p class="small"><strong>🎧 Tip: use headphones.</strong> Otherwise the microphone also hears the examiner's voice. The site filters most of it out, but headphones work best.</p>` : ""}
         ${SpeechRec ? `<p class="small muted">Writing down your answers uses your browser's speech recognition. In Chrome, the audio is sent to Google to be converted to text; this site itself stores nothing on a server.</p>` : ""}
-        <p class="small muted">${items.length} questions · ${mmss(items.reduce((s, it) => s + it.seconds, 0))} answer time plus ${FOLLOWUP_SECONDS} seconds per follow-up.</p>
+        <p class="small muted" data-timeline>${timeLine()}</p>
         <div class="row"><button class="btn primary" id="go">Start examiner mode</button></div>
       </div>`;
+    stage.querySelectorAll('input[name="o-level"]').forEach((r) => {
+      r.onchange = () => { opts.level = r.value; localSet("examiner-level", r.value); stage.querySelector("[data-timeline]").textContent = timeLine(); };
+    });
     if (canSpeak) {
       const sel = stage.querySelector("#o-voice");
       const fill = () => {
@@ -839,8 +917,11 @@
       opts.transcribe = stage.querySelector("#o-txt").checked;
       if (opts.transcribe) {
         listener = makeListener((target, interim) => {
+          if (target && target.part === "main" && target.res.startAfter == null && (interim.trim() || heardText(target).trim())) {
+            target.res.startAfter = target.res.mainUsed;
+          }
           const box = stage.querySelector("[data-heard]");
-          if (box && target) box.textContent = (target.res.text[target.part] + interim).slice(-240) || "…";
+          if (box && target) box.textContent = (heardText(target) + interim).slice(-240) || "…";
         }, (on) => {
           micOn = on;
           const s = stage.querySelector("[data-mic]");
@@ -867,26 +948,28 @@
         if (!stage.isConnected) return;
       }
       if (stream) stream.getTracks().forEach((t) => t.stop());
-      await say("That's all the questions. Thank you.");
+      await say(items.length === 1 ? "Thank you." : "That's all the questions. Thank you.");
       if (listener) listener.stop();
       summary(results);
     }
 
     function askOne(it, i, stream) {
+      const n = it.n || i + 1;
+      const seconds = secondsFor(it);
       return new Promise((resolve) => {
         stage.innerHTML = `
           <div class="card stack examiner">
             <div class="split">
-              <div class="eyebrow">Question ${i + 1} of ${items.length}${it.label ? " · " + esc(it.label) : ""}</div>
+              <div class="eyebrow">Question ${n}${items.length > 1 ? ` of ${items.length}` : ""}${it.label ? " · " + esc(it.label) : ""} · ${esc(L().name)} examiner</div>
               ${stream ? `<span class="tag rec">● Recording</span>` : ""}
             </div>
             <p class="question-text">${esc(it.prompt)}</p>
             <div class="followup" data-fu hidden>
               <div class="eyebrow">Examiner interrupts</div>
-              <p class="question-text">${esc(it.followup.ask)}</p>
+              <p class="question-text"></p>
             </div>
             <div class="split">
-              <div class="clock remaining"><div class="label" data-phase>Listen…</div><div class="value" data-left>${mmss(it.seconds)}</div></div>
+              <div class="clock remaining"><div class="label" data-phase>Listen…</div><div class="value" data-left>${mmss(seconds)}</div></div>
               <div class="row">
                 <button class="btn" data-act="repeat">Repeat</button>
                 <button class="btn primary" data-act="done" disabled>I'm done</button>
@@ -902,10 +985,11 @@
           recorder.ondataavailable = (e) => chunks.push(e.data);
           recorder.start();
         }
-        const res = { item: it, asked: false, askedAt: null, mainUsed: 0, audio: null, text: { main: "", fu: "" } };
-        let left = it.seconds, fuLeft = FOLLOWUP_SECONDS, phase = "intro", tick = null, finished = false;
-        // Interrupt somewhere between 35% and 65% of the main answer time.
-        const interruptAt = Math.round(it.seconds * (0.35 + Math.random() * 0.3));
+        const res = { item: it, seconds, followups: [], mainUsed: 0, fuUsed: [], startAfter: null, audio: null, text: { main: "", fu: [] } };
+        let left = seconds, fuLeft = 0, phase = "intro", tick = null, finished = false;
+        // Interruption moments for this strictness level, e.g. somewhere between 35% and 65% of the answer time.
+        const due = L().windows.map(([a, b]) => Math.round(seconds * (a + Math.random() * (b - a))));
+        const fuIndex = () => res.followups.length - 1;
         const stop = () => clearInterval(tick);
         cleanup.push(stop);
 
@@ -917,29 +1001,31 @@
         // Every time the student's turn (re)starts, listen into the right part of the answer.
         const startTick = () => {
           stop(); tick = setInterval(onTick, 1000);
-          if (listener && (phase === "main" || phase === "followup")) listener.listen(res, phase === "main" ? "main" : "fu");
+          if (listener && (phase === "main" || phase === "followup")) listener.listen(res, phase === "main" ? "main" : fuIndex());
         };
         const onTick = () => {
           if (phase === "main") {
             left -= 1; res.mainUsed += 1;
-            if (opts.interrupt && !res.asked && it.seconds - left >= interruptAt) return interrupt("Sorry to interrupt. ");
+            const next = due[res.followups.length];
+            if (opts.interrupt && next != null && seconds - left >= next) return interrupt("Sorry to interrupt. ");
             if (left <= 0) return endMain();
           } else if (phase === "followup") {
-            fuLeft -= 1;
+            fuLeft -= 1; res.fuUsed[fuIndex()] = (res.fuUsed[fuIndex()] || 0) + 1;
             if (fuLeft <= 0) return endFollowup();
           }
           draw();
         };
         const interrupt = async (lead) => {
           stop();
-          res.asked = true; res.askedAt = it.seconds - left;
           // Decide the follow-up from what the student has said so far (finished words plus words in progress).
-          const heard = res.text.main + " " + (listener ? listener.interim : "");
-          res.followup = chooseFollowup(it, heard, !!listener && !listener.failed);
-          $("[data-fu] .question-text").textContent = res.followup.ask;
+          const heard = [res.text.main, ...res.text.fu, listener ? listener.interim : ""].join(" ");
+          const f = chooseFollowup(it, heard, !!listener && !listener.failed, res.followups.map((x) => x.ask));
+          res.followups.push({ ...f, askedAt: seconds - left });
+          fuLeft = L().fuSeconds;
+          $("[data-fu] .question-text").textContent = f.ask;
           phase = "speaking"; draw();
           $("[data-fu]").hidden = false;
-          await say(lead + res.followup.ask);
+          await say(lead + f.ask);
           if (finished) return;
           phase = "followup"; draw(); startTick();
         };
@@ -957,7 +1043,8 @@
         };
         const endMain = async () => {
           stop();
-          if (opts.interrupt && !res.asked) return interrupt(left <= 0 ? "Time. One more question before we move on. " : "Before we move on: ");
+          // Every level asks at least one follow-up; a friendly examiner waits until the student has finished.
+          if (opts.interrupt && !res.followups.length) return interrupt(left <= 0 ? "Time. One more question before we move on. " : "Before we move on: ");
           finish();
         };
         const finish = () => {
@@ -976,13 +1063,13 @@
         $('[data-act="repeat"]').onclick = async () => {
           if (phase === "speaking") return;
           const prev = phase; stop(); phase = "speaking"; draw();
-          await say(prev === "followup" ? res.followup.ask : it.prompt);
+          await say(prev === "followup" ? res.followups[fuIndex()].ask : it.prompt);
           if (finished) return;
           phase = prev === "intro" ? "main" : prev; draw(); startTick();
         };
         (async () => {
           phase = "speaking"; draw();
-          await say(`Question ${i + 1}. ${it.prompt}`);
+          await say(`Question ${n}. ${it.prompt}`);
           if (finished) return;
           phase = "main"; draw(); startTick();
         })();
@@ -991,19 +1078,21 @@
 
     function summary(results) {
       const review = {
-        when: new Date().toISOString(), title: meta.title, id: meta.id, back: meta.back, again: location.hash,
-        items: results.map((r) => ({
-          label: r.item.label, prompt: r.item.prompt,
-          followupAsk: (r.followup || r.item.followup).ask, listen: (r.followup || r.item.followup).listen,
-          why: r.followup ? r.followup.why : "",
-          answerHtml: r.item.answerHtml, asked: r.asked, askedAt: r.askedAt,
-          // The follow-up item in the checklist checks the answer to the follow-up that was actually asked.
-          keypoints: r.item.keypoints.map((k) => (k.followup && r.followup
-            ? { ...r.followup.check, label: "Answered the follow-up (see what the examiner listens for)", followup: true }
-            : k)),
-          mainUsed: r.mainUsed, seconds: r.item.seconds,
-          text: (r.text.main.trim() + (r.text.fu.trim() ? `\n\n[Follow-up] ${r.text.fu.trim()}` : "")).trim(),
-        })),
+        when: new Date().toISOString(), title: meta.title, id: meta.id, back: meta.back, again: location.hash, level: opts.level,
+        items: results.map((r) => {
+          const fus = r.followups;
+          const std = r.item.keypoints.filter((k) => !k.followup);
+          return {
+            n: r.item.n, label: r.item.label, type: r.item.type, prompt: r.item.prompt, retry: r.item.retry,
+            answerHtml: r.item.answerHtml, mainUsed: r.mainUsed, seconds: r.seconds,
+            spoke: r.mainUsed + r.fuUsed.reduce((a, b) => a + (b || 0), 0), startAfter: r.startAfter,
+            followups: fus.map((f) => ({ ask: f.ask, listen: f.listen, why: f.why, askedAt: f.askedAt })),
+            // One checklist item per follow-up that was actually asked, checking the answer to that follow-up.
+            keypoints: [...std, ...fus.map((f, k) => ({ ...f.check, label: `Answered follow-up${fus.length > 1 ? ` ${k + 1}` : ""}: ${f.listen}`, followup: true }))],
+            text: [r.text.main.trim(), ...fus.map((_, k) => (r.text.fu[k] || "").trim() ? `[Follow-up${fus.length > 1 ? ` ${k + 1}` : ""}] ${r.text.fu[k].trim()}` : "")]
+              .filter(Boolean).join("\n\n"),
+          };
+        }),
       };
       const list = loadAttempts();
       list.unshift(review);
@@ -1015,6 +1104,36 @@
         stage.insertAdjacentHTML("afterbegin", `<p class="notice">Speech recognition was blocked (microphone permission), so nothing was written down. You can type your answers below.</p>`);
       }
     }
+  }
+
+  // ---- progress: share of key points mentioned per question type, attempt by attempt (oldest first)
+  function progressHtml(list) {
+    const series = {};
+    [...list].reverse().forEach((a) => {
+      const byType = {};
+      a.items.forEach((it) => {
+        const type = it.type || it.label;
+        if (!type || !it.keypoints.length) return;
+        const b = (byType[type] = byType[type] || { met: 0, all: 0 });
+        b.met += it.keypoints.filter((kp) => it.text.trim() && pointMet(kp, it.text)).length;
+        b.all += it.keypoints.length;
+      });
+      Object.entries(byType).forEach(([type, b]) => (series[type] = series[type] || []).push(Math.round((100 * b.met) / b.all)));
+    });
+    const rows = Object.entries(series);
+    if (!rows.length) return "";
+    return `
+      <div class="card stack">
+        <h2>📈 Progress</h2>
+        <p class="small muted">Share of key points you mentioned, per question type, from your first attempt to your latest.</p>
+        <div class="table-wrap"><table class="progress">
+          <thead><tr><th>Question type</th><th>Attempts</th><th>First → latest</th><th>Trend</th></tr></thead>
+          <tbody>${rows.map(([type, s]) => `
+            <tr><td>${esc(type)}</td><td class="num">${s.length}</td>
+              <td class="num">${s.length > 1 ? `${s[0]}% → <strong>${s[s.length - 1]}%</strong>` : `<strong>${s[0]}%</strong>`}</td>
+              <td><span class="bars" aria-label="${s.join("%, ")}%">${s.slice(-10).map((v) => `<span style="height:${Math.max(4, v * 0.28)}px" title="${v}%"></span>`).join("")}</span></td></tr>`).join("")}
+          </tbody></table></div>
+      </div>`;
   }
 
   function attempts(index) {
@@ -1033,45 +1152,55 @@
       <h1>My attempts</h1>
       <p class="muted">Your Examiner mode attempts (up to the last 20), saved in this browser only. Open one to see
       what you said and which key points you covered.</p>
-      <div class="list" style="margin-top:1rem">${list.map((a, i) => `
+      <div class="stack" style="margin-top:1rem">${progressHtml(list)}
+      <div class="list">${list.map((a, i) => `
         <a class="item" href="#/attempts/${i}">
           <div><div class="title">${esc(a.title)}</div>
-          <div class="meta">${esc(new Date(a.when).toLocaleString())} · ${score(a.items)} of ${maxScore(a.items)} key points</div></div>
-          <span aria-hidden="true">→</span></a>`).join("") || `<p class="muted">No attempts yet. Open any exam and press 🎙 Examiner mode.</p>`}</div>
+          <div class="meta">${esc(new Date(a.when).toLocaleString())}${a.level ? ` · ${esc(LEVELS[a.level].name)}` : ""} · ${score(a.items)} of ${maxScore(a.items)} key points</div></div>
+          <span aria-hidden="true">→</span></a>`).join("") || `<p class="muted">No attempts yet. Open any exam and press 🎙 Examiner mode.</p>`}</div></div>
       ${list.length ? `<div class="row" style="margin-top:1.5rem"><button class="btn" id="clear">Delete all attempts</button></div>` : ""}`,
       "attempts", "My attempts");
     const clear = document.getElementById("clear");
     if (clear) clear.onclick = () => { if (confirm("Delete all saved attempts from this browser?")) { saveAttempts([]); attempts(); } };
   }
 
-  function examExaminer(id) {
+  // only: run just one question (0-based index) — the "Retry this question" button.
+  function examExaminer(id, only) {
     const e = C.exams.find((x) => x.id === id);
     if (!e) return notFound();
-    examinerMode({
-      id: e.id, title: `Data manipulation exam ${e.id}`, back: `#/exam/${e.id}`, section: "manipulation",
-      intro: `Open ${C.datasets[e.datasets[0]].file} and ${C.datasets[e.datasets[1]].file} first. Work in Excel and your SQL tool while you talk the examiner through what you are doing and why.`,
-    }, e.questions.map((qid) => {
+    const items = e.questions.map((qid, k) => {
       const q = Q[qid];
       return {
-        label: q.tool, prompt: q.prompt, seconds: Math.round(q.minutes * 60) + 30, followup: q.followup, keypoints: q.keypoints,
-        skills: q.skills, known: numbersShown(q.prompt),
+        n: k + 1, label: q.tool, type: q.tool, prompt: q.prompt, seconds: Math.round(q.minutes * 60) + 30,
+        followup: q.followup, keypoints: q.keypoints, skills: q.skills, known: numbersShown(q.prompt),
+        retry: `#/exam/${e.id}/examiner/${k}`,
         answerHtml: `<p><strong>${esc(q.answer)}</strong></p>${q.tool === "SQL" ? `<pre><code>${esc(q.solution)}</code></pre>` : `<p>${esc(q.solution)}</p>`}`,
       };
-    }));
+    });
+    const pick = only != null ? items.slice(only, only + 1) : items;
+    if (!pick.length) return notFound();
+    examinerMode({
+      id: e.id, title: `Data manipulation exam ${e.id}${only != null ? ` · question ${only + 1} (retry)` : ""}`, back: `#/exam/${e.id}`, section: "manipulation",
+      intro: `Open ${C.datasets[e.datasets[0]].file} and ${C.datasets[e.datasets[1]].file} first. Work in Excel and your SQL tool while you talk the examiner through what you are doing and why.`,
+    }, pick);
   }
 
-  function regressionExaminer(id) {
+  const KIND_NAMES = { P: "Planning prediction", G: "Group difference", S: "Simplify the model", R: "Trust a prediction" };
+  function regressionExaminer(id, only) {
     const r = C.regression.find((x) => x.id === id);
     if (!r) return notFound();
-    examinerMode({
-      id: r.id, title: r.title, back: `#/regression/${r.id}`, section: "interpretation", intro: r.intro,
-      reference: regressionReference(r),
-    }, r.questions.map((q) => ({
-      label: "", kind: q.kind, prompt: q.prompt, seconds: 75, followup: q.followup, keypoints: q.keypoints,
-      answerHtml: paras(q.answer),
+    const items = r.questions.map((q, k) => ({
+      n: k + 1, label: "", kind: q.kind, type: KIND_NAMES[q.kind], prompt: q.prompt, seconds: 75, followup: q.followup,
+      keypoints: q.keypoints, answerHtml: paras(q.answer), retry: `#/regression/${r.id}/examiner/${k}`,
       // numbers visible on screen: reading these out is not an answer
       known: numbersShown(q.prompt, r.table.map((t) => `${t.estimate} ${t.p}`).join(" "), r.x.range.join(" ")),
-    })));
+    }));
+    const pick = only != null ? items.slice(only, only + 1) : items;
+    if (!pick.length) return notFound();
+    examinerMode({
+      id: r.id, title: `${r.title}${only != null ? ` · question ${only + 1} (retry)` : ""}`, back: `#/regression/${r.id}`,
+      section: "interpretation", intro: r.intro, reference: regressionReference(r),
+    }, pick);
   }
 
   function notFound() {
@@ -1092,11 +1221,11 @@
     switch (parts[0]) {
       case undefined: return home();
       case "manipulation": return manipulation();
-      case "exam": return parts[2] === "examiner" ? examExaminer(parts[1]) : exam(parts[1]);
+      case "exam": return parts[2] === "examiner" ? examExaminer(parts[1], parts[3] != null ? Number(parts[3]) : null) : exam(parts[1]);
       case "questions": return questionBank(params);
       case "question": return question(parts[1]);
       case "interpretation": return interpretation();
-      case "regression": return parts[2] === "examiner" ? regressionExaminer(parts[1]) : regressionExam(parts[1]);
+      case "regression": return parts[2] === "examiner" ? regressionExaminer(parts[1], parts[3] != null ? Number(parts[3]) : null) : regressionExam(parts[1]);
       case "datasets": return datasets();
       case "attempts": return attempts(parts[1] != null ? Number(parts[1]) : null);
       default: return notFound();
